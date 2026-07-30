@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Product Post Generator · Cart Full</title>
+<title>Product Post Generator · Cart Full Pro v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -73,7 +73,7 @@ a{color:var(--main)}
 .ttl{font-size:12px;color:#64748B;margin-top:10px}
 .ttl b{color:var(--title)}
 
-/* ---- Live Preview (mirrors .product-header) ---- */
+/* ---- Live Preview (mirrors .product-header in theme) ---- */
 .preview-wrap{position:sticky;top:20px}
 .preview-label{font-size:12px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .preview-label i{color:var(--main)}
@@ -85,28 +85,38 @@ a{color:var(--main)}
 .ph-cats{margin:12px 0 4px;display:flex;gap:6px;flex-wrap:wrap}
 .ph-cats span{background:var(--main);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:4px}
 .ph-title{font-size:18px;font-weight:800;color:var(--title);margin:8px 0 6px;line-height:1.3}
-.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
 .ph-price{font-size:20px;font-weight:800;color:var(--main)}
 .ph-price-old{font-size:14px;color:#94A3B8;text-decoration:line-through}
+.ph-discount{font-size:13px;font-weight:700;color:var(--err);margin-bottom:12px}
 .ph-desc{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:14px;white-space:pre-wrap}
+.ph-stock{font-size:12px;font-weight:600;margin-bottom:10px}
+.ph-stock.in-stock{color:var(--ok)}
+.ph-stock.low-stock{color:var(--warn)}
+.ph-stock.out-of-stock{color:var(--err)}
+.ph-sku{font-size:11px;color:#94A3B8;margin-bottom:10px}
 .ph-buttons{display:flex;gap:10px;flex-wrap:wrap}
-.ph-buttons a{background-color:var(--dark);color:#fff;font-size:13px;font-weight:700;padding:0 14px;height:32px;line-height:32px;border-radius:5px}
-.ph-buttons a:hover{background-color:var(--main)}
-.ph-buttons a i{margin-right:5px}
+.ph-buttons a,.ph-buttons button{background-color:var(--dark);color:#fff;font-size:13px;font-weight:700;padding:0 14px;height:32px;line-height:32px;border-radius:5px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.ph-buttons a:hover,.ph-buttons button:hover{background-color:var(--main)}
 .ph-buttons a.wa{background-color:#25D366}
 .ph-buttons a.wa:hover{background-color:#1DA851}
 
 /* ---- Output HTML box ---- */
-.codebox{background:var(--dark);color:#CBD5E1;border-radius:8px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.codebox{background:var(--dark);color:#CBD5E1;border-radius:8px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word}
 
 .setup-note{font-size:12px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:4px;line-height:1.6}
 .setup-note code{background:#E2E8F0;padding:1px 5px;border-radius:4px}
+
+/* ---- Shortcode reference ---- */
+.sc-ref{font-size:11px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:8px;line-height:1.7}
+.sc-ref code{background:#E2E8F0;padding:1px 5px;border-radius:4px;font-size:11px}
+.sc-ref b{color:var(--title)}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <h1>Product Post <span>Generator</span></h1>
+  <h1>Product Post <span>Generator</span> <span style="font-size:11px;font-weight:500;color:#94A3B8;margin-left:8px">Cart Full Pro v2</span></h1>
   <div class="conn-pill" id="connPill"><span class="dot" id="connDot"></span><span id="connText">Not connected</span></div>
 </div>
 
@@ -148,28 +158,47 @@ a{color:var(--main)}
 
       <div class="field">
         <label>Title</label>
-        <input type="text" id="pTitle" placeholder="e.g. Nike Air Max 270"/>
+        <input type="text" id="pTitle" placeholder="e.g. iPhone 14 Pro Max 256GB"/>
       </div>
 
-      <div class="row2">
+      <div class="row3">
         <div class="field">
-          <label>Price <span class="hint">sale price, drives the theme's price/ shortcode</span></label>
-          <input type="number" id="pPrice" placeholder="150000"/>
+          <label>Sale price <span class="hint">theme price/ shortcode</span></label>
+          <input type="number" id="pPrice" placeholder="5500000"/>
         </div>
         <div class="field">
-          <label>Original price <span class="hint">optional, for strike-through + badge</span></label>
-          <input type="number" id="pOldPrice" placeholder="200000"/>
+          <label>Original price <span class="hint">for strike-through + badge</span></label>
+          <input type="number" id="pOldPrice" placeholder="6500000"/>
         </div>
-      </div>
-
-      <div class="row2">
         <div class="field">
-          <label>Currency prefix</label>
+          <label>Currency</label>
           <input type="text" id="pCurrency" value="UGX"/>
         </div>
+      </div>
+
+      <div class="row2">
         <div class="field">
           <label>Categories / Labels <span class="hint">comma-separated</span></label>
-          <input type="text" id="pCats" placeholder="Shoes, Sneakers, Nike"/>
+          <input type="text" id="pCats" placeholder="Smartphones, Apple, Deals"/>
+        </div>
+        <div class="field">
+          <label>SKU <span class="hint">optional</span></label>
+          <input type="text" id="pSku" placeholder="APL-IP14PM-256"/>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Brand <span class="hint">optional</span></label>
+          <input type="text" id="pBrand" placeholder="Apple"/>
+        </div>
+        <div class="field">
+          <label>Stock status</label>
+          <select id="pStock">
+            <option value="in_stock">In stock</option>
+            <option value="low_stock">Low stock</option>
+            <option value="out_of_stock">Out of stock</option>
+          </select>
         </div>
       </div>
 
@@ -179,8 +208,7 @@ a{color:var(--main)}
       </div>
       <div class="field">
         <label>Additional images <span class="hint">one URL per line, optional</span></label>
-        <textarea id="pGallery" placeholder="https://.../2.jpg
-https://.../3.jpg"></textarea>
+        <textarea id="pGallery" placeholder="https://.../2.jpg&#10;https://.../3.jpg"></textarea>
       </div>
 
       <div class="field">
@@ -219,6 +247,15 @@ https://.../3.jpg"></textarea>
         <button class="btn btn-ghost" id="copyBtn"><i class="fa fa-clipboard"></i>Copy post HTML</button>
         <button class="btn btn-ghost" id="clearBtn"><i class="fa fa-eraser"></i>Clear form</button>
       </div>
+
+      <div class="sc-ref">
+        <b>Theme shortcode reference:</b><br/>
+        <code>price/123456</code> or <code>price:123456</code> — sale price (read by theme price engine)<br/>
+        <code>[original_price:200000]</code> — original price shown as strike-through<br/>
+        <code>[sku:SKU001]</code> — product SKU displayed in details<br/>
+        <code>[brand:Apple]</code> — product brand displayed in details<br/>
+        <code>[stock:in_stock]</code> — stock status (in_stock | low_stock | out_of_stock)
+      </div>
     </div>
 
     <!-- OUTPUT -->
@@ -230,7 +267,7 @@ https://.../3.jpg"></textarea>
 
   <!-- LIVE PREVIEW -->
   <div class="preview-wrap">
-    <div class="preview-label"><i class="fa fa-eye"></i>Live preview</div>
+    <div class="preview-label"><i class="fa fa-eye"></i>Live preview (Cart Full Pro v2)</div>
     <div class="product-header">
       <span class="ph-badge" id="prBadge" style="display:none"></span>
       <div class="ph-img-wrap"><img id="prImg" style="display:none"/><span class="noimg" id="prNoImg">No image yet</span></div>
@@ -240,6 +277,9 @@ https://.../3.jpg"></textarea>
         <span class="ph-price" id="prPrice">UGX 0</span>
         <span class="ph-price-old" id="prOldPrice" style="display:none"></span>
       </div>
+      <div class="ph-discount" id="prDiscount" style="display:none"></div>
+      <div class="ph-sku" id="prSku" style="display:none"></div>
+      <div class="ph-stock" id="prStock" style="display:none"></div>
       <div class="ph-desc" id="prDesc">Description preview appears here.</div>
       <div class="ph-buttons">
         <a href="javascript:;"><i class="fa fa-cart-plus"></i>Add to Cart</a>
@@ -256,8 +296,8 @@ https://.../3.jpg"></textarea>
 'use strict';
 
 /* ============ CONFIG / STORAGE ============ */
-var LS_CLIENT = 's803ppg_client_id';
-var LS_BLOG = 's803ppg_blog_id';
+var LS_CLIENT = 'cfpv2_client_id';
+var LS_BLOG = 'cfpv2_blog_id';
 var SCOPE = 'https://www.googleapis.com/auth/blogger';
 
 var el = function(id){ return document.getElementById(id); };
@@ -311,7 +351,6 @@ function initTokenClient(clientId){
 
 function scheduleProactiveRefresh(ttlSec){
   clearTimeout(refreshTimer);
-  // Refresh silently ~2 minutes before expiry (or at 80% of TTL if shorter)
   var lead = Math.min(120000, ttlSec * 1000 * 0.2);
   var delay = Math.max(5000, ttlSec * 1000 - lead);
   refreshTimer = setTimeout(function(){
@@ -398,6 +437,9 @@ function currentProduct(){
     oldPrice: parseFloat(el('pOldPrice').value) || 0,
     currency: (el('pCurrency').value.trim() || 'UGX'),
     cats: cats,
+    sku: el('pSku').value.trim(),
+    brand: el('pBrand').value.trim(),
+    stock: el('pStock').value,
     image: el('pImage').value.trim(),
     gallery: gallery,
     desc: el('pDesc').value.trim(),
@@ -431,9 +473,12 @@ function renderPreview(){
     var pct = Math.round((1 - p.price / p.oldPrice) * 100);
     el('prBadge').style.display = 'block';
     el('prBadge').textContent = '-' + pct + '%';
+    el('prDiscount').style.display = 'block';
+    el('prDiscount').textContent = 'Save ' + formatPrice(p.oldPrice - p.price, p.currency) + ' (' + pct + '% off)';
   } else {
     el('prOldPrice').style.display = 'none';
     el('prBadge').style.display = 'none';
+    el('prDiscount').style.display = 'none';
   }
 
   if (p.image){
@@ -448,12 +493,30 @@ function renderPreview(){
   var catsHtml = p.cats.map(function(c){ return '<span>' + escapeHtml(c) + '</span>'; }).join('');
   el('prCats').innerHTML = catsHtml;
 
+  // SKU
+  if (p.sku){
+    el('prSku').style.display = 'block';
+    el('prSku').textContent = 'SKU: ' + p.sku;
+  } else {
+    el('prSku').style.display = 'none';
+  }
+
+  // Stock
+  if (p.stock){
+    el('prStock').style.display = 'block';
+    el('prStock').className = 'ph-stock ' + p.stock;
+    var stockLabels = {in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!', out_of_stock: 'Out of Stock'};
+    el('prStock').textContent = stockLabels[p.stock] || p.stock;
+  } else {
+    el('prStock').style.display = 'none';
+  }
+
   el('prDesc').textContent = p.desc || 'Description preview appears here.';
 
   if (p.whatsapp){
     var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p.currency) + ')');
     el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg;
-    el('prWa').style.display = 'inline-block';
+    el('prWa').style.display = 'inline-flex';
   } else {
     el('prWa').style.display = 'none';
   }
@@ -467,6 +530,7 @@ function buildPostHtml(p){
 
   var parts = [];
 
+  // Main image
   if (p.image){
     parts.push(
       '<div class="separator" style="clear: both; text-align: center;">' +
@@ -476,6 +540,7 @@ function buildPostHtml(p){
     );
   }
 
+  // Gallery images
   p.gallery.forEach(function(url){
     parts.push(
       '<div class="separator" style="clear: both; text-align: center;">' +
@@ -484,22 +549,40 @@ function buildPostHtml(p){
     );
   });
 
+  // Description paragraphs
   if (p.desc){
     p.desc.split('\n').filter(Boolean).forEach(function(line){
       parts.push('<p>' + escapeHtml(line) + '</p>');
     });
   }
 
+  // Original price as strike-through (visible in post body)
   if (p.oldPrice && p.oldPrice > p.price){
     parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
   }
 
+  // Theme shortcodes
+  // price shortcode — theme regex: /price\s*[\/:]?\s*([\d.,]+)/i
+  parts.push('<p>price/' + (p.price || 0) + '</p>');
+
+  // Optional shortcodes
+  if (p.oldPrice && p.oldPrice > p.price){
+    parts.push('<p>[original_price:' + Math.round(p.oldPrice) + ']</p>');
+  }
+  if (p.sku){
+    parts.push('<p>[sku:' + escapeHtml(p.sku) + ']</p>');
+  }
+  if (p.brand){
+    parts.push('<p>[brand:' + escapeHtml(p.brand) + ']</p>');
+  }
+  if (p.stock){
+    parts.push('<p>[stock:' + p.stock + ']</p>');
+  }
+
+  // Buy URL
   if (p.buyUrl){
     parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
   }
-
-  // Hidden price shortcode the theme's price engine reads (regex: price/1234)
-  parts.push('<p style="display:none">price/' + (p.price || 0) + '</p>');
 
   return parts.join('\n');
 }
@@ -521,6 +604,7 @@ el('publishBtn').addEventListener('click', function(){
   if (!accessToken){ toast('Connect to Blogger first', true); return; }
   if (!blogId){ toast('Enter your Blog ID', true); return; }
   if (!p.title){ toast('Give the product a title', true); return; }
+  if (!p.price || p.price <= 0){ toast('Enter a sale price', true); return; }
 
   var isDraft = p.draft;
   var body = buildRequestBody(p);
@@ -573,17 +657,21 @@ el('copyBtn').addEventListener('click', function(){
 });
 
 el('clearBtn').addEventListener('click', function(){
-  ['pTitle','pPrice','pOldPrice','pCats','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
+  ['pTitle','pPrice','pOldPrice','pCats','pSku','pBrand','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
     el(id).value = '';
   });
   el('pCurrency').value = 'UGX';
+  el('pStock').value = 'in_stock';
   el('pDraft').value = 'false';
   renderPreview();
 });
 
 /* ============ WIRE UP LIVE UPDATES ============ */
-['pTitle','pPrice','pOldPrice','pCurrency','pCats','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
+['pTitle','pPrice','pOldPrice','pCurrency','pCats','pSku','pBrand','pStock','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
   .forEach(function(id){ el(id).addEventListener('input', renderPreview); });
+
+// Stock is a select, use 'change'
+el('pStock').addEventListener('change', renderPreview);
 
 renderPreview();
 })();
