@@ -1,286 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Post Generator – Cart Full Theme</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-      background: #f5f7fb;
-      padding: 30px 20px;
-      color: #1e293b;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      padding: 30px 40px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #0f172a;
-    }
-    .subtitle {
-      color: #64748b;
-      margin-bottom: 28px;
-      font-size: 14px;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      font-size: 14px;
-      margin: 18px 0 5px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border 0.2s;
-      font-family: inherit;
-    }
-    input:focus, textarea:focus {
-      border-color: #2563eb;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
-    }
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-    .flex-row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .flex-row > * { flex: 1 1 200px; }
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 12px 0 6px;
-    }
-    .checkbox-group input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-    .btn {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 20px;
-      width: 100%;
-    }
-    .btn:hover { background: #1d4ed8; }
-    .btn:active { transform: scale(0.97); }
-    .btn-secondary {
-      background: #e2e8f0;
-      color: #0f172a;
-      width: auto;
-      padding: 8px 18px;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-    .btn-secondary:hover { background: #cbd5e1; }
-    #output {
-      margin-top: 30px;
-      border-top: 2px solid #e2e8f0;
-      padding-top: 20px;
-    }
-    #output h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    #generatedCode {
-      background: #f1f5f9;
-      padding: 16px 20px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-size: 13px;
-      font-family: 'Courier New', monospace;
-      max-height: 500px;
-      overflow: auto;
-      border: 1px solid #e2e8f0;
-    }
-    #preview {
-      background: #f8fafc;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-top: 15px;
-    }
-    #preview img { max-width: 100%; height: auto; border-radius: 6px; }
-    .copy-section {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .toast {
-      background: #0f172a;
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .toast.show { opacity: 1; }
-    @media (max-width: 480px) {
-      .container { padding: 20px; }
-      .flex-row { flex-direction: column; gap: 0; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Product Post Generator · Cart Full</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{
+  --main:#2563EB; --dark:#0F172A; --menu:#1E293B;
+  --bg:#F8FAFC; --card:#FFFFFF; --text:#334155; --title:#0F172A;
+  --border:#E2E8F0; --ok:#16A34A; --warn:#D97706; --err:#DC2626;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--text);font-size:14px}
+a{color:var(--main)}
+
+/* ---- Top bar ---- */
+.topbar{background:var(--dark);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.topbar h1{font-size:16px;font-weight:800;margin:0;letter-spacing:.2px}
+.topbar h1 span{color:var(--main)}
+.conn-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:#64748B}
+.dot.on{background:var(--ok)}
+.dot.warn{background:var(--warn)}
+
+/* ---- Warning bar ---- */
+.warnbar{display:none;background:#FEF3C7;color:#92400E;padding:10px 20px;font-size:13px;font-weight:600;align-items:center;justify-content:center;gap:12px}
+.warnbar.show{display:flex}
+.warnbar button{background:var(--dark);color:#fff;border:0;border-radius:5px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.warnbar .dismiss{background:transparent;color:#92400E;text-decoration:underline;padding:0}
+
+/* ---- Layout ---- */
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px;display:grid;grid-template-columns:1fr 380px;gap:22px}
+@media(max-width:920px){.wrap{grid-template-columns:1fr}}
+
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px}
+.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#64748B;margin:0 0 16px;font-weight:700}
+.panel h2 i{color:var(--main);margin-right:6px}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--title);margin-bottom:5px}
+.field .hint{font-weight:400;color:#94A3B8;font-size:11.5px;margin-left:6px}
+.field input[type=text],.field input[type=number],.field input[type=url],.field textarea,.field select{
+  width:100%;border:1px solid var(--border);border-radius:7px;padding:9px 11px;font-size:13.5px;font-family:inherit;color:var(--title);background:#fff
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--main);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.field textarea{resize:vertical;min-height:70px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.row2,.row3{grid-template-columns:1fr}}
+
+.btn{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:7px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-primary{background:var(--main);color:#fff}
+.btn-primary:hover{background:#1D4ED8}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-dark:hover{background:var(--menu)}
+.btn-ghost{background:#fff;color:var(--title);border:1px solid var(--border)}
+.btn-ghost:hover{background:#F1F5F9}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:999;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--err)}
+.toast.ok i{color:var(--ok)}
+
+/* ---- Auth panel specifics ---- */
+.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.auth-grid{grid-template-columns:1fr}}
+.ttl{font-size:12px;color:#64748B;margin-top:10px}
+.ttl b{color:var(--title)}
+
+/* ---- Live Preview (mirrors .product-header) ---- */
+.preview-wrap{position:sticky;top:20px}
+.preview-label{font-size:12px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.preview-label i{color:var(--main)}
+.product-header{position:relative;background-color:#fbfbfb;border:1px solid var(--border);border-radius:10px;padding:15px}
+.ph-badge{position:absolute;top:12px;left:12px;height:26px;border-radius:5px;background-color:var(--err);font-size:12px;color:#fff;font-weight:700;text-align:center;line-height:26px;padding:0 10px;z-index:2}
+.ph-img-wrap{position:relative;border-radius:7px;overflow:hidden;background:rgba(155,155,155,.07);height:220px;display:flex;align-items:center;justify-content:center}
+.ph-img-wrap img{width:100%;height:100%;object-fit:cover}
+.ph-img-wrap .noimg{color:#94A3B8;font-size:13px}
+.ph-cats{margin:12px 0 4px;display:flex;gap:6px;flex-wrap:wrap}
+.ph-cats span{background:var(--main);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:4px}
+.ph-title{font-size:18px;font-weight:800;color:var(--title);margin:8px 0 6px;line-height:1.3}
+.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.ph-price{font-size:20px;font-weight:800;color:var(--main)}
+.ph-price-old{font-size:14px;color:#94A3B8;text-decoration:line-through}
+.ph-desc{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:14px;white-space:pre-wrap}
+.ph-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.ph-buttons a{background-color:var(--dark);color:#fff;font-size:13px;font-weight:700;padding:0 14px;height:32px;line-height:32px;border-radius:5px}
+.ph-buttons a:hover{background-color:var(--main)}
+.ph-buttons a i{margin-right:5px}
+.ph-buttons a.wa{background-color:#25D366}
+.ph-buttons a.wa:hover{background-color:#1DA851}
+
+/* ---- Output HTML box ---- */
+.codebox{background:var(--dark);color:#CBD5E1;border-radius:8px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+
+.setup-note{font-size:12px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:4px;line-height:1.6}
+.setup-note code{background:#E2E8F0;padding:1px 5px;border-radius:4px}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>📦 Product Post Generator</h1>
-  <p class="subtitle">For the <strong>Cart Full</strong> Blogger theme – fill in the fields and copy the generated HTML.</p>
 
-  <form id="postForm" onsubmit="return false;">
-    <div class="flex-row">
-      <div>
-        <label for="title">Product Title *</label>
-        <input type="text" id="title" placeholder="e.g. iPhone 15 Pro Max" required>
+<div class="topbar">
+  <h1>Product Post <span>Generator</span></h1>
+  <div class="conn-pill" id="connPill"><span class="dot" id="connDot"></span><span id="connText">Not connected</span></div>
+</div>
+
+<div class="warnbar" id="warnBar">
+  <span id="warnText">Your session is about to expire.</span>
+  <button id="warnRefresh">Refresh now</button>
+  <button class="dismiss" id="warnDismiss">Dismiss</button>
+</div>
+
+<div class="wrap">
+  <div>
+
+    <!-- AUTH PANEL -->
+    <div class="panel">
+      <h2><i class="fa fa-lock"></i>Blogger connection</h2>
+      <div class="auth-grid">
+        <div class="field">
+          <label>Google OAuth Client ID <span class="hint">from Google Cloud Console</span></label>
+          <input type="text" id="clientId" placeholder="xxxx.apps.googleusercontent.com"/>
+        </div>
+        <div class="field">
+          <label>Blog ID <span class="hint">numeric, from Blogger settings</span></label>
+          <input type="text" id="blogId" placeholder="1234567890123456789"/>
+        </div>
       </div>
-      <div>
-        <label for="price">Price (numbers only) *</label>
-        <input type="number" id="price" placeholder="e.g. 4500000" required>
+      <div class="setup-note">
+        Authorize <code id="originHint">this page's URL</code> as a JavaScript origin on your OAuth Client, and enable the <b>Blogger API v3</b> in the same Google Cloud project. Client ID &amp; Blog ID are saved locally in this browser only.
+      </div>
+      <div class="btnrow">
+        <button class="btn btn-dark" id="connectBtn"><i class="fa fa-google"></i>Connect Blogger</button>
+        <button class="btn btn-ghost" id="disconnectBtn" style="display:none"><i class="fa fa-power-off"></i>Disconnect</button>
+      </div>
+      <div class="ttl" id="ttlText" style="display:none"></div>
+    </div>
+
+    <!-- PRODUCT FORM -->
+    <div class="panel">
+      <h2><i class="fa fa-cube"></i>Product details</h2>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="pTitle" placeholder="e.g. Nike Air Max 270"/>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Price <span class="hint">sale price, drives the theme's price/ shortcode</span></label>
+          <input type="number" id="pPrice" placeholder="150000"/>
+        </div>
+        <div class="field">
+          <label>Original price <span class="hint">optional, for strike-through + badge</span></label>
+          <input type="number" id="pOldPrice" placeholder="200000"/>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Currency prefix</label>
+          <input type="text" id="pCurrency" value="UGX"/>
+        </div>
+        <div class="field">
+          <label>Categories / Labels <span class="hint">comma-separated</span></label>
+          <input type="text" id="pCats" placeholder="Shoes, Sneakers, Nike"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Main image URL</label>
+        <input type="url" id="pImage" placeholder="https://..."/>
+      </div>
+      <div class="field">
+        <label>Additional images <span class="hint">one URL per line, optional</span></label>
+        <textarea id="pGallery" placeholder="https://.../2.jpg
+https://.../3.jpg"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <textarea id="pDesc" style="min-height:110px" placeholder="Short product description shown in the post body."></textarea>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Buy now URL <span class="hint">optional, external checkout link</span></label>
+          <input type="url" id="pBuyUrl" placeholder="https://wa.me/... or checkout link"/>
+        </div>
+        <div class="field">
+          <label>WhatsApp number <span class="hint">digits only, optional</span></label>
+          <input type="text" id="pWhatsapp" placeholder="256700000000"/>
+        </div>
+      </div>
+
+      <h2 style="margin-top:6px"><i class="fa fa-file-text-o"></i>Publish options</h2>
+      <div class="row2">
+        <div class="field">
+          <label>Existing Post ID <span class="hint">leave blank to create new</span></label>
+          <input type="text" id="pPostId" placeholder="optional"/>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="pDraft">
+            <option value="false">Publish live</option>
+            <option value="true">Save as draft</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn btn-primary" id="publishBtn"><i class="fa fa-cloud-upload"></i>Publish to Blogger</button>
+        <button class="btn btn-ghost" id="copyBtn"><i class="fa fa-clipboard"></i>Copy post HTML</button>
+        <button class="btn btn-ghost" id="clearBtn"><i class="fa fa-eraser"></i>Clear form</button>
       </div>
     </div>
 
-    <label for="description">Description (HTML supported)</label>
-    <textarea id="description" placeholder="Write your product description here. You can use &lt;b&gt;, &lt;i&gt;, &lt;ul&gt;, etc."></textarea>
+    <!-- OUTPUT -->
+    <div class="panel">
+      <h2><i class="fa fa-code"></i>Generated post body</h2>
+      <div class="codebox" id="outHtml">Fill in the form to see the generated post HTML here.</div>
+    </div>
+  </div>
 
-    <div class="flex-row">
-      <div>
-        <label for="imageUrl">Image URL (optional inline image)</label>
-        <input type="url" id="imageUrl" placeholder="https://example.com/product.jpg">
+  <!-- LIVE PREVIEW -->
+  <div class="preview-wrap">
+    <div class="preview-label"><i class="fa fa-eye"></i>Live preview</div>
+    <div class="product-header">
+      <span class="ph-badge" id="prBadge" style="display:none"></span>
+      <div class="ph-img-wrap"><img id="prImg" style="display:none"/><span class="noimg" id="prNoImg">No image yet</span></div>
+      <div class="ph-cats" id="prCats"></div>
+      <div class="ph-title" id="prTitle">Your product title</div>
+      <div class="ph-price-row">
+        <span class="ph-price" id="prPrice">UGX 0</span>
+        <span class="ph-price-old" id="prOldPrice" style="display:none"></span>
       </div>
-      <div>
-        <label for="labels">Categories / Labels</label>
-        <input type="text" id="labels" placeholder="e.g. Smartphones, Deals, New">
+      <div class="ph-desc" id="prDesc">Description preview appears here.</div>
+      <div class="ph-buttons">
+        <a href="javascript:;"><i class="fa fa-cart-plus"></i>Add to Cart</a>
+        <a href="javascript:;" class="wa" id="prWa" style="display:none"><i class="fa fa-whatsapp"></i>Order via WhatsApp</a>
       </div>
     </div>
-
-    <div class="checkbox-group">
-      <input type="checkbox" id="sale">
-      <label for="sale" style="margin:0; font-weight:400;">Add <strong>SALE</strong> badge? (Adds <code>product_off show</code> class – works if theme supports it)</label>
-    </div>
-
-    <button type="button" class="btn" onclick="generatePost()">⚡ Generate Post HTML</button>
-  </form>
-
-  <div id="output" style="display:none;">
-    <h2>📄 Generated HTML</h2>
-    <div class="copy-section">
-      <button class="btn btn-secondary" onclick="copyCode()">📋 Copy to Clipboard</button>
-      <span id="toastMsg" class="toast">Copied!</span>
-    </div>
-    <pre id="generatedCode"></pre>
-
-    <h3 style="margin-top:20px;">👁️ Preview</h3>
-    <div id="preview"></div>
   </div>
 </div>
 
-<script>
-  function generatePost() {
-    const title = document.getElementById('title').value.trim();
-    const price = document.getElementById('price').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const imageUrl = document.getElementById('imageUrl').value.trim();
-    const labels = document.getElementById('labels').value.trim();
-    const sale = document.getElementById('sale').checked;
+<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toastMsg"></span></div>
 
-    if (!title || !price) {
-      alert('Please fill in Title and Price.');
+<script>
+(function(){
+'use strict';
+
+/* ============ CONFIG / STORAGE ============ */
+var LS_CLIENT = 's803ppg_client_id';
+var LS_BLOG = 's803ppg_blog_id';
+var SCOPE = 'https://www.googleapis.com/auth/blogger';
+
+var el = function(id){ return document.getElementById(id); };
+document.getElementById('originHint').textContent = window.location.origin + window.location.pathname;
+
+el('clientId').value = localStorage.getItem(LS_CLIENT) || '';
+el('blogId').value = localStorage.getItem(LS_BLOG) || '';
+el('clientId').addEventListener('change', function(){ localStorage.setItem(LS_CLIENT, this.value.trim()); });
+el('blogId').addEventListener('change', function(){ localStorage.setItem(LS_BLOG, this.value.trim()); });
+
+/* ============ TOAST ============ */
+var toastTimer;
+function toast(msg, isErr){
+  var t = el('toast');
+  el('toastMsg').textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : ' ok');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.className = 'toast' + (isErr ? ' err' : ' ok'); }, 3500);
+}
+
+/* ============ AUTH v2 (Blogger OAuth, proactive refresh) ============ */
+var tokenClient = null;
+var accessToken = null;
+var tokenExpiresAt = 0; // epoch ms
+var refreshTimer = null;
+var ttlInterval = null;
+var warnDismissedForThisExpiry = false;
+
+function gisReady(){ return !!(window.google && google.accounts && google.accounts.oauth2); }
+
+function initTokenClient(clientId){
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: SCOPE,
+    callback: function(resp){
+      if (resp.error){
+        toast('Google sign-in failed: ' + resp.error, true);
+        setConnected(false);
+        return;
+      }
+      accessToken = resp.access_token;
+      var ttlSec = parseInt(resp.expires_in, 10) || 3600;
+      tokenExpiresAt = Date.now() + ttlSec * 1000;
+      warnDismissedForThisExpiry = false;
+      setConnected(true);
+      scheduleProactiveRefresh(ttlSec);
+      toast('Connected to Blogger');
+    }
+  });
+}
+
+function scheduleProactiveRefresh(ttlSec){
+  clearTimeout(refreshTimer);
+  // Refresh silently ~2 minutes before expiry (or at 80% of TTL if shorter)
+  var lead = Math.min(120000, ttlSec * 1000 * 0.2);
+  var delay = Math.max(5000, ttlSec * 1000 - lead);
+  refreshTimer = setTimeout(function(){
+    if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+  }, delay);
+}
+
+function setConnected(isConnected){
+  var dot = el('connDot'), text = el('connText');
+  if (isConnected){
+    dot.className = 'dot on';
+    text.textContent = 'Connected';
+    el('connectBtn').style.display = 'none';
+    el('disconnectBtn').style.display = 'inline-flex';
+    el('ttlText').style.display = 'block';
+    startTtlClock();
+  } else {
+    dot.className = 'dot';
+    text.textContent = 'Not connected';
+    el('connectBtn').style.display = 'inline-flex';
+    el('disconnectBtn').style.display = 'none';
+    el('ttlText').style.display = 'none';
+    el('warnBar').classList.remove('show');
+    clearInterval(ttlInterval);
+    clearTimeout(refreshTimer);
+    accessToken = null;
+    tokenExpiresAt = 0;
+  }
+}
+
+function startTtlClock(){
+  clearInterval(ttlInterval);
+  ttlInterval = setInterval(function(){
+    var remain = tokenExpiresAt - Date.now();
+    if (remain <= 0){
+      el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
+      el('connDot').className = 'dot warn';
+      clearInterval(ttlInterval);
       return;
     }
-
-    // Build post body HTML
-    let body = '';
-
-    // Optional inline image
-    if (imageUrl) {
-      body += `<img src="${imageUrl}" alt="${title}" style="max-width:100%; border-radius:8px; margin:0 0 16px;"/>\n`;
+    var mins = Math.floor(remain / 60000), secs = Math.floor((remain % 60000) / 1000);
+    el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') + secs + 's</b>';
+    if (remain < 90000 && !warnDismissedForThisExpiry){
+      el('connDot').className = 'dot warn';
+      el('warnText').textContent = 'Your Blogger session expires in under 2 minutes.';
+      el('warnBar').classList.add('show');
     }
+  }, 1000);
+}
 
-    // Description (if any)
-    if (description) {
-      body += `${description}\n`;
-    }
+el('connectBtn').addEventListener('click', function(){
+  var clientId = el('clientId').value.trim();
+  if (!clientId){ toast('Enter your Google OAuth Client ID first', true); return; }
+  if (!gisReady()){ toast('Google sign-in script still loading, try again in a second', true); return; }
+  localStorage.setItem(LS_CLIENT, clientId);
+  if (!tokenClient) initTokenClient(clientId);
+  tokenClient.requestAccessToken({ prompt: 'consent' });
+});
 
-    // Price shortcode – this is what the theme uses to display the price in meta-price spans
-    body += `price/${price}\n`;
+el('disconnectBtn').addEventListener('click', function(){
+  if (accessToken && window.google && google.accounts.oauth2.revoke){
+    google.accounts.oauth2.revoke(accessToken, function(){});
+  }
+  setConnected(false);
+  toast('Disconnected from Blogger');
+});
 
-    // Optional sale badge (the theme may look for a label or class, but we add a note)
-    if (sale) {
-      body += `\n<!-- Add "SALE" label in Blogger post settings to show sale badge -->\n`;
-    }
+el('warnDismiss').addEventListener('click', function(){
+  warnDismissedForThisExpiry = true;
+  el('warnBar').classList.remove('show');
+});
+el('warnRefresh').addEventListener('click', function(){
+  if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+  el('warnBar').classList.remove('show');
+});
 
-    // Labels hint
-    if (labels) {
-      body += `\n<!-- Labels/Categories: ${labels} -->\n`;
-    }
+/* ============ FORM -> DATA MODEL ============ */
+function currentProduct(){
+  var cats = el('pCats').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  var gallery = el('pGallery').value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+  return {
+    title: el('pTitle').value.trim(),
+    price: parseFloat(el('pPrice').value) || 0,
+    oldPrice: parseFloat(el('pOldPrice').value) || 0,
+    currency: (el('pCurrency').value.trim() || 'UGX'),
+    cats: cats,
+    image: el('pImage').value.trim(),
+    gallery: gallery,
+    desc: el('pDesc').value.trim(),
+    buyUrl: el('pBuyUrl').value.trim(),
+    whatsapp: el('pWhatsapp').value.trim(),
+    postId: el('pPostId').value.trim(),
+    draft: el('pDraft').value === 'true'
+  };
+}
 
-    // Full post content to copy
-    const fullContent = body.trim();
+function formatPrice(n, currency){
+  n = Math.round(n);
+  if (isNaN(n)) return currency + ' 0';
+  return currency + ' ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
-    // Display generated code
-    document.getElementById('generatedCode').textContent = fullContent;
-    document.getElementById('output').style.display = 'block';
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-    // Preview (render HTML safely)
-    const previewDiv = document.getElementById('preview');
-    previewDiv.innerHTML = fullContent;
+/* ============ LIVE PREVIEW ============ */
+function renderPreview(){
+  var p = currentProduct();
 
-    // Also show a note about the featured image
-    const note = document.createElement('p');
-    note.style.marginTop = '12px';
-    note.style.fontSize = '13px';
-    note.style.color = '#64748b';
-    note.innerHTML = '💡 <strong>Tip:</strong> Upload a <strong>featured image</strong> separately in the Blogger post editor. The image above is for inline use only.';
-    previewDiv.appendChild(note);
+  el('prTitle').textContent = p.title || 'Your product title';
+  el('prPrice').textContent = formatPrice(p.price, p.currency);
 
-    // Scroll to output
-    document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (p.oldPrice && p.oldPrice > p.price){
+    el('prOldPrice').style.display = 'inline';
+    el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
+    var pct = Math.round((1 - p.price / p.oldPrice) * 100);
+    el('prBadge').style.display = 'block';
+    el('prBadge').textContent = '-' + pct + '%';
+  } else {
+    el('prOldPrice').style.display = 'none';
+    el('prBadge').style.display = 'none';
   }
 
-  function copyCode() {
-    const code = document.getElementById('generatedCode').textContent;
-    navigator.clipboard.writeText(code).then(() => {
-      const toast = document.getElementById('toastMsg');
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
-    }).catch(() => {
-      alert('Could not copy. Please select and copy manually.');
+  if (p.image){
+    el('prImg').src = p.image;
+    el('prImg').style.display = 'block';
+    el('prNoImg').style.display = 'none';
+  } else {
+    el('prImg').style.display = 'none';
+    el('prNoImg').style.display = 'block';
+  }
+
+  var catsHtml = p.cats.map(function(c){ return '<span>' + escapeHtml(c) + '</span>'; }).join('');
+  el('prCats').innerHTML = catsHtml;
+
+  el('prDesc').textContent = p.desc || 'Description preview appears here.';
+
+  if (p.whatsapp){
+    var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p.currency) + ')');
+    el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg;
+    el('prWa').style.display = 'inline-block';
+  } else {
+    el('prWa').style.display = 'none';
+  }
+
+  el('outHtml').textContent = buildPostHtml(p);
+}
+
+/* ============ POST HTML BUILDER ============ */
+function buildPostHtml(p){
+  if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
+
+  var parts = [];
+
+  if (p.image){
+    parts.push(
+      '<div class="separator" style="clear: both; text-align: center;">' +
+      '<a href="' + p.image + '" style="margin-left:1em; margin-right:1em;">' +
+      '<img alt="' + escapeHtml(p.title) + '" border="0" src="' + p.image + '" width="640"/>' +
+      '</a></div>'
+    );
+  }
+
+  p.gallery.forEach(function(url){
+    parts.push(
+      '<div class="separator" style="clear: both; text-align: center;">' +
+      '<a href="' + url + '" style="margin-left:1em; margin-right:1em;">' +
+      '<img border="0" src="' + url + '" width="640"/></a></div>'
+    );
+  });
+
+  if (p.desc){
+    p.desc.split('\n').filter(Boolean).forEach(function(line){
+      parts.push('<p>' + escapeHtml(line) + '</p>');
     });
   }
 
-  // Allow Ctrl+Enter to generate
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      generatePost();
+  if (p.oldPrice && p.oldPrice > p.price){
+    parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
+  }
+
+  if (p.buyUrl){
+    parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
+  }
+
+  // Hidden price shortcode the theme's price engine reads (regex: price/1234)
+  parts.push('<p style="display:none">price/' + (p.price || 0) + '</p>');
+
+  return parts.join('\n');
+}
+
+/* ============ PUBLISH TO BLOGGER ============ */
+function buildRequestBody(p){
+  return {
+    kind: 'blogger#post',
+    title: p.title,
+    content: buildPostHtml(p),
+    labels: p.cats
+  };
+}
+
+el('publishBtn').addEventListener('click', function(){
+  var p = currentProduct();
+  var blogId = el('blogId').value.trim();
+
+  if (!accessToken){ toast('Connect to Blogger first', true); return; }
+  if (!blogId){ toast('Enter your Blog ID', true); return; }
+  if (!p.title){ toast('Give the product a title', true); return; }
+
+  var isDraft = p.draft;
+  var body = buildRequestBody(p);
+  var url, method;
+
+  if (p.postId){
+    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
+    method = 'PUT';
+  } else {
+    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts' + (isDraft ? '?isDraft=true' : '');
+    method = 'POST';
+  }
+
+  el('publishBtn').disabled = true;
+  fetch(url, {
+    method: method,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(function(res){
+    if (!res.ok){
+      return res.json().then(function(err){ throw new Error((err.error && err.error.message) || res.statusText); });
     }
+    return res.json();
+  })
+  .then(function(data){
+    toast(p.postId ? 'Post updated' : (isDraft ? 'Draft saved' : 'Post published'));
+    if (data.id) el('pPostId').value = data.id;
+    if (data.url) window.open(data.url, '_blank');
+  })
+  .catch(function(err){
+    toast('Publish failed: ' + err.message, true);
+  })
+  .finally(function(){
+    el('publishBtn').disabled = false;
   });
+});
+
+/* ============ COPY / CLEAR ============ */
+el('copyBtn').addEventListener('click', function(){
+  var html = buildPostHtml(currentProduct());
+  navigator.clipboard.writeText(html).then(function(){
+    toast('Post HTML copied');
+  }).catch(function(){
+    toast('Could not copy — select the box text manually', true);
+  });
+});
+
+el('clearBtn').addEventListener('click', function(){
+  ['pTitle','pPrice','pOldPrice','pCats','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
+    el(id).value = '';
+  });
+  el('pCurrency').value = 'UGX';
+  el('pDraft').value = 'false';
+  renderPreview();
+});
+
+/* ============ WIRE UP LIVE UPDATES ============ */
+['pTitle','pPrice','pOldPrice','pCurrency','pCats','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
+  .forEach(function(id){ el(id).addEventListener('input', renderPreview); });
+
+renderPreview();
+})();
 </script>
 </body>
 </html>
