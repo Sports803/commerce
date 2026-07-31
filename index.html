@@ -85,6 +85,7 @@ a{color:var(--main)}
 .ph-cats{margin:12px 0 4px;display:flex;gap:6px;flex-wrap:wrap}
 .ph-cats span{background:var(--main);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:4px}
 .ph-title{font-size:18px;font-weight:800;color:var(--title);margin:8px 0 6px;line-height:1.3}
+.ph-rating{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;color:#94A3B8}
 .ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
 .ph-price{font-size:20px;font-weight:800;color:var(--main)}
 .ph-price-old{font-size:14px;color:#94A3B8;text-decoration:line-through}
@@ -111,6 +112,7 @@ a{color:var(--main)}
 .sc-ref{font-size:11px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:8px;line-height:1.7}
 .sc-ref code{background:#E2E8F0;padding:1px 5px;border-radius:4px;font-size:11px}
 .sc-ref b{color:var(--title)}
+.sc-ref .sc-note{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed #CBD5E1;color:#64748B}
 </style>
 </head>
 <body>
@@ -255,6 +257,7 @@ a{color:var(--main)}
         <code>[sku:SKU001]</code> — product SKU displayed in details<br/>
         <code>[brand:Apple]</code> — product brand displayed in details<br/>
         <code>[stock:in_stock]</code> — stock status (in_stock | low_stock | out_of_stock)
+        <span class="sc-note"><b>Ratings &amp; reviews:</b> no shortcode needed here — the theme's Reviews tab now uses Blogger's own comment thread as the review form (this was fixed so the form shows up even before a product has its first review), and it computes a real star average automatically from the "Rating: n/5" tag reviewers add via the on-page star picker. New products naturally start with no rating shown until real reviews come in.</span>
       </div>
     </div>
 
@@ -273,6 +276,7 @@ a{color:var(--main)}
       <div class="ph-img-wrap"><img id="prImg" style="display:none"/><span class="noimg" id="prNoImg">No image yet</span></div>
       <div class="ph-cats" id="prCats"></div>
       <div class="ph-title" id="prTitle">Your product title</div>
+      <div class="ph-rating" id="prRating">No reviews yet</div>
       <div class="ph-price-row">
         <span class="ph-price" id="prPrice">UGX 0</span>
         <span class="ph-price-old" id="prOldPrice" style="display:none"></span>
@@ -466,6 +470,10 @@ function renderPreview(){
 
   el('prTitle').textContent = p.title || 'Your product title';
   el('prPrice').textContent = formatPrice(p.price, p.currency);
+  // New products are published with no reviews yet — the theme's Reviews tab
+  // now lets buyers post the very first one, and the star average shown here
+  // fills in on the live site once real "Rating: n/5" reviews come in.
+  el('prRating').textContent = 'No reviews yet';
 
   if (p.oldPrice && p.oldPrice > p.price){
     el('prOldPrice').style.display = 'inline';
