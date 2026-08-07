@@ -59,10 +59,11 @@ a{color:var(--main)}
 .btn-dark:hover{background:var(--menu)}
 .btn-ghost{background:#fff;color:var(--title);border:1px solid var(--border)}
 .btn-ghost:hover{background:#F1F5F9}
+.btn-sm{padding:6px 11px;font-size:12px}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:999;display:flex;align-items:center;gap:8px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:999;display:flex;align-items:center;gap:8px;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.err{background:var(--err)}
 .toast.ok i{color:var(--ok)}
@@ -73,20 +74,38 @@ a{color:var(--main)}
 .ttl{font-size:12px;color:#64748B;margin-top:10px}
 .ttl b{color:var(--title)}
 
+/* ---- Auto-fill match panel ---- */
+.match-box{border:1px solid var(--border);border-radius:8px;margin-top:10px;overflow:hidden;display:none}
+.match-box.show{display:block}
+.match-head{background:#F1F5F9;padding:9px 12px;font-size:12.5px;font-weight:700;color:var(--title);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.match-head .badge{background:var(--ok);color:#fff;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.3px}
+.match-body{padding:10px 12px}
+.variant-list{display:flex;flex-direction:column;gap:5px;margin-top:6px;max-height:190px;overflow:auto}
+.variant-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12.5px;cursor:pointer;background:#fff}
+.variant-opt:hover{border-color:var(--main);background:#EFF6FF}
+.variant-opt.active{border-color:var(--main);background:#EFF6FF;box-shadow:0 0 0 1px var(--main) inset}
+.variant-opt .vname{color:var(--title);font-weight:600}
+.variant-opt .vprice{color:var(--main);font-weight:800;white-space:nowrap}
+.ambig-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ambig-list button{background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12.5px;font-weight:600;color:var(--title);cursor:pointer}
+.ambig-list button:hover{border-color:var(--main);color:var(--main)}
+.no-match{font-size:12.5px;color:#64748B;line-height:1.6}
+
 /* ---- Live Preview ---- */
 .preview-wrap{position:sticky;top:20px}
 .preview-label{font-size:12px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .preview-label i{color:var(--main)}
 .product-header{position:relative;background-color:#fbfbfb;border:1px solid var(--border);border-radius:10px;padding:15px}
 .ph-badge{position:absolute;top:12px;left:12px;height:26px;border-radius:5px;background-color:var(--err);font-size:12px;color:#fff;font-weight:700;text-align:center;line-height:26px;padding:0 10px;z-index:2}
-.ph-img-wrap{position:relative;border-radius:7px;overflow:hidden;background:rgba(155,155,155,.07);height:220px;display:flex;align-items:center;justify-content:center}
-.ph-img-wrap img{width:100%;height:100%;object-fit:cover}
-.ph-img-wrap .noimg{color:#94A3B8;font-size:13px}
+.ph-img-wrap{position:relative;border-radius:7px;overflow:hidden;background:rgba(155,155,155,.07);height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.ph-img-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+.ph-img-wrap .noimg{color:#94A3B8;font-size:13px;text-align:center;padding:0 14px}
+.ph-img-wrap .noimg a{font-size:12px;font-weight:700}
 .ph-cats{margin:12px 0 4px;display:flex;gap:6px;flex-wrap:wrap}
 .ph-cats span{background:var(--main);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:4px}
 .ph-title{font-size:18px;font-weight:800;color:var(--title);margin:8px 0 6px;line-height:1.3}
 .ph-rating{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;color:#94A3B8}
-.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
 .ph-price{font-size:20px;font-weight:800;color:var(--main)}
 .ph-price-old{font-size:14px;color:#94A3B8;text-decoration:line-through}
 .ph-discount{font-size:13px;font-weight:700;color:var(--err);margin-bottom:12px}
@@ -113,6 +132,21 @@ a{color:var(--main)}
 .sc-ref code{background:#E2E8F0;padding:1px 5px;border-radius:4px;font-size:11px}
 .sc-ref b{color:var(--title)}
 .sc-ref .sc-note{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed #CBD5E1;color:#64748B}
+
+/* ---- Catalog browser ---- */
+.cat-search{display:flex;gap:8px;margin-bottom:10px}
+.cat-search input{flex:1}
+.cat-groups{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cat-groups button{background:#F1F5F9;border:1px solid var(--border);color:var(--text);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.cat-groups button.active{background:var(--main);color:#fff;border-color:var(--main)}
+.cat-table{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.cat-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;font-size:12.5px;border-bottom:1px solid var(--border);cursor:pointer}
+.cat-row:last-child{border-bottom:none}
+.cat-row:hover{background:#F8FAFC}
+.cat-row .cn{color:var(--title);font-weight:600}
+.cat-row .cn small{display:block;color:#94A3B8;font-weight:500;font-size:11px}
+.cat-row .cp{color:var(--main);font-weight:800;white-space:nowrap}
+.cat-empty{padding:16px;text-align:center;color:#94A3B8;font-size:12.5px}
 </style>
 </head>
 <body>
@@ -154,27 +188,40 @@ a{color:var(--main)}
       <div class="ttl" id="ttlText" style="display:none"></div>
     </div>
 
+    <!-- CATALOG BROWSER -->
+    <div class="panel">
+      <h2><i class="fa fa-list"></i>Price list catalog <span class="hint" style="text-transform:none;letter-spacing:0">— click any item to load it into the form</span></h2>
+      <div class="cat-search">
+        <input type="text" id="catSearch" placeholder="Search the catalog… e.g. fold 6, s25, a26, watch"/>
+      </div>
+      <div class="cat-groups" id="catGroups"></div>
+      <div class="cat-table" id="catTable"></div>
+    </div>
+
     <!-- PRODUCT FORM -->
     <div class="panel">
       <h2><i class="fa fa-cube"></i>Product details</h2>
 
       <div class="field">
-        <label>Title</label>
-        <input type="text" id="pTitle" placeholder="e.g. iPhone 16 Pro 256GB UK Used"/>
+        <label>Title <span class="hint">type shop shorthand — e.g. "17pmx 256 esim", "fold 6 512", "a57 256/12"</span></label>
+        <input type="text" id="pTitle" placeholder="e.g. 17pmx 256 esim"/>
       </div>
 
       <!-- AUTO-FILL -->
       <div class="field">
-        <label>Auto-fill image & description <span class="hint">type product name above then click</span></label>
+        <label>Auto-fill from the price list</label>
         <div class="btnrow">
           <button type="button" class="btn btn-ghost" id="autoFillBtn">
-            <i class="fa fa-magic"></i> Auto-fill from product name
+            <i class="fa fa-magic"></i> Auto-fill from title
           </button>
           <span id="autoFillStatus" style="font-size:12px;color:#64748B;align-self:center"></span>
         </div>
-        <div class="setup-note" style="margin-top:8px">
-          Works instantly for popular models (iPhone, Samsung, Pixel, Oppo, iPad…).  
-          Later you can replace the local database with AliExpress Affiliate API or any device-spec API.
+        <div class="match-box" id="matchBox">
+          <div class="match-head">
+            <span id="matchHeadText">Match</span>
+            <span class="badge" id="matchBadge" style="display:none">Matched</span>
+          </div>
+          <div class="match-body" id="matchBody"></div>
         </div>
       </div>
 
@@ -220,8 +267,11 @@ a{color:var(--main)}
       </div>
 
       <div class="field">
-        <label>Main image URL</label>
-        <input type="url" id="pImage" placeholder="https://..."/>
+        <label>Main image URL <span class="hint">the catalog doesn't guess this — paste a real photo of the exact unit, or use the search shortcut</span></label>
+        <div style="display:flex;gap:8px">
+          <input type="url" id="pImage" placeholder="https://..." style="flex:1"/>
+          <button type="button" class="btn btn-ghost btn-sm" id="findImgBtn" style="white-space:nowrap"><i class="fa fa-search"></i> Find photo</button>
+        </div>
       </div>
       <div class="field">
         <label>Additional images <span class="hint">one URL per line, optional</span></label>
@@ -314,7 +364,9 @@ a{color:var(--main)}
 (function(){
 'use strict';
 
-/* ============ CONFIG / STORAGE ============ */
+/* ==========================================================================
+   CONFIG / STORAGE
+   ========================================================================== */
 var LS_CLIENT = 'cfpv2_client_id';
 var LS_BLOG = 'cfpv2_blog_id';
 var SCOPE = 'https://www.googleapis.com/auth/blogger';
@@ -327,7 +379,9 @@ el('blogId').value = localStorage.getItem(LS_BLOG) || '';
 el('clientId').addEventListener('change', function(){ localStorage.setItem(LS_CLIENT, this.value.trim()); });
 el('blogId').addEventListener('change', function(){ localStorage.setItem(LS_BLOG, this.value.trim()); });
 
-/* ============ TOAST ============ */
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
 var toastTimer;
 function toast(msg, isErr){
   var t = el('toast');
@@ -337,534 +391,920 @@ function toast(msg, isErr){
   toastTimer = setTimeout(function(){ t.className = 'toast' + (isErr ? ' err' : ' ok'); }, 3500);
 }
 
-/* ============ LOCAL PRODUCT DATABASE (works offline / instantly) ============ */
-/* You can expand this list or later replace the whole lookup with a real API proxy */
-var PRODUCT_DB = [
-  {
-    keywords: ['iphone 16 pro', 'iphone16 pro', 'ip16 pro'],
-    brand: 'Apple',
-    title: 'Apple iPhone 16 Pro (UK Used)',
-    image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-16-pro-finish-select-202409-6-3inch-blacktitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725734326035',
-    gallery: [
-      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-16-pro-finish-select-202409-6-3inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725734326035',
-      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-16-pro-finish-select-202409-6-3inch-deserttitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725734326035'
-    ],
-    desc: `Apple iPhone 16 Pro (UK Used) – Technical Specifications
+/* ==========================================================================
+   PRICE LIST DATABASE
+   Every model below is built from your current stock sheet. Each model can
+   have several variants (storage / RAM / eSIM / grade) at different prices —
+   exactly like your sheet. Edit the numbers here whenever prices change;
+   everything else (matching, form-fill, preview) updates automatically.
+   ========================================================================== */
 
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: 6.3-inch Super Retina XDR OLED with Dynamic Island, Always-On & ProMotion 120Hz (2622 x 1206, 460 ppi, Latest-Gen Ceramic Shield, up to 2,000 nits peak brightness)
-• Processor: Apple A18 Pro Chip (3nm) with 6-Core CPU, 6-Core GPU & 16-Core Neural Engine
-• RAM: 8 GB
-• Storage Options: 128GB / 256GB / 512GB / 1TB
-• Rear Cameras: Pro Triple System (48 MP Fusion f/1.78 with 2nd-Gen Sensor-Shift OIS + 48 MP Ultra-Wide f/2.2 with Macro + 12 MP Periscope Telephoto f/2.8 with 5x Optical Zoom) + LiDAR Scanner & 4K Dolby Vision Video Recording (up to 120 fps)
-• Front Camera: 12 MP TrueDepth Camera with Autofocus (f/1.9) & 4K Dolby Vision HDR
-• Controls: Action Button (Customizable) + Dedicated Camera Control Button
-• Biometrics: Face ID
-• Battery: ~3,582 mAh (Supports Fast Charging up to 50% in 30 mins, MagSafe 25W wireless, Qi2 wireless & reverse wired charging)
-• Charging Port: USB-C (USB 3 - up to 10Gbps transfer speeds)
-• SIM Support: Single Nano-SIM + eSIM / Dual eSIM variants (Factory Unlocked to all networks)
-• Build: Ceramic Shield front, Textured Matte Glass back, Grade 5 Titanium Frame (IP68 Dust & Water Resistant)
-• Network & Connectivity: 5G, 4G LTE, Wi-Fi 7, Bluetooth 5.3, 2nd-Gen Ultra Wideband (UWB), Thread, NFC, Crash Detection, Emergency SOS & Messages via satellite
-
-Note: All units are direct original UK imports, thoroughly inspected for screen responsiveness, Dynamic Island performance, ProMotion refresh rate, Camera Control sensor accuracy, 5x Telephoto optical zoom clarity, LiDAR accuracy, Action button integrity, USB-C port functionality, speaker output, MagSafe compatibility, and reliable battery health.`
-  },
-  {
-    keywords: ['iphone 15 pro', 'iphone15 pro'],
-    brand: 'Apple',
-    title: 'Apple iPhone 15 Pro (UK Used)',
-    image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1693009279096',
-    gallery: [],
-    desc: `Apple iPhone 15 Pro (UK Used) – Technical Specifications
-
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: 6.1-inch Super Retina XDR OLED, ProMotion 120Hz, Always-On, Dynamic Island
-• Chip: A17 Pro
-• Rear Cameras: 48 MP Main + 12 MP Ultra Wide + 12 MP Telephoto (3x)
-• Front: 12 MP TrueDepth
-• Battery: Up to 23 hours video playback
-• Port: USB-C
-• Build: Titanium design, Ceramic Shield, IP68
-
-All units thoroughly tested and ready for use.`
-  },
-  {
-    keywords: ['iphone 14 pro', 'iphone14 pro'],
-    brand: 'Apple',
-    title: 'Apple iPhone 14 Pro (UK Used)',
-    image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-deeppurple?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1663703841896',
-    gallery: [],
-    desc: `Apple iPhone 14 Pro (UK Used) – Technical Specifications
-
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: 6.1-inch Super Retina XDR OLED, ProMotion, Always-On, Dynamic Island
-• Chip: A16 Bionic
-• Rear Cameras: 48 MP Main + 12 MP Ultra Wide + 12 MP Telephoto (3x)
-• Front: 12 MP
-• Battery: Excellent all-day performance
-• Port: Lightning
-• Build: Stainless steel, Ceramic Shield, IP68
-
-Fully tested and in excellent condition.`
-  },
-  {
-    keywords: ['samsung galaxy s24', 's24 ultra', 'galaxy s24'],
-    brand: 'Samsung',
-    title: 'Samsung Galaxy S24 Ultra (UK Used)',
-    image: 'https://images.samsung.com/is/image/samsung/p6pim/uk/sm-s928bzkdeub/gallery/uk-galaxy-s24-ultra-s928-sm-s928bzkdeub-thumb-539573849',
-    gallery: [],
-    desc: `Samsung Galaxy S24 Ultra (UK Used) – Technical Specifications
-
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: 6.8-inch Dynamic AMOLED 2X, 120Hz, QHD+
-• Processor: Snapdragon 8 Gen 3 for Galaxy
-• RAM / Storage: 12GB + 256/512GB / 1TB
-• Cameras: 200 MP Main + 50 MP Periscope (5x) + 10 MP Tele (3x) + 12 MP Ultra Wide
-• Battery: 5,000 mAh with 45W charging
-• S Pen included
-• Build: Titanium frame, Armor Aluminum, IP68
-
-Fully tested, original UK unit.`
-  },
-  {
-    keywords: ['pixel 9', 'google pixel 9'],
-    brand: 'Google',
-    title: 'Google Pixel 9 (UK Used)',
-    image: 'https://lh3.googleusercontent.com/FqYg4g0y1YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQJ8z0YQ',
-    gallery: [],
-    desc: `Google Pixel 9 (UK Used) – Technical Specifications
-
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: 6.3-inch OLED, 120Hz
-• Chip: Google Tensor G4
-• Cameras: Dual rear (50 MP Main + 48 MP Ultra Wide) + 10.5 MP Front
-• Battery: Excellent with Adaptive Battery
-• Clean Android experience with 7 years of updates
-• Build: Premium glass & aluminum, IP68
-
-Fully tested original UK unit.`
-  },
-  {
-    keywords: ['ipad pro', 'ipad pro m4', 'ipad pro 11', 'ipad pro 13'],
-    brand: 'Apple',
-    title: 'Apple iPad Pro (M4) UK Used',
-    image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-finish-select-gallery-202405-11inch-spaceblack?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1713384733681',
-    gallery: [],
-    desc: `Apple iPad Pro (M4) – UK Used
-
-• Condition: Direct UK Used (100% Fully Functional & Tested)
-• Display: Ultra Retina XDR (Tandem OLED)
-• Chip: Apple M4
-• Storage: 256GB / 512GB / 1TB / 2TB
-• Cameras: 12 MP Wide + LiDAR + Ultra Wide front
-• Apple Pencil Pro support
-• Thunderbolt / USB 4
-• Ultra-thin design
-
-Fully inspected and ready for professional use.`
+  // Small helper so variant objects stay short below.
+  function v(o){
+    return {
+      storage: o.storage || '',      // e.g. '256GB', '1TB'
+      ram: o.ram || '',              // e.g. '12GB' (only when the sheet calls it out)
+      esim: !!o.esim,
+      grade: o.grade || '',          // e.g. 'Powa' — kept exactly as your sheet labels it
+      price: o.price                 // in whole currency units (UGX)
+    };
   }
-];
 
-/* ============ AUTO-FILL LOGIC ============ */
-function findProduct(query) {
-  if (!query) return null;
-  var q = query.toLowerCase().trim();
-  for (var i = 0; i < PRODUCT_DB.length; i++) {
-    var item = PRODUCT_DB[i];
-    for (var k = 0; k < item.keywords.length; k++) {
-      if (q.indexOf(item.keywords[k]) !== -1) {
-        return item;
+  var MODELS = [
+
+  /* ---------------- USED IPHONES ---------------- */
+  { id:'ip17pmx', brand:'Apple', category:'Phones', name:'iPhone 17 Pro Max',
+    aliases:['17 pro max','17promax','17pmx','iphone 17 pro max','iphone17promax','ip17pmx'],
+    image:'', specNote:'6.9" Super Retina XDR ProMotion, A19 Pro chip, 48MP Fusion triple camera, titanium/aluminum unibody, USB-C.',
+    variants:[ v({storage:'1TB',esim:true,price:6000000}), v({storage:'512GB',price:5600000}), v({storage:'256GB',price:5150000}), v({storage:'256GB',esim:true,price:4900000}) ] },
+
+  { id:'ip17pro', brand:'Apple', category:'Phones', name:'iPhone 17 Pro',
+    aliases:['17 pro','17pro','iphone 17 pro','iphone17pro','ip17pro'],
+    image:'', specNote:'6.3" Super Retina XDR ProMotion, A19 Pro chip, 48MP Fusion triple camera, aluminum unibody, USB-C.',
+    variants:[ v({storage:'256GB',price:4600000}) ] },
+
+  { id:'ip17air', brand:'Apple', category:'Phones', name:'iPhone 17 Air',
+    aliases:['17 air','17air','iphone 17 air','iphone17air','ip17air'],
+    image:'', specNote:'Ultra-thin design, 6.5" Super Retina XDR ProMotion, A19 chip, USB-C.',
+    variants:[ v({storage:'512GB',price:3400000}), v({storage:'256GB',price:3250000}) ] },
+
+  { id:'ip17', brand:'Apple', category:'Phones', name:'iPhone 17',
+    aliases:['iphone 17','17','ip17'],
+    image:'', specNote:'6.3" Super Retina XDR, A19 chip, 48MP dual camera, USB-C.',
+    variants:[ v({storage:'256GB',price:3150000}), v({storage:'256GB',esim:true,price:3000000}), v({storage:'256GB',esim:true,grade:'Powa',price:2750000}) ] },
+
+  { id:'ip16pmx', brand:'Apple', category:'Phones', name:'iPhone 16 Pro Max',
+    aliases:['16 pro max','16promax','16pmx','iphone 16 pro max','iphone16promax','ip16pmx'],
+    image:'', specNote:'6.9" Super Retina XDR ProMotion, A18 Pro chip, 48MP Fusion triple camera, titanium frame, USB-C.',
+    variants:[ v({storage:'1TB',esim:true,price:3650000}), v({storage:'512GB',price:3650000}), v({storage:'512GB',esim:true,price:3450000}), v({storage:'256GB',price:3350000}), v({storage:'256GB',esim:true,price:3150000}) ] },
+
+  { id:'ip16pro', brand:'Apple', category:'Phones', name:'iPhone 16 Pro',
+    aliases:['16 pro','16pro','iphone 16 pro','iphone16pro','ip16pro'],
+    image:'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-16-pro-finish-select-202409-6-3inch-blacktitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725734326035',
+    specNote:'6.3" Super Retina XDR ProMotion, A18 Pro chip, 48MP Fusion triple camera, titanium frame, USB-C.',
+    variants:[ v({storage:'256GB',price:3000000}), v({storage:'128GB',esim:true,price:2750000}) ] },
+
+  { id:'ip16plus', brand:'Apple', category:'Phones', name:'iPhone 16 Plus',
+    aliases:['16 plus','16plus','16+','iphone 16 plus','iphone16plus','ip16+'],
+    image:'', specNote:'6.7" Super Retina XDR, A18 chip, 48MP dual camera, USB-C.',
+    variants:[ v({storage:'128GB',price:2550000}) ] },
+
+  { id:'ip16', brand:'Apple', category:'Phones', name:'iPhone 16',
+    aliases:['iphone 16','16','ip16'],
+    image:'', specNote:'6.1" Super Retina XDR, A18 chip, 48MP dual camera, USB-C.',
+    variants:[ v({storage:'128GB',price:2430000}) ] },
+
+  /* ---------------- SAMSUNG FOLD / FLIP ---------------- */
+  { id:'zfold7', brand:'Samsung', category:'Phones', name:'Samsung Galaxy Z Fold 7',
+    aliases:['fold 7','fold7','z fold 7','zfold7','galaxy fold 7'],
+    image:'', specNote:'Foldable 8" main display + 6.5" cover screen, Snapdragon 8 Elite, S Pen compatible.',
+    variants:[ v({storage:'1TB',price:4500000}), v({storage:'512GB',price:4150000}), v({storage:'256GB',price:4000000}) ] },
+
+  { id:'zfold6', brand:'Samsung', category:'Phones', name:'Samsung Galaxy Z Fold 6',
+    aliases:['fold 6','fold6','z fold 6','zfold6','galaxy fold 6'],
+    image:'', specNote:'Foldable 7.6" main display + 6.3" cover screen, Snapdragon 8 Gen 3, S Pen compatible.',
+    variants:[ v({storage:'512GB',price:2850000}), v({storage:'256GB',price:2650000}) ] },
+
+  { id:'zfold5', brand:'Samsung', category:'Phones', name:'Samsung Galaxy Z Fold 5',
+    aliases:['fold 5','fold5','z fold 5','zfold5','galaxy fold 5'],
+    image:'', specNote:'Foldable 7.6" main display + 6.2" cover screen, Snapdragon 8 Gen 2, S Pen compatible.',
+    variants:[ v({storage:'512GB',price:2100000}), v({storage:'256GB',price:2000000}) ] },
+
+  { id:'zfold4', brand:'Samsung', category:'Phones', name:'Samsung Galaxy Z Fold 4',
+    aliases:['fold 4','fold4','z fold 4','zfold4','galaxy fold 4'],
+    image:'', specNote:'Foldable 7.6" main display + 6.2" cover screen, Snapdragon 8+ Gen 1.',
+    variants:[ v({storage:'256GB',price:1800000}) ] },
+
+  { id:'zflip6', brand:'Samsung', category:'Phones', name:'Samsung Galaxy Z Flip 6',
+    aliases:['flip 6','flip6','z flip 6','zflip6','galaxy flip 6'],
+    image:'', specNote:'Foldable clamshell, 6.7" main display + cover screen, Snapdragon 8 Gen 3.',
+    variants:[ v({storage:'512GB',grade:'Powa',price:1350000}) ] },
+
+  /* ---------------- SAMSUNG S SERIES ---------------- */
+  { id:'s26ultra', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S26 Ultra',
+    aliases:['s26 ultra','s26ultra','galaxy s26 ultra'],
+    image:'', specNote:'6.9" QHD+ Dynamic AMOLED 120Hz, flagship Snapdragon chip, S Pen built in, quad camera.',
+    variants:[ v({storage:'512GB',price:4100000}), v({storage:'256GB',price:3450000}) ] },
+
+  { id:'s25ultra', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S25 Ultra',
+    aliases:['s25 ultra','s25ultra','galaxy s25 ultra'],
+    image:'', specNote:'6.9" QHD+ Dynamic AMOLED 120Hz, Snapdragon 8 Elite, S Pen built in, 200MP quad camera.',
+    variants:[ v({storage:'512GB',price:2950000}), v({storage:'256GB',price:2750000}) ] },
+
+  { id:'s25plus', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S25+',
+    aliases:['s25 plus','s25plus','s25+','galaxy s25 plus'],
+    image:'', specNote:'6.7" QHD+ Dynamic AMOLED 120Hz, Snapdragon 8 Elite, triple camera.',
+    variants:[ v({storage:'512GB',price:2250000}) ] },
+
+  { id:'s25edge', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S25 Edge',
+    aliases:['s25 edge','s25edge','galaxy s25 edge'],
+    image:'', specNote:'Ultra-slim design, 6.7" Dynamic AMOLED 120Hz, Snapdragon 8 Elite.',
+    variants:[ v({storage:'256GB',price:2100000}) ] },
+
+  { id:'s25', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S25',
+    aliases:['galaxy s25','s25'],
+    image:'', specNote:'6.2" Dynamic AMOLED 120Hz, Snapdragon 8 Elite, triple camera.',
+    variants:[ v({storage:'128GB',price:1850000}) ] },
+
+  { id:'s24ultra', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S24 Ultra',
+    aliases:['s24 ultra','s24ultra','galaxy s24 ultra'],
+    image:'', specNote:'6.8" QHD+ Dynamic AMOLED 120Hz, Snapdragon 8 Gen 3, S Pen built in, 200MP quad camera.',
+    variants:[ v({storage:'512GB',price:2350000}), v({storage:'256GB',price:2300000}) ] },
+
+  { id:'s24plus', brand:'Samsung', category:'Phones', name:'Samsung Galaxy S24+',
+    aliases:['s24 plus','s24plus','s24+','galaxy s24 plus'],
+    image:'', specNote:'6.7" QHD+ Dynamic AMOLED 120Hz, Snapdragon 8 Gen 3, triple camera.',
+    variants:[ v({storage:'256GB',price:1750000}) ] },
+
+  /* ---------------- SAMSUNG A SERIES ---------------- */
+  { id:'a57', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A57',
+    aliases:['galaxy a57','a57'],
+    image:'', specNote:'Mid-range AMOLED display, all-day battery, triple camera.',
+    variants:[ v({storage:'256GB',ram:'12GB',price:1400000}), v({storage:'256GB',price:1250000}) ] },
+
+  { id:'a56', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A56',
+    aliases:['galaxy a56','a56'],
+    image:'', specNote:'Mid-range AMOLED display, all-day battery, triple camera.',
+    variants:[ v({storage:'256GB',price:1200000}), v({storage:'128GB',price:1100000}) ] },
+
+  { id:'a54', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A54',
+    aliases:['galaxy a54','a54'],
+    image:'', specNote:'Super AMOLED display, reliable everyday performance, triple camera.',
+    variants:[ v({storage:'128GB',price:850000}) ] },
+
+  { id:'a37', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A37',
+    aliases:['galaxy a37','a37'],
+    image:'', specNote:'Entry-mid AMOLED display, all-day battery.',
+    variants:[ v({storage:'256GB',price:1250000}) ] },
+
+  { id:'a36', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A36',
+    aliases:['galaxy a36','a36'],
+    image:'', specNote:'Entry-mid AMOLED display, all-day battery.',
+    variants:[ v({storage:'128GB',price:950000}) ] },
+
+  { id:'a35', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A35',
+    aliases:['galaxy a35','a35'],
+    image:'', specNote:'Super AMOLED display, dependable mid-range performance.',
+    variants:[ v({storage:'256GB',price:950000}) ] },
+
+  { id:'a26', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A26',
+    aliases:['galaxy a26','a26'],
+    image:'', specNote:'Budget-friendly display and battery life for everyday use.',
+    variants:[ v({storage:'256GB',price:850000}), v({storage:'128GB',price:800000}) ] },
+
+  { id:'a25', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A25',
+    aliases:['galaxy a25','a25'],
+    image:'', specNote:'Budget-friendly display and battery life for everyday use.',
+    variants:[ v({storage:'256GB',price:650000}), v({storage:'128GB',price:600000}) ] },
+
+  { id:'a17', brand:'Samsung', category:'Phones', name:'Samsung Galaxy A17',
+    aliases:['galaxy a17','a17'],
+    image:'', specNote:'Entry-level display and battery life for everyday use.',
+    variants:[ v({storage:'256GB',price:680000}), v({storage:'128GB',price:620000}) ] },
+
+  /* ---------------- ONEPLUS ---------------- */
+  { id:'op13', brand:'OnePlus', category:'Phones', name:'OnePlus 13',
+    aliases:['oneplus 13','op13'],
+    image:'', specNote:'Flagship AMOLED 120Hz, Snapdragon 8 Elite, Hasselblad camera system, fast charging.',
+    variants:[ v({storage:'512GB',price:1950000}) ] },
+
+  { id:'opnordce3lite', brand:'OnePlus', category:'Phones', name:'OnePlus Nord CE 3 Lite',
+    aliases:['nord ce 3 lite','nordce3lite','nord ce3 lite','oneplus nord ce 3 lite'],
+    image:'', specNote:'Budget AMOLED display, all-day battery, dependable everyday performance.',
+    variants:[ v({price:800000}) ] },
+
+  /* ---------------- IPADS ---------------- */
+  { id:'ipad9', brand:'Apple', category:'Tablets', name:'Apple iPad (9th generation)',
+    aliases:['9th gen','ipad 9th gen','ipad9'],
+    image:'', specNote:'10.2" Retina display, A13 Bionic chip, Apple Pencil (1st gen) support.',
+    variants:[ v({storage:'64GB',price:1200000}) ] },
+
+  { id:'ipad7', brand:'Apple', category:'Tablets', name:'Apple iPad (7th generation)',
+    aliases:['7th gen','ipad 7th gen','ipad7'],
+    image:'', specNote:'10.2" Retina display, A10 Fusion chip, Apple Pencil (1st gen) support.',
+    variants:[ v({storage:'128GB',price:1100000}) ] },
+
+  /* ---------------- SAMSUNG TABS ---------------- */
+  { id:'tabs8plus', brand:'Samsung', category:'Tablets', name:'Samsung Galaxy Tab S8+',
+    aliases:['tab s8+','tab s8 plus','s8+ tab','s8plus'],
+    image:'', specNote:'12.4" Super AMOLED 120Hz, Snapdragon 8 Gen 1, S Pen included.',
+    variants:[ v({storage:'128GB',price:1350000}) ] },
+
+  { id:'taba11plus', brand:'Samsung', category:'Tablets', name:'Samsung Galaxy Tab A11+',
+    aliases:['tab a11+','tab a11 plus','a11+ tab','a11plus'],
+    image:'', specNote:'Everyday LCD tablet, all-day battery.',
+    variants:[ v({storage:'256GB',price:1000000}) ] },
+
+  { id:'taba9', brand:'Samsung', category:'Tablets', name:'Samsung Galaxy Tab A9',
+    aliases:['tab a9','a9 tab'],
+    image:'', specNote:'Compact everyday tablet, quad-speaker audio.',
+    variants:[ v({storage:'64GB',price:550000}) ] },
+
+  /* ---------------- WATCHES ---------------- */
+  { id:'awultra2', brand:'Apple', category:'Watches', name:'Apple Watch Ultra 2',
+    aliases:['watch ultra 2','ultra 2','apple watch ultra 2','awultra2'],
+    image:'', specNote:'49mm titanium case, always-on Retina display, dual-frequency GPS, up to 36h battery.',
+    variants:[ v({price:1800000}) ] },
+
+  { id:'awse3', brand:'Apple', category:'Watches', name:'Apple Watch SE (3rd gen)',
+    aliases:['watch se3','se3','apple watch se3','watch se 3'],
+    image:'', specNote:'44mm aluminum case, Retina display, brand new / sealed unit.',
+    variants:[ v({storage:'44mm',grade:'New',price:950000}) ] },
+
+  { id:'gwatch6classic', brand:'Samsung', category:'Watches', name:'Samsung Galaxy Watch 6 Classic',
+    aliases:['watch 6 classic','galaxy watch 6 classic','watch6classic'],
+    image:'', specNote:'Rotating bezel, Super AMOLED display, advanced health tracking.',
+    variants:[ v({price:500000}) ] }
+
+  ];
+
+  /* ------------------------------------------------------------------
+     Flatten to a searchable list of {model, variant} rows for the
+     catalog browser and for scoring.
+     ------------------------------------------------------------------ */
+  var CATALOG_ROWS = [];
+  MODELS.forEach(function(m){
+    m.variants.forEach(function(vr){
+      CATALOG_ROWS.push({ model: m, variant: vr });
+    });
+  });
+
+  function variantLabel(vr){
+    var bits = [];
+    if (vr.storage) bits.push(vr.storage);
+    if (vr.ram) bits.push(vr.ram + ' RAM');
+    if (vr.esim) bits.push('eSIM');
+    if (vr.grade) bits.push(vr.grade);
+    return bits.length ? bits.join(' · ') : 'Standard';
+  }
+
+  function fullName(m, vr){
+    var bits = [m.name];
+    if (vr.storage) bits.push(vr.storage);
+    if (vr.ram) bits.push('(' + vr.ram + ' RAM)');
+    if (vr.esim) bits.push('eSIM');
+    if (vr.grade) bits.push('— ' + vr.grade);
+    return bits.join(' ');
+  }
+
+/* ==========================================================================
+   MATCHING ENGINE
+   Finds the most specific model whose alias appears in the typed title as a
+   whole token (not buried inside another word/number, e.g. typing "a17"
+   will never match the "17" family of iPhones), then narrows to the exact
+   variant using storage / RAM / eSIM / grade words found in the remaining
+   text.
+   ========================================================================== */
+
+  function normalizeQuery(s){
+    return (s || '').toLowerCase().replace(/[^a-z0-9\+\s\.\/]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // True if `needle` occurs in `haystack` as a standalone token (not glued
+  // to another letter/digit on either side).
+  function boundaryIncludes(haystack, needle){
+    if (!needle) return false;
+    var idx = haystack.indexOf(needle);
+    while (idx !== -1){
+      var before = idx === 0 ? '' : haystack[idx - 1];
+      var after = (idx + needle.length >= haystack.length) ? '' : haystack[idx + needle.length];
+      var beforeOk = !before || !/[a-z0-9]/.test(before);
+      var afterOk = !after || !/[a-z0-9]/.test(after);
+      if (beforeOk && afterOk) return true;
+      idx = haystack.indexOf(needle, idx + 1);
+    }
+    return false;
+  }
+
+  function findModelMatches(query){
+    var q = normalizeQuery(query);
+    if (!q) return [];
+    var best = [];
+    var bestLen = 0;
+    MODELS.forEach(function(m){
+      var matchedAlias = '';
+      m.aliases.forEach(function(a){
+        if (boundaryIncludes(q, a) && a.length > matchedAlias.length) matchedAlias = a;
+      });
+      if (matchedAlias){
+        if (matchedAlias.length > bestLen){
+          bestLen = matchedAlias.length;
+          best = [m];
+        } else if (matchedAlias.length === bestLen){
+          best.push(m);
+        }
       }
-    }
-  }
-  return null;
-}
-
-el('autoFillBtn').addEventListener('click', function () {
-  var title = el('pTitle').value.trim();
-  if (!title) {
-    toast('Type a product name in the Title field first', true);
-    return;
+    });
+    return best;
   }
 
-  el('autoFillStatus').textContent = 'Searching…';
-  var product = findProduct(title);
+  function pickVariant(model, query){
+    var q = normalizeQuery(query);
+    var wantsEsim = /\besim\b|\be sim\b|\be-sim\b/.test(q) || q.indexOf('esim') !== -1;
+    var wantsPowa = q.indexOf('powa') !== -1;
+    var wantsNew = /\bnew\b|\bsealed\b/.test(q);
 
-  setTimeout(function () {   // tiny delay so the status is visible
-    if (!product) {
-      el('autoFillStatus').textContent = '';
-      toast('No match found. Try “iPhone 16 Pro”, “Samsung S24”, “Pixel 9”, “iPad Pro”…', true);
-      return;
+    var storageWanted = '';
+    var tbMatch = q.match(/(\d+(?:\.\d+)?)\s*tb\b/);
+    var gbMatch = q.match(/(\d+)\s*gb\b/);
+    if (tbMatch) storageWanted = tbMatch[1] + 'TB';
+    else if (gbMatch) storageWanted = gbMatch[1] + 'GB';
+    else {
+      // Sheet shorthand rarely writes "GB" — fall back to scanning for any
+      // bare number that matches one of this model's own storage sizes.
+      model.variants.forEach(function(vr){
+        if (!vr.storage) return;
+        var num = vr.storage.replace(/[^0-9]/g, '');
+        if (!num) return;
+        if (boundaryIncludes(q, num) && num.length >= storageWanted.replace(/[^0-9]/g,'').length){
+          storageWanted = vr.storage;
+        }
+      });
     }
 
-    // Fill the form
-    if (!el('pTitle').value.toLowerCase().includes(product.brand.toLowerCase())) {
-      el('pTitle').value = product.title;
-    }
-    el('pBrand').value = product.brand;
-    el('pImage').value = product.image || '';
-    el('pGallery').value = (product.gallery || []).join('\n');
-    el('pDesc').value = product.desc || '';
+    var ramWanted = '';
+    var ramMatch = q.match(/\/?\s*(\d+)\s*gb\s*ram\b/) || q.match(/\/(\d+)\b/);
+    if (ramMatch) ramWanted = ramMatch[1] + 'GB';
 
-    // Auto categories
-    var cats = ['Smartphones'];
-    if (product.brand === 'Apple') cats.push('Apple');
-    if (product.brand === 'Samsung') cats.push('Samsung');
-    if (product.brand === 'Google') cats.push('Google Pixel');
+    var best = model.variants[0];
+    var bestScore = -1;
+    model.variants.forEach(function(vr){
+      var score = 0;
+      if (storageWanted && vr.storage === storageWanted) score += 4;
+      else if (storageWanted && vr.storage && vr.storage !== storageWanted) score -= 2;
+      if (wantsEsim === !!vr.esim) score += 2; else score -= 1;
+      if (wantsPowa && vr.grade && vr.grade.toLowerCase() === 'powa') score += 3;
+      if (!wantsPowa && vr.grade && vr.grade.toLowerCase() === 'powa') score -= 2;
+      if (wantsNew && vr.grade && vr.grade.toLowerCase() === 'new') score += 2;
+      if (ramWanted && vr.ram === ramWanted) score += 2;
+      if (score > bestScore){ bestScore = score; best = vr; }
+    });
+    return best;
+  }
+
+/* ==========================================================================
+   AUTO-FILL — wires the matching engine to the form
+   ========================================================================== */
+
+  var activeMatch = null; // { model, variant }
+
+  function applyMatch(model, variant){
+    activeMatch = { model: model, variant: variant };
+
+    el('pTitle').value = fullName(model, variant);
+    el('pBrand').value = model.brand;
+    el('pImage').value = model.image || '';
+
+    var cats = [model.category];
+    if (cats.indexOf(model.brand) === -1) cats.push(model.brand);
     el('pCats').value = cats.join(', ');
 
+    var descLines = [model.name + ' — ' + variantLabel(variant)];
+    if (model.specNote) descLines.push(model.specNote);
+    if (variant.grade) descLines.push('Condition/grade: ' + variant.grade);
+    descLines.push('Thoroughly checked and ready for use.');
+    el('pDesc').value = descLines.join('\n');
+
+    el('pPrice').value = variant.price;
+
+    renderMatchBox(model, variant, []);
     renderPreview();
-    el('autoFillStatus').textContent = 'Filled successfully';
-    toast('Auto-filled image + description');
-    setTimeout(function(){ el('autoFillStatus').textContent = ''; }, 2500);
-  }, 400);
-});
+  }
 
-/* ============ AUTH v2 (Blogger OAuth) ============ */
-var tokenClient = null;
-var accessToken = null;
-var tokenExpiresAt = 0;
-var refreshTimer = null;
-var ttlInterval = null;
-var warnDismissedForThisExpiry = false;
+  function renderMatchBox(model, variant, siblingCandidates){
+    var box = el('matchBox');
+    box.classList.add('show');
+    el('matchBadge').style.display = model ? 'inline-block' : 'none';
+    el('matchHeadText').textContent = model ? (model.name) : 'No match yet';
 
-function gisReady(){ return !!(window.google && google.accounts && google.accounts.oauth2); }
-
-function initTokenClient(clientId){
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: clientId,
-    scope: SCOPE,
-    callback: function(resp){
-      if (resp.error){
-        toast('Google sign-in failed: ' + resp.error, true);
-        setConnected(false);
-        return;
+    var html = '';
+    if (model){
+      html += '<div style="font-size:12.5px;color:#64748B;margin-bottom:6px">Selected variant — click another below if this isn\'t right:</div>';
+      html += '<div class="variant-list">';
+      model.variants.forEach(function(vr){
+        var isActive = vr === variant;
+        html += '<div class="variant-opt' + (isActive ? ' active' : '') + '" data-model="' + model.id + '" data-vidx="' + model.variants.indexOf(vr) + '">' +
+                '<span class="vname">' + variantLabel(vr) + '</span>' +
+                '<span class="vprice">' + formatPrice(vr.price, el('pCurrency').value.trim() || 'UGX') + '</span>' +
+                '</div>';
+      });
+      html += '</div>';
+      if (model.image === ''){
+        html += '<div class="no-match" style="margin-top:8px"><i class="fa fa-info-circle"></i> No stock photo saved for this model yet — use "Find photo" next to the image field.</div>';
       }
-      accessToken = resp.access_token;
-      var ttlSec = parseInt(resp.expires_in, 10) || 3600;
-      tokenExpiresAt = Date.now() + ttlSec * 1000;
-      warnDismissedForThisExpiry = false;
-      setConnected(true);
-      scheduleProactiveRefresh(ttlSec);
-      toast('Connected to Blogger');
     }
-  });
-}
-
-function scheduleProactiveRefresh(ttlSec){
-  clearTimeout(refreshTimer);
-  var lead = Math.min(120000, ttlSec * 1000 * 0.2);
-  var delay = Math.max(5000, ttlSec * 1000 - lead);
-  refreshTimer = setTimeout(function(){
-    if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
-  }, delay);
-}
-
-function setConnected(isConnected){
-  var dot = el('connDot'), text = el('connText');
-  if (isConnected){
-    dot.className = 'dot on';
-    text.textContent = 'Connected';
-    el('connectBtn').style.display = 'none';
-    el('disconnectBtn').style.display = 'inline-flex';
-    el('ttlText').style.display = 'block';
-    startTtlClock();
-  } else {
-    dot.className = 'dot';
-    text.textContent = 'Not connected';
-    el('connectBtn').style.display = 'inline-flex';
-    el('disconnectBtn').style.display = 'none';
-    el('ttlText').style.display = 'none';
-    el('warnBar').classList.remove('show');
-    clearInterval(ttlInterval);
-    clearTimeout(refreshTimer);
-    accessToken = null;
-    tokenExpiresAt = 0;
-  }
-}
-
-function startTtlClock(){
-  clearInterval(ttlInterval);
-  ttlInterval = setInterval(function(){
-    var remain = tokenExpiresAt - Date.now();
-    if (remain <= 0){
-      el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
-      el('connDot').className = 'dot warn';
-      clearInterval(ttlInterval);
-      return;
+    if (siblingCandidates && siblingCandidates.length){
+      html += '<div style="font-size:12.5px;color:#64748B;margin-top:10px">Not what you meant? Did you mean:</div>';
+      html += '<div class="ambig-list">';
+      siblingCandidates.forEach(function(m){
+        html += '<button type="button" data-modelonly="' + m.id + '">' + m.name + '</button>';
+      });
+      html += '</div>';
     }
-    var mins = Math.floor(remain / 60000), secs = Math.floor((remain % 60000) / 1000);
-    el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') + secs + 's</b>';
-    if (remain < 90000 && !warnDismissedForThisExpiry){
-      el('connDot').className = 'dot warn';
-      el('warnText').textContent = 'Your Blogger session expires in under 2 minutes.';
-      el('warnBar').classList.add('show');
-    }
-  }, 1000);
-}
+    el('matchBody').innerHTML = html;
 
-el('connectBtn').addEventListener('click', function(){
-  var clientId = el('clientId').value.trim();
-  if (!clientId){ toast('Enter your Google OAuth Client ID first', true); return; }
-  if (!gisReady()){ toast('Google sign-in script still loading, try again in a second', true); return; }
-  localStorage.setItem(LS_CLIENT, clientId);
-  if (!tokenClient) initTokenClient(clientId);
-  tokenClient.requestAccessToken({ prompt: 'consent' });
-});
-
-el('disconnectBtn').addEventListener('click', function(){
-  if (accessToken && window.google && google.accounts.oauth2.revoke){
-    google.accounts.oauth2.revoke(accessToken, function(){});
-  }
-  setConnected(false);
-  toast('Disconnected from Blogger');
-});
-
-el('warnDismiss').addEventListener('click', function(){
-  warnDismissedForThisExpiry = true;
-  el('warnBar').classList.remove('show');
-});
-el('warnRefresh').addEventListener('click', function(){
-  if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
-  el('warnBar').classList.remove('show');
-});
-
-/* ============ FORM -> DATA MODEL ============ */
-function currentProduct(){
-  var cats = el('pCats').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-  var gallery = el('pGallery').value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
-  return {
-    title: el('pTitle').value.trim(),
-    price: parseFloat(el('pPrice').value) || 0,
-    oldPrice: parseFloat(el('pOldPrice').value) || 0,
-    currency: (el('pCurrency').value.trim() || 'UGX'),
-    cats: cats,
-    sku: el('pSku').value.trim(),
-    brand: el('pBrand').value.trim(),
-    stock: el('pStock').value,
-    image: el('pImage').value.trim(),
-    gallery: gallery,
-    desc: el('pDesc').value.trim(),
-    buyUrl: el('pBuyUrl').value.trim(),
-    whatsapp: el('pWhatsapp').value.trim(),
-    postId: el('pPostId').value.trim(),
-    draft: el('pDraft').value === 'true'
-  };
-}
-
-function formatPrice(n, currency){
-  n = Math.round(n);
-  if (isNaN(n)) return currency + ' 0';
-  return currency + ' ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function escapeHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/* ============ LIVE PREVIEW ============ */
-function renderPreview(){
-  var p = currentProduct();
-
-  el('prTitle').textContent = p.title || 'Your product title';
-  el('prPrice').textContent = formatPrice(p.price, p.currency);
-  el('prRating').textContent = 'No reviews yet';
-
-  if (p.oldPrice && p.oldPrice > p.price){
-    el('prOldPrice').style.display = 'inline';
-    el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
-    var pct = Math.round((1 - p.price / p.oldPrice) * 100);
-    el('prBadge').style.display = 'block';
-    el('prBadge').textContent = '-' + pct + '%';
-    el('prDiscount').style.display = 'block';
-    el('prDiscount').textContent = 'Save ' + formatPrice(p.oldPrice - p.price, p.currency) + ' (' + pct + '% off)';
-  } else {
-    el('prOldPrice').style.display = 'none';
-    el('prBadge').style.display = 'none';
-    el('prDiscount').style.display = 'none';
-  }
-
-  if (p.image){
-    el('prImg').src = p.image;
-    el('prImg').style.display = 'block';
-    el('prNoImg').style.display = 'none';
-  } else {
-    el('prImg').style.display = 'none';
-    el('prNoImg').style.display = 'block';
-  }
-
-  var catsHtml = p.cats.map(function(c){ return '<span>' + escapeHtml(c) + '</span>'; }).join('');
-  el('prCats').innerHTML = catsHtml;
-
-  if (p.sku){
-    el('prSku').style.display = 'block';
-    el('prSku').textContent = 'SKU: ' + p.sku;
-  } else {
-    el('prSku').style.display = 'none';
-  }
-
-  if (p.stock){
-    el('prStock').style.display = 'block';
-    el('prStock').className = 'ph-stock ' + p.stock;
-    var stockLabels = {in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!', out_of_stock: 'Out of Stock'};
-    el('prStock').textContent = stockLabels[p.stock] || p.stock;
-  } else {
-    el('prStock').style.display = 'none';
-  }
-
-  el('prDesc').textContent = p.desc || 'Description preview appears here.';
-
-  if (p.whatsapp){
-    var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p.currency) + ')');
-    el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg;
-    el('prWa').style.display = 'inline-flex';
-  } else {
-    el('prWa').style.display = 'none';
-  }
-
-  el('outHtml').textContent = buildPostHtml(p);
-}
-
-/* ============ POST HTML BUILDER ============ */
-function buildPostHtml(p){
-  if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
-
-  var parts = [];
-
-  if (p.image){
-    parts.push(
-      '<div class="separator" style="clear: both; text-align: center;">' +
-      '<a href="' + p.image + '" style="margin-left:1em; margin-right:1em;">' +
-      '<img alt="' + escapeHtml(p.title) + '" border="0" src="' + p.image + '" width="640"/>' +
-      '</a></div>'
-    );
-  }
-
-  p.gallery.forEach(function(url){
-    parts.push(
-      '<div class="separator" style="clear: both; text-align: center;">' +
-      '<a href="' + url + '" style="margin-left:1em; margin-right:1em;">' +
-      '<img border="0" src="' + url + '" width="640"/></a></div>'
-    );
-  });
-
-  if (p.desc){
-    p.desc.split('\n').filter(Boolean).forEach(function(line){
-      parts.push('<p>' + escapeHtml(line) + '</p>');
+    // Wire variant picker clicks
+    el('matchBody').querySelectorAll('.variant-opt').forEach(function(node){
+      node.addEventListener('click', function(){
+        var mId = node.getAttribute('data-model');
+        var vIdx = parseInt(node.getAttribute('data-vidx'), 10);
+        var m = MODELS.filter(function(x){ return x.id === mId; })[0];
+        if (m) applyMatch(m, m.variants[vIdx]);
+      });
+    });
+    el('matchBody').querySelectorAll('[data-modelonly]').forEach(function(node){
+      node.addEventListener('click', function(){
+        var mId = node.getAttribute('data-modelonly');
+        var m = MODELS.filter(function(x){ return x.id === mId; })[0];
+        if (m) applyMatch(m, m.variants[0]);
+      });
     });
   }
 
-  if (p.oldPrice && p.oldPrice > p.price){
-    parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
-  }
-
-  parts.push('<p>price/' + (p.price || 0) + '</p>');
-
-  if (p.oldPrice && p.oldPrice > p.price){
-    parts.push('<p>[original_price:' + Math.round(p.oldPrice) + ']</p>');
-  }
-  if (p.sku){
-    parts.push('<p>[sku:' + escapeHtml(p.sku) + ']</p>');
-  }
-  if (p.brand){
-    parts.push('<p>[brand:' + escapeHtml(p.brand) + ']</p>');
-  }
-  if (p.stock){
-    parts.push('<p>[stock:' + p.stock + ']</p>');
-  }
-
-  if (p.buyUrl){
-    parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
-  }
-
-  return parts.join('\n');
-}
-
-/* ============ PUBLISH TO BLOGGER ============ */
-function buildRequestBody(p){
-  return {
-    kind: 'blogger#post',
-    title: p.title,
-    content: buildPostHtml(p),
-    labels: p.cats
-  };
-}
-
-el('publishBtn').addEventListener('click', function(){
-  var p = currentProduct();
-  var blogId = el('blogId').value.trim();
-
-  if (!accessToken){ toast('Connect to Blogger first', true); return; }
-  if (!blogId){ toast('Enter your Blog ID', true); return; }
-  if (!p.title){ toast('Give the product a title', true); return; }
-  if (!p.price || p.price <= 0){ toast('Enter a sale price', true); return; }
-
-  var isDraft = p.draft;
-  var body = buildRequestBody(p);
-  var url, method;
-
-  if (p.postId){
-    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
-    method = 'PUT';
-  } else {
-    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts' + (isDraft ? '?isDraft=true' : '');
-    method = 'POST';
-  }
-
-  el('publishBtn').disabled = true;
-  fetch(url, {
-    method: method,
-    headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-  .then(function(res){
-    if (!res.ok){
-      return res.json().then(function(err){ throw new Error((err.error && err.error.message) || res.statusText); });
+  el('autoFillBtn').addEventListener('click', function () {
+    var title = el('pTitle').value.trim();
+    if (!title) {
+      toast('Type the shop shorthand in the Title field first (e.g. "17pmx 256 esim")', true);
+      return;
     }
-    return res.json();
-  })
-  .then(function(data){
-    toast(p.postId ? 'Post updated' : (isDraft ? 'Draft saved' : 'Post published'));
-    if (data.id) el('pPostId').value = data.id;
-    if (data.url) window.open(data.url, '_blank');
-  })
-  .catch(function(err){
-    toast('Publish failed: ' + err.message, true);
-  })
-  .finally(function(){
-    el('publishBtn').disabled = false;
-  });
-});
 
-/* ============ COPY / CLEAR ============ */
-el('copyBtn').addEventListener('click', function(){
-  var html = buildPostHtml(currentProduct());
-  navigator.clipboard.writeText(html).then(function(){
-    toast('Post HTML copied');
-  }).catch(function(){
-    toast('Could not copy — select the box text manually', true);
-  });
-});
+    el('autoFillStatus').textContent = 'Searching…';
 
-el('clearBtn').addEventListener('click', function(){
-  ['pTitle','pPrice','pOldPrice','pCats','pSku','pBrand','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
-    el(id).value = '';
+    setTimeout(function () {
+      var matches = findModelMatches(title);
+
+      if (matches.length === 0){
+        el('autoFillStatus').textContent = '';
+        el('matchBox').classList.add('show');
+        el('matchHeadText').textContent = 'No match found';
+        el('matchBadge').style.display = 'none';
+        el('matchBody').innerHTML = '<div class="no-match">Nothing in the price list matches "' + title.replace(/[<>]/g,'') + '". Browse the catalog above, or check spelling — try short shop-style terms like "17pmx", "fold 6", "s25 ultra", "a26".</div>';
+        toast('No match found for that title', true);
+        return;
+      }
+
+      if (matches.length > 1){
+        // Ambiguous at the model level (rare) — let the person choose.
+        el('autoFillStatus').textContent = '';
+        el('matchBox').classList.add('show');
+        el('matchHeadText').textContent = 'Multiple matches — pick one';
+        el('matchBadge').style.display = 'none';
+        var html = '<div class="ambig-list">';
+        matches.forEach(function(m){
+          html += '<button type="button" data-modelonly="' + m.id + '">' + m.name + '</button>';
+        });
+        html += '</div>';
+        el('matchBody').innerHTML = html;
+        el('matchBody').querySelectorAll('[data-modelonly]').forEach(function(node){
+          node.addEventListener('click', function(){
+            var mId = node.getAttribute('data-modelonly');
+            var m = MODELS.filter(function(x){ return x.id === mId; })[0];
+            if (m) applyMatch(m, pickVariant(m, title));
+          });
+        });
+        toast('Found more than one match — choose the right one');
+        return;
+      }
+
+      var model = matches[0];
+      var variant = pickVariant(model, title);
+      applyMatch(model, variant);
+      el('autoFillStatus').textContent = 'Matched';
+      toast('Auto-filled from the price list');
+      setTimeout(function(){ el('autoFillStatus').textContent = ''; }, 2500);
+    }, 150);
   });
-  el('pCurrency').value = 'UGX';
-  el('pStock').value = 'in_stock';
-  el('pDraft').value = 'false';
+
+  el('findImgBtn').addEventListener('click', function(){
+    var q = activeMatch ? activeMatch.model.name : (el('pTitle').value.trim() || 'phone');
+    window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q + ' official photo'), '_blank');
+  });
+
+/* ==========================================================================
+   CATALOG BROWSER
+   ========================================================================== */
+  var CATEGORIES = ['All'].concat(uniq(MODELS.map(function(m){ return m.category; })));
+  function uniq(arr){ var seen = {}; var out = []; arr.forEach(function(x){ if(!seen[x]){ seen[x]=1; out.push(x);} }); return out; }
+
+  var activeCategory = 'All';
+
+  function renderCatGroups(){
+    el('catGroups').innerHTML = CATEGORIES.map(function(c){
+      return '<button type="button" data-cat="' + escapeHtml(c) + '" class="' + (c === activeCategory ? 'active' : '') + '">' + escapeHtml(c) + '</button>';
+    }).join('');
+    el('catGroups').querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        activeCategory = btn.getAttribute('data-cat');
+        renderCatGroups();
+        renderCatTable();
+      });
+    });
+  }
+
+  function renderCatTable(){
+    var q = normalizeQuery(el('catSearch').value);
+    var rows = CATALOG_ROWS.filter(function(r){
+      if (activeCategory !== 'All' && r.model.category !== activeCategory) return false;
+      if (!q) return true;
+      var hay = normalizeQuery(r.model.name + ' ' + r.model.brand + ' ' + variantLabel(r.variant) + ' ' + r.model.aliases.join(' '));
+      return q.split(' ').every(function(tok){ return hay.indexOf(tok) !== -1; });
+    });
+
+    if (!rows.length){
+      el('catTable').innerHTML = '<div class="cat-empty">No items match that search.</div>';
+      return;
+    }
+
+    var html = rows.map(function(r){
+      return '<div class="cat-row" data-model="' + r.model.id + '" data-vidx="' + r.model.variants.indexOf(r.variant) + '">' +
+        '<span class="cn">' + escapeHtml(r.model.name) + '<small>' + escapeHtml(variantLabel(r.variant)) + '</small></span>' +
+        '<span class="cp">' + formatPrice(r.variant.price, el('pCurrency').value.trim() || 'UGX') + '</span>' +
+        '</div>';
+    }).join('');
+    el('catTable').innerHTML = html;
+
+    el('catTable').querySelectorAll('.cat-row').forEach(function(node){
+      node.addEventListener('click', function(){
+        var mId = node.getAttribute('data-model');
+        var vIdx = parseInt(node.getAttribute('data-vidx'), 10);
+        var m = MODELS.filter(function(x){ return x.id === mId; })[0];
+        if (m) applyMatch(m, m.variants[vIdx]);
+        toast('Loaded ' + m.name + ' into the form');
+        window.scrollTo({ top: el('pTitle').getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+      });
+    });
+  }
+
+  el('catSearch').addEventListener('input', renderCatTable);
+  renderCatGroups();
+  renderCatTable();
+
+/* ==========================================================================
+   AUTH v2 (Blogger OAuth)
+   ========================================================================== */
+  var tokenClient = null;
+  var accessToken = null;
+  var tokenExpiresAt = 0;
+  var refreshTimer = null;
+  var ttlInterval = null;
+  var warnDismissedForThisExpiry = false;
+
+  function gisReady(){ return !!(window.google && google.accounts && google.accounts.oauth2); }
+
+  function initTokenClient(clientId){
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: SCOPE,
+      callback: function(resp){
+        if (resp.error){
+          toast('Google sign-in failed: ' + resp.error, true);
+          setConnected(false);
+          return;
+        }
+        accessToken = resp.access_token;
+        var ttlSec = parseInt(resp.expires_in, 10) || 3600;
+        tokenExpiresAt = Date.now() + ttlSec * 1000;
+        warnDismissedForThisExpiry = false;
+        setConnected(true);
+        scheduleProactiveRefresh(ttlSec);
+        toast('Connected to Blogger');
+      }
+    });
+  }
+
+  function scheduleProactiveRefresh(ttlSec){
+    clearTimeout(refreshTimer);
+    var lead = Math.min(120000, ttlSec * 1000 * 0.2);
+    var delay = Math.max(5000, ttlSec * 1000 - lead);
+    refreshTimer = setTimeout(function(){
+      if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+    }, delay);
+  }
+
+  function setConnected(isConnected){
+    var dot = el('connDot'), text = el('connText');
+    if (isConnected){
+      dot.className = 'dot on';
+      text.textContent = 'Connected';
+      el('connectBtn').style.display = 'none';
+      el('disconnectBtn').style.display = 'inline-flex';
+      el('ttlText').style.display = 'block';
+      startTtlClock();
+    } else {
+      dot.className = 'dot';
+      text.textContent = 'Not connected';
+      el('connectBtn').style.display = 'inline-flex';
+      el('disconnectBtn').style.display = 'none';
+      el('ttlText').style.display = 'none';
+      el('warnBar').classList.remove('show');
+      clearInterval(ttlInterval);
+      clearTimeout(refreshTimer);
+      accessToken = null;
+      tokenExpiresAt = 0;
+    }
+  }
+
+  function startTtlClock(){
+    clearInterval(ttlInterval);
+    ttlInterval = setInterval(function(){
+      var remain = tokenExpiresAt - Date.now();
+      if (remain <= 0){
+        el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
+        el('connDot').className = 'dot warn';
+        clearInterval(ttlInterval);
+        return;
+      }
+      var mins = Math.floor(remain / 60000), secs = Math.floor((remain % 60000) / 1000);
+      el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') + secs + 's</b>';
+      if (remain < 90000 && !warnDismissedForThisExpiry){
+        el('connDot').className = 'dot warn';
+        el('warnText').textContent = 'Your Blogger session expires in under 2 minutes.';
+        el('warnBar').classList.add('show');
+      }
+    }, 1000);
+  }
+
+  el('connectBtn').addEventListener('click', function(){
+    var clientId = el('clientId').value.trim();
+    if (!clientId){ toast('Enter your Google OAuth Client ID first', true); return; }
+    if (!gisReady()){ toast('Google sign-in script still loading, try again in a second', true); return; }
+    localStorage.setItem(LS_CLIENT, clientId);
+    if (!tokenClient) initTokenClient(clientId);
+    tokenClient.requestAccessToken({ prompt: 'consent' });
+  });
+
+  el('disconnectBtn').addEventListener('click', function(){
+    if (accessToken && window.google && google.accounts.oauth2.revoke){
+      google.accounts.oauth2.revoke(accessToken, function(){});
+    }
+    setConnected(false);
+    toast('Disconnected from Blogger');
+  });
+
+  el('warnDismiss').addEventListener('click', function(){
+    warnDismissedForThisExpiry = true;
+    el('warnBar').classList.remove('show');
+  });
+  el('warnRefresh').addEventListener('click', function(){
+    if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+    el('warnBar').classList.remove('show');
+  });
+
+/* ==========================================================================
+   FORM -> DATA MODEL
+   ========================================================================== */
+  function currentProduct(){
+    var cats = el('pCats').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var gallery = el('pGallery').value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+    return {
+      title: el('pTitle').value.trim(),
+      price: parseFloat(el('pPrice').value) || 0,
+      oldPrice: parseFloat(el('pOldPrice').value) || 0,
+      currency: (el('pCurrency').value.trim() || 'UGX'),
+      cats: cats,
+      sku: el('pSku').value.trim(),
+      brand: el('pBrand').value.trim(),
+      stock: el('pStock').value,
+      image: el('pImage').value.trim(),
+      gallery: gallery,
+      desc: el('pDesc').value.trim(),
+      buyUrl: el('pBuyUrl').value.trim(),
+      whatsapp: el('pWhatsapp').value.trim(),
+      postId: el('pPostId').value.trim(),
+      draft: el('pDraft').value === 'true'
+    };
+  }
+
+  function formatPrice(n, currency){
+    n = Math.round(n);
+    if (isNaN(n)) return currency + ' 0';
+    return currency + ' ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+/* ==========================================================================
+   LIVE PREVIEW
+   ========================================================================== */
+  function renderPreview(){
+    var p = currentProduct();
+
+    el('prTitle').textContent = p.title || 'Your product title';
+    el('prPrice').textContent = formatPrice(p.price, p.currency);
+    el('prRating').textContent = 'No reviews yet';
+
+    if (p.oldPrice && p.oldPrice > p.price){
+      el('prOldPrice').style.display = 'inline';
+      el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
+      var pct = Math.round((1 - p.price / p.oldPrice) * 100);
+      el('prBadge').style.display = 'block';
+      el('prBadge').textContent = '-' + pct + '%';
+      el('prDiscount').style.display = 'block';
+      el('prDiscount').textContent = 'Save ' + formatPrice(p.oldPrice - p.price, p.currency) + ' (' + pct + '% off)';
+    } else {
+      el('prOldPrice').style.display = 'none';
+      el('prBadge').style.display = 'none';
+      el('prDiscount').style.display = 'none';
+    }
+
+    if (p.image){
+      el('prImg').src = p.image;
+      el('prImg').style.display = 'block';
+      el('prNoImg').style.display = 'none';
+    } else {
+      el('prImg').style.display = 'none';
+      el('prNoImg').innerHTML = 'No image yet<br/><a href="javascript:;" id="prFindImg">Find a photo</a>';
+      el('prNoImg').style.display = 'flex';
+      var fi = document.getElementById('prFindImg');
+      if (fi) fi.addEventListener('click', function(){ el('findImgBtn').click(); });
+    }
+
+    var catsHtml = p.cats.map(function(c){ return '<span>' + escapeHtml(c) + '</span>'; }).join('');
+    el('prCats').innerHTML = catsHtml;
+
+    if (p.sku){
+      el('prSku').style.display = 'block';
+      el('prSku').textContent = 'SKU: ' + p.sku;
+    } else {
+      el('prSku').style.display = 'none';
+    }
+
+    if (p.stock){
+      el('prStock').style.display = 'block';
+      el('prStock').className = 'ph-stock ' + p.stock;
+      var stockLabels = {in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!', out_of_stock: 'Out of Stock'};
+      el('prStock').textContent = stockLabels[p.stock] || p.stock;
+    } else {
+      el('prStock').style.display = 'none';
+    }
+
+    el('prDesc').textContent = p.desc || 'Description preview appears here.';
+
+    if (p.whatsapp){
+      var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p.currency) + ')');
+      el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg;
+      el('prWa').style.display = 'inline-flex';
+    } else {
+      el('prWa').style.display = 'none';
+    }
+
+    el('outHtml').textContent = buildPostHtml(p);
+  }
+
+/* ==========================================================================
+   POST HTML BUILDER
+   ========================================================================== */
+  function buildPostHtml(p){
+    if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
+
+    var parts = [];
+
+    if (p.image){
+      parts.push(
+        '<div class="separator" style="clear: both; text-align: center;">' +
+        '<a href="' + p.image + '" style="margin-left:1em; margin-right:1em;">' +
+        '<img alt="' + escapeHtml(p.title) + '" border="0" src="' + p.image + '" width="640"/>' +
+        '</a></div>'
+      );
+    }
+
+    p.gallery.forEach(function(url){
+      parts.push(
+        '<div class="separator" style="clear: both; text-align: center;">' +
+        '<a href="' + url + '" style="margin-left:1em; margin-right:1em;">' +
+        '<img border="0" src="' + url + '" width="640"/></a></div>'
+      );
+    });
+
+    if (p.desc){
+      p.desc.split('\n').filter(Boolean).forEach(function(line){
+        parts.push('<p>' + escapeHtml(line) + '</p>');
+      });
+    }
+
+    if (p.oldPrice && p.oldPrice > p.price){
+      parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
+    }
+
+    parts.push('<p>price/' + (p.price || 0) + '</p>');
+
+    if (p.oldPrice && p.oldPrice > p.price){
+      parts.push('<p>[original_price:' + Math.round(p.oldPrice) + ']</p>');
+    }
+    if (p.sku){
+      parts.push('<p>[sku:' + escapeHtml(p.sku) + ']</p>');
+    }
+    if (p.brand){
+      parts.push('<p>[brand:' + escapeHtml(p.brand) + ']</p>');
+    }
+    if (p.stock){
+      parts.push('<p>[stock:' + p.stock + ']</p>');
+    }
+
+    if (p.buyUrl){
+      parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
+    }
+
+    return parts.join('\n');
+  }
+
+/* ==========================================================================
+   PUBLISH TO BLOGGER
+   ========================================================================== */
+  function buildRequestBody(p){
+    return {
+      kind: 'blogger#post',
+      title: p.title,
+      content: buildPostHtml(p),
+      labels: p.cats
+    };
+  }
+
+  el('publishBtn').addEventListener('click', function(){
+    var p = currentProduct();
+    var blogId = el('blogId').value.trim();
+
+    if (!accessToken){ toast('Connect to Blogger first', true); return; }
+    if (!blogId){ toast('Enter your Blog ID', true); return; }
+    if (!p.title){ toast('Give the product a title', true); return; }
+    if (!p.price || p.price <= 0){ toast('Enter a sale price', true); return; }
+
+    var isDraft = p.draft;
+    var body = buildRequestBody(p);
+    var url, method;
+
+    if (p.postId){
+      url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
+      method = 'PUT';
+    } else {
+      url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts' + (isDraft ? '?isDraft=true' : '');
+      method = 'POST';
+    }
+
+    el('publishBtn').disabled = true;
+    fetch(url, {
+      method: method,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    .then(function(res){
+      if (!res.ok){
+        return res.json().then(function(err){ throw new Error((err.error && err.error.message) || res.statusText); });
+      }
+      return res.json();
+    })
+    .then(function(data){
+      toast(p.postId ? 'Post updated' : (isDraft ? 'Draft saved' : 'Post published'));
+      if (data.id) el('pPostId').value = data.id;
+      if (data.url) window.open(data.url, '_blank');
+    })
+    .catch(function(err){
+      toast('Publish failed: ' + err.message, true);
+    })
+    .finally(function(){
+      el('publishBtn').disabled = false;
+    });
+  });
+
+/* ==========================================================================
+   COPY / CLEAR
+   ========================================================================== */
+  el('copyBtn').addEventListener('click', function(){
+    var html = buildPostHtml(currentProduct());
+    navigator.clipboard.writeText(html).then(function(){
+      toast('Post HTML copied');
+    }).catch(function(){
+      toast('Could not copy — select the box text manually', true);
+    });
+  });
+
+  el('clearBtn').addEventListener('click', function(){
+    ['pTitle','pPrice','pOldPrice','pCats','pSku','pBrand','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
+      el(id).value = '';
+    });
+    el('pCurrency').value = 'UGX';
+    el('pStock').value = 'in_stock';
+    el('pDraft').value = 'false';
+    activeMatch = null;
+    el('matchBox').classList.remove('show');
+    el('matchBody').innerHTML = '';
+    renderPreview();
+  });
+
+/* ==========================================================================
+   WIRE UP LIVE UPDATES
+   ========================================================================== */
+  ['pTitle','pPrice','pOldPrice','pCurrency','pCats','pSku','pBrand','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
+    .forEach(function(id){ el(id).addEventListener('input', renderPreview); });
+
+  el('pStock').addEventListener('change', renderPreview);
+
   renderPreview();
-});
-
-/* ============ WIRE UP LIVE UPDATES ============ */
-['pTitle','pPrice','pOldPrice','pCurrency','pCats','pSku','pBrand','pStock','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
-  .forEach(function(id){ el(id).addEventListener('input', renderPreview); });
-
-el('pStock').addEventListener('change', renderPreview);
-
-renderPreview();
 })();
 </script>
 </body>
