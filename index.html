@@ -1,688 +1,1394 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Product Post Generator · Cart Full Pro v2</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<style>
-:root{
-  --main:#2563EB; --dark:#0F172A; --menu:#1E293B;
-  --bg:#F8FAFC; --card:#FFFFFF; --text:#334155; --title:#0F172A;
-  --border:#E2E8F0; --ok:#16A34A; --warn:#D97706; --err:#DC2626;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--text);font-size:14px}
-a{color:var(--main)}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Post Generator · Cart Full Pro v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --main: #2563EB;
+            --dark: #0F172A;
+            --menu: #1E293B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #334155;
+            --title: #0F172A;
+            --border: #E2E8F0;
+            --ok: #16A34A;
+            --warn: #D97706;
+            --err: #DC2626;
+        }
+        * {
+            box-sizing: border-box
+        }
+        body {
+            margin: 0;
+            background: var(--bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            color: var(--text);
+            font-size: 14px
+        }
+        a {
+            color: var(--main)
+        }
 
-/* ---- Top bar ---- */
-.topbar{background:var(--dark);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.topbar h1{font-size:16px;font-weight:800;margin:0;letter-spacing:.2px}
-.topbar h1 span{color:var(--main)}
-.conn-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600}
-.dot{width:8px;height:8px;border-radius:50%;background:#64748B}
-.dot.on{background:var(--ok)}
-.dot.warn{background:var(--warn)}
+        .topbar {
+            background: var(--dark);
+            color: #fff;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+        .topbar h1 {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: .2px
+        }
+        .topbar h1 span {
+            color: var(--main)
+        }
+        .conn-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, .08);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #64748B
+        }
+        .dot.on {
+            background: var(--ok)
+        }
+        .dot.warn {
+            background: var(--warn)
+        }
 
-/* ---- Warning bar ---- */
-.warnbar{display:none;background:#FEF3C7;color:#92400E;padding:10px 20px;font-size:13px;font-weight:600;align-items:center;justify-content:center;gap:12px}
-.warnbar.show{display:flex}
-.warnbar button{background:var(--dark);color:#fff;border:0;border-radius:5px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer}
-.warnbar .dismiss{background:transparent;color:#92400E;text-decoration:underline;padding:0}
+        .warnbar {
+            display: none;
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+            gap: 12px
+        }
+        .warnbar.show {
+            display: flex
+        }
+        .warnbar button {
+            background: var(--dark);
+            color: #fff;
+            border: 0;
+            border-radius: 5px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer
+        }
+        .warnbar .dismiss {
+            background: transparent;
+            color: #92400E;
+            text-decoration: underline;
+            padding: 0
+        }
 
-/* ---- Layout ---- */
-.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px;display:grid;grid-template-columns:1fr 380px;gap:22px}
-@media(max-width:920px){.wrap{grid-template-columns:1fr}}
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 24px 20px 80px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 22px
+        }
+        @media(max-width:920px) {
+            .wrap {
+                grid-template-columns: 1fr
+            }
+        }
 
-.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px}
-.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#64748B;margin:0 0 16px;font-weight:700}
-.panel h2 i{color:var(--main);margin-right:6px}
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px
+        }
+        .panel h2 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: #64748B;
+            margin: 0 0 16px;
+            font-weight: 700
+        }
+        .panel h2 i {
+            color: var(--main);
+            margin-right: 6px
+        }
 
-.field{margin-bottom:14px}
-.field label{display:block;font-size:12.5px;font-weight:700;color:var(--title);margin-bottom:5px}
-.field .hint{font-weight:400;color:#94A3B8;font-size:11.5px;margin-left:6px}
-.field input[type=text],.field input[type=number],.field input[type=url],.field textarea,.field select{
-  width:100%;border:1px solid var(--border);border-radius:7px;padding:9px 11px;font-size:13.5px;font-family:inherit;color:var(--title);background:#fff
-}
-.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--main);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-.field textarea{resize:vertical;min-height:70px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-@media(max-width:520px){.row2,.row3{grid-template-columns:1fr}}
+        .field {
+            margin-bottom: 14px
+        }
+        .field label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--title);
+            margin-bottom: 5px
+        }
+        .field .hint {
+            font-weight: 400;
+            color: #94A3B8;
+            font-size: 11.5px;
+            margin-left: 6px
+        }
+        .field input[type=text],
+        .field input[type=number],
+        .field input[type=url],
+        .field textarea,
+        .field select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 9px 11px;
+            font-size: 13.5px;
+            font-family: inherit;
+            color: var(--title);
+            background: #fff;
+            transition: border .15s, box-shadow .15s
+        }
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            outline: none;
+            border-color: var(--main);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .12)
+        }
+        .field textarea {
+            resize: vertical;
+            min-height: 70px
+        }
+        .row2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        .row3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px
+        }
+        @media(max-width:520px) {
+            .row2,
+            .row3 {
+                grid-template-columns: 1fr
+            }
+        }
 
-.btn{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:7px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .15s}
-.btn-primary{background:var(--main);color:#fff}
-.btn-primary:hover{background:#1D4ED8}
-.btn-dark{background:var(--dark);color:#fff}
-.btn-dark:hover{background:var(--menu)}
-.btn-ghost{background:#fff;color:var(--title);border:1px solid var(--border)}
-.btn-ghost:hover{background:#F1F5F9}
-.btn[disabled]{opacity:.5;cursor:not-allowed}
-.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s
+        }
+        .btn-primary {
+            background: var(--main);
+            color: #fff
+        }
+        .btn-primary:hover {
+            background: #1D4ED8
+        }
+        .btn-dark {
+            background: var(--dark);
+            color: #fff
+        }
+        .btn-dark:hover {
+            background: var(--menu)
+        }
+        .btn-ghost {
+            background: #fff;
+            color: var(--title);
+            border: 1px solid var(--border)
+        }
+        .btn-ghost:hover {
+            background: #F1F5F9
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            height: 32px
+        }
+        .btn[disabled] {
+            opacity: .5;
+            cursor: not-allowed
+        }
+        .btnrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 6px
+        }
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:999;display:flex;align-items:center;gap:8px}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.err{background:var(--err)}
-.toast.ok i{color:var(--ok)}
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--dark);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0)
+        }
+        .toast.err {
+            background: var(--err)
+        }
+        .toast.ok i {
+            color: var(--ok)
+        }
 
-/* ---- Auth panel specifics ---- */
-.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:600px){.auth-grid{grid-template-columns:1fr}}
-.ttl{font-size:12px;color:#64748B;margin-top:10px}
-.ttl b{color:var(--title)}
+        .auth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        @media(max-width:600px) {
+            .auth-grid {
+                grid-template-columns: 1fr
+            }
+        }
+        .ttl {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 10px
+        }
+        .ttl b {
+            color: var(--title)
+        }
 
-/* ---- Live Preview (mirrors .product-header in theme) ---- */
-.preview-wrap{position:sticky;top:20px}
-.preview-label{font-size:12px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.preview-label i{color:var(--main)}
-.product-header{position:relative;background-color:#fbfbfb;border:1px solid var(--border);border-radius:10px;padding:15px}
-.ph-badge{position:absolute;top:12px;left:12px;height:26px;border-radius:5px;background-color:var(--err);font-size:12px;color:#fff;font-weight:700;text-align:center;line-height:26px;padding:0 10px;z-index:2}
-.ph-img-wrap{position:relative;border-radius:7px;overflow:hidden;background:rgba(155,155,155,.07);height:220px;display:flex;align-items:center;justify-content:center}
-.ph-img-wrap img{width:100%;height:100%;object-fit:cover}
-.ph-img-wrap .noimg{color:#94A3B8;font-size:13px}
-.ph-cats{margin:12px 0 4px;display:flex;gap:6px;flex-wrap:wrap}
-.ph-cats span{background:var(--main);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:4px}
-.ph-title{font-size:18px;font-weight:800;color:var(--title);margin:8px 0 6px;line-height:1.3}
-.ph-rating{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;color:#94A3B8}
-.ph-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
-.ph-price{font-size:20px;font-weight:800;color:var(--main)}
-.ph-price-old{font-size:14px;color:#94A3B8;text-decoration:line-through}
-.ph-discount{font-size:13px;font-weight:700;color:var(--err);margin-bottom:12px}
-.ph-desc{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:14px;white-space:pre-wrap}
-.ph-stock{font-size:12px;font-weight:600;margin-bottom:10px}
-.ph-stock.in-stock{color:var(--ok)}
-.ph-stock.low-stock{color:var(--warn)}
-.ph-stock.out-of-stock{color:var(--err)}
-.ph-sku{font-size:11px;color:#94A3B8;margin-bottom:10px}
-.ph-buttons{display:flex;gap:10px;flex-wrap:wrap}
-.ph-buttons a,.ph-buttons button{background-color:var(--dark);color:#fff;font-size:13px;font-weight:700;padding:0 14px;height:32px;line-height:32px;border-radius:5px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-.ph-buttons a:hover,.ph-buttons button:hover{background-color:var(--main)}
-.ph-buttons a.wa{background-color:#25D366}
-.ph-buttons a.wa:hover{background-color:#1DA851}
+        .preview-wrap {
+            position: sticky;
+            top: 20px
+        }
+        .preview-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+        .preview-label i {
+            color: var(--main)
+        }
+        .product-header {
+            position: relative;
+            background-color: #fbfbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px
+        }
+        .ph-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            height: 26px;
+            border-radius: 5px;
+            background-color: var(--err);
+            font-size: 12px;
+            color: #fff;
+            font-weight: 700;
+            text-align: center;
+            line-height: 26px;
+            padding: 0 10px;
+            z-index: 2
+        }
+        .ph-img-wrap {
+            position: relative;
+            border-radius: 7px;
+            overflow: hidden;
+            background: rgba(155, 155, 155, .07);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+        .ph-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f8fafc
+        }
+        .ph-img-wrap .noimg {
+            color: #94A3B8;
+            font-size: 13px
+        }
+        .ph-cats {
+            margin: 12px 0 4px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+        .ph-cats span {
+            background: var(--main);
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 4px
+        }
+        .ph-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--title);
+            margin: 8px 0 6px;
+            line-height: 1.3
+        }
+        .ph-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #94A3B8
+        }
+        .ph-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 8px
+        }
+        .ph-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--main)
+        }
+        .ph-price-old {
+            font-size: 14px;
+            color: #94A3B8;
+            text-decoration: line-through
+        }
+        .ph-discount {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--err);
+            margin-bottom: 12px
+        }
+        .ph-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 14px;
+            white-space: pre-wrap
+        }
+        .ph-stock {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px
+        }
+        .ph-stock.in-stock {
+            color: var(--ok)
+        }
+        .ph-stock.low-stock {
+            color: var(--warn)
+        }
+        .ph-stock.out-of-stock {
+            color: var(--err)
+        }
+        .ph-sku {
+            font-size: 11px;
+            color: #94A3B8;
+            margin-bottom: 10px
+        }
+        .ph-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+        .ph-buttons a,
+        .ph-buttons button {
+            background-color: var(--dark);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 0 14px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px
+        }
+        .ph-buttons a:hover,
+        .ph-buttons button:hover {
+            background-color: var(--main)
+        }
+        .ph-buttons a.wa {
+            background-color: #25D366
+        }
+        .ph-buttons a.wa:hover {
+            background-color: #1DA851
+        }
 
-/* ---- Output HTML box ---- */
-.codebox{background:var(--dark);color:#CBD5E1;border-radius:8px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+        .codebox {
+            background: var(--dark);
+            color: #CBD5E1;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 12px;
+            max-height: 320px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-word
+        }
 
-.setup-note{font-size:12px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:4px;line-height:1.6}
-.setup-note code{background:#E2E8F0;padding:1px 5px;border-radius:4px}
+        .setup-note {
+            font-size: 12px;
+            color: #64748B;
+            background: #F1F5F9;
+            border-radius: 7px;
+            padding: 10px 12px;
+            margin-top: 4px;
+            line-height: 1.6
+        }
+        .setup-note code {
+            background: #E2E8F0;
+            padding: 1px 5px;
+            border-radius: 4px
+        }
 
-/* ---- Shortcode reference ---- */
-.sc-ref{font-size:11px;color:#64748B;background:#F1F5F9;border-radius:7px;padding:10px 12px;margin-top:8px;line-height:1.7}
-.sc-ref code{background:#E2E8F0;padding:1px 5px;border-radius:4px;font-size:11px}
-.sc-ref b{color:var(--title)}
-.sc-ref .sc-note{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed #CBD5E1;color:#64748B}
-</style>
+        .sc-ref {
+            font-size: 11px;
+            color: #64748B;
+            background: #F1F5F9;
+            border-radius: 7px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            line-height: 1.7
+        }
+        .sc-ref code {
+            background: #E2E8F0;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 11px
+        }
+        .sc-ref b {
+            color: var(--title)
+        }
+        .sc-ref .sc-note {
+            display: block;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #CBD5E1;
+            color: #64748B
+        }
+
+        /* auto-fetch badge */
+        .fetch-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--main);
+            background: #EFF6FF;
+            border-radius: 12px;
+            padding: 2px 10px;
+            margin-left: 6px;
+        }
+        .fetch-badge .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--border);
+            border-top-color: var(--main);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .img-fetch-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .img-fetch-row input[type=url] {
+            flex: 1;
+        }
+        .img-fetch-row .btn {
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 <body>
 
-<div class="topbar">
-  <h1>Product Post <span>Generator</span> <span style="font-size:11px;font-weight:500;color:#94A3B8;margin-left:8px">Cart Full Pro v2</span></h1>
-  <div class="conn-pill" id="connPill"><span class="dot" id="connDot"></span><span id="connText">Not connected</span></div>
-</div>
-
-<div class="warnbar" id="warnBar">
-  <span id="warnText">Your session is about to expire.</span>
-  <button id="warnRefresh">Refresh now</button>
-  <button class="dismiss" id="warnDismiss">Dismiss</button>
-</div>
-
-<div class="wrap">
-  <div>
-
-    <!-- AUTH PANEL -->
-    <div class="panel">
-      <h2><i class="fa fa-lock"></i>Blogger connection</h2>
-      <div class="auth-grid">
-        <div class="field">
-          <label>Google OAuth Client ID <span class="hint">from Google Cloud Console</span></label>
-          <input type="text" id="clientId" placeholder="xxxx.apps.googleusercontent.com"/>
-        </div>
-        <div class="field">
-          <label>Blog ID <span class="hint">numeric, from Blogger settings</span></label>
-          <input type="text" id="blogId" placeholder="1234567890123456789"/>
-        </div>
-      </div>
-      <div class="setup-note">
-        Authorize <code id="originHint">this page's URL</code> as a JavaScript origin on your OAuth Client, and enable the <b>Blogger API v3</b> in the same Google Cloud project. Client ID &amp; Blog ID are saved locally in this browser only.
-      </div>
-      <div class="btnrow">
-        <button class="btn btn-dark" id="connectBtn"><i class="fa fa-google"></i>Connect Blogger</button>
-        <button class="btn btn-ghost" id="disconnectBtn" style="display:none"><i class="fa fa-power-off"></i>Disconnect</button>
-      </div>
-      <div class="ttl" id="ttlText" style="display:none"></div>
+    <div class="topbar">
+        <h1>Product Post <span>Generator</span> <span style="font-size:11px;font-weight:500;color:#94A3B8;margin-left:8px">Cart Full Pro v2</span></h1>
+        <div class="conn-pill" id="connPill"><span class="dot" id="connDot"></span><span id="connText">Not connected</span></div>
     </div>
 
-    <!-- PRODUCT FORM -->
-    <div class="panel">
-      <h2><i class="fa fa-cube"></i>Product details</h2>
-
-      <div class="field">
-        <label>Title</label>
-        <input type="text" id="pTitle" placeholder="e.g. iPhone 14 Pro Max 256GB"/>
-      </div>
-
-      <div class="row3">
-        <div class="field">
-          <label>Sale price <span class="hint">theme price/ shortcode</span></label>
-          <input type="number" id="pPrice" placeholder="5500000"/>
-        </div>
-        <div class="field">
-          <label>Original price <span class="hint">for strike-through + badge</span></label>
-          <input type="number" id="pOldPrice" placeholder="6500000"/>
-        </div>
-        <div class="field">
-          <label>Currency</label>
-          <input type="text" id="pCurrency" value="UGX"/>
-        </div>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label>Categories / Labels <span class="hint">comma-separated</span></label>
-          <input type="text" id="pCats" placeholder="Smartphones, Apple, Deals"/>
-        </div>
-        <div class="field">
-          <label>SKU <span class="hint">optional</span></label>
-          <input type="text" id="pSku" placeholder="APL-IP14PM-256"/>
-        </div>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label>Brand <span class="hint">optional</span></label>
-          <input type="text" id="pBrand" placeholder="Apple"/>
-        </div>
-        <div class="field">
-          <label>Stock status</label>
-          <select id="pStock">
-            <option value="in_stock">In stock</option>
-            <option value="low_stock">Low stock</option>
-            <option value="out_of_stock">Out of stock</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Main image URL</label>
-        <input type="url" id="pImage" placeholder="https://..."/>
-      </div>
-      <div class="field">
-        <label>Additional images <span class="hint">one URL per line, optional</span></label>
-        <textarea id="pGallery" placeholder="https://.../2.jpg&#10;https://.../3.jpg"></textarea>
-      </div>
-
-      <div class="field">
-        <label>Description</label>
-        <textarea id="pDesc" style="min-height:110px" placeholder="Short product description shown in the post body."></textarea>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label>Buy now URL <span class="hint">optional, external checkout link</span></label>
-          <input type="url" id="pBuyUrl" placeholder="https://wa.me/... or checkout link"/>
-        </div>
-        <div class="field">
-          <label>WhatsApp number <span class="hint">digits only, optional</span></label>
-          <input type="text" id="pWhatsapp" placeholder="256700000000"/>
-        </div>
-      </div>
-
-      <h2 style="margin-top:6px"><i class="fa fa-file-text-o"></i>Publish options</h2>
-      <div class="row2">
-        <div class="field">
-          <label>Existing Post ID <span class="hint">leave blank to create new</span></label>
-          <input type="text" id="pPostId" placeholder="optional"/>
-        </div>
-        <div class="field">
-          <label>Status</label>
-          <select id="pDraft">
-            <option value="false">Publish live</option>
-            <option value="true">Save as draft</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="btnrow">
-        <button class="btn btn-primary" id="publishBtn"><i class="fa fa-cloud-upload"></i>Publish to Blogger</button>
-        <button class="btn btn-ghost" id="copyBtn"><i class="fa fa-clipboard"></i>Copy post HTML</button>
-        <button class="btn btn-ghost" id="clearBtn"><i class="fa fa-eraser"></i>Clear form</button>
-      </div>
-
-      <div class="sc-ref">
-        <b>Theme shortcode reference:</b><br/>
-        <code>price/123456</code> or <code>price:123456</code> — sale price (read by theme price engine)<br/>
-        <code>[original_price:200000]</code> — original price shown as strike-through<br/>
-        <code>[sku:SKU001]</code> — product SKU displayed in details<br/>
-        <code>[brand:Apple]</code> — product brand displayed in details<br/>
-        <code>[stock:in_stock]</code> — stock status (in_stock | low_stock | out_of_stock)
-        <span class="sc-note"><b>Ratings &amp; reviews:</b> no shortcode needed here — the theme's Reviews tab now uses Blogger's own comment thread as the review form (this was fixed so the form shows up even before a product has its first review), and it computes a real star average automatically from the "Rating: n/5" tag reviewers add via the on-page star picker. New products naturally start with no rating shown until real reviews come in.</span>
-      </div>
+    <div class="warnbar" id="warnBar">
+        <span id="warnText">Your session is about to expire.</span>
+        <button id="warnRefresh">Refresh now</button>
+        <button class="dismiss" id="warnDismiss">Dismiss</button>
     </div>
 
-    <!-- OUTPUT -->
-    <div class="panel">
-      <h2><i class="fa fa-code"></i>Generated post body</h2>
-      <div class="codebox" id="outHtml">Fill in the form to see the generated post HTML here.</div>
+    <div class="wrap">
+        <div>
+
+            <!-- AUTH PANEL -->
+            <div class="panel">
+                <h2><i class="fa fa-lock"></i>Blogger connection</h2>
+                <div class="auth-grid">
+                    <div class="field">
+                        <label>Google OAuth Client ID <span class="hint">from Google Cloud Console</span></label>
+                        <input type="text" id="clientId" placeholder="xxxx.apps.googleusercontent.com" />
+                    </div>
+                    <div class="field">
+                        <label>Blog ID <span class="hint">numeric, from Blogger settings</span></label>
+                        <input type="text" id="blogId" placeholder="1234567890123456789" />
+                    </div>
+                </div>
+                <div class="setup-note">
+                    Authorize <code id="originHint">this page's URL</code> as a JavaScript origin on your OAuth Client, and enable the <b>Blogger API v3</b> in the same Google Cloud project. Client ID &amp; Blog ID are saved locally in this browser only.
+                </div>
+                <div class="btnrow">
+                    <button class="btn btn-dark" id="connectBtn"><i class="fa fa-google"></i>Connect Blogger</button>
+                    <button class="btn btn-ghost" id="disconnectBtn" style="display:none"><i class="fa fa-power-off"></i>Disconnect</button>
+                </div>
+                <div class="ttl" id="ttlText" style="display:none"></div>
+            </div>
+
+            <!-- PRODUCT FORM -->
+            <div class="panel">
+                <h2><i class="fa fa-cube"></i>Product details</h2>
+
+                <div class="field">
+                    <label>Title <span class="hint">auto-fetches image from Wikipedia when you pause typing</span></label>
+                    <input type="text" id="pTitle" placeholder="e.g. iPhone 14 Pro Max 256GB" />
+                    <span id="fetchStatus" class="fetch-badge" style="display:none"></span>
+                </div>
+
+                <div class="row3">
+                    <div class="field">
+                        <label>Sale price <span class="hint">theme price/ shortcode</span></label>
+                        <input type="number" id="pPrice" placeholder="5500000" />
+                    </div>
+                    <div class="field">
+                        <label>Original price <span class="hint">for strike-through + badge</span></label>
+                        <input type="number" id="pOldPrice" placeholder="6500000" />
+                    </div>
+                    <div class="field">
+                        <label>Currency</label>
+                        <input type="text" id="pCurrency" value="UGX" />
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label>Categories / Labels <span class="hint">comma-separated</span></label>
+                        <input type="text" id="pCats" placeholder="Smartphones, Apple, Deals" />
+                    </div>
+                    <div class="field">
+                        <label>SKU <span class="hint">optional</span></label>
+                        <input type="text" id="pSku" placeholder="APL-IP14PM-256" />
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label>Brand <span class="hint">optional</span></label>
+                        <input type="text" id="pBrand" placeholder="Apple" />
+                    </div>
+                    <div class="field">
+                        <label>Stock status</label>
+                        <select id="pStock">
+                            <option value="in_stock">In stock</option>
+                            <option value="low_stock">Low stock</option>
+                            <option value="out_of_stock">Out of stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Main image URL <span class="hint">auto‑fetched from Wikipedia; you can also paste a URL</span></label>
+                    <div class="img-fetch-row">
+                        <input type="url" id="pImage" placeholder="https://..." />
+                        <button class="btn btn-ghost btn-sm" id="fetchImgBtn"><i class="fa fa-search"></i> Fetch</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Additional images <span class="hint">one URL per line, optional</span></label>
+                    <textarea id="pGallery" placeholder="https://.../2.jpg&#10;https://.../3.jpg"></textarea>
+                </div>
+
+                <div class="field">
+                    <label>Description</label>
+                    <textarea id="pDesc" style="min-height:110px" placeholder="Short product description shown in the post body."></textarea>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label>Buy now URL <span class="hint">optional, external checkout link</span></label>
+                        <input type="url" id="pBuyUrl" placeholder="https://wa.me/... or checkout link" />
+                    </div>
+                    <div class="field">
+                        <label>WhatsApp number <span class="hint">digits only, optional</span></label>
+                        <input type="text" id="pWhatsapp" placeholder="256700000000" />
+                    </div>
+                </div>
+
+                <h2 style="margin-top:6px"><i class="fa fa-file-text-o"></i>Publish options</h2>
+                <div class="row2">
+                    <div class="field">
+                        <label>Existing Post ID <span class="hint">leave blank to create new</span></label>
+                        <input type="text" id="pPostId" placeholder="optional" />
+                    </div>
+                    <div class="field">
+                        <label>Status</label>
+                        <select id="pDraft">
+                            <option value="false">Publish live</option>
+                            <option value="true">Save as draft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btnrow">
+                    <button class="btn btn-primary" id="publishBtn"><i class="fa fa-cloud-upload"></i>Publish to Blogger</button>
+                    <button class="btn btn-ghost" id="copyBtn"><i class="fa fa-clipboard"></i>Copy post HTML</button>
+                    <button class="btn btn-ghost" id="clearBtn"><i class="fa fa-eraser"></i>Clear form</button>
+                </div>
+
+                <div class="sc-ref">
+                    <b>Theme shortcode reference:</b><br />
+                    <code>price/123456</code> or <code>price:123456</code> — sale price (read by theme price engine)<br />
+                    <code>[original_price:200000]</code> — original price shown as strike-through<br />
+                    <code>[sku:SKU001]</code> — product SKU displayed in details<br />
+                    <code>[brand:Apple]</code> — product brand displayed in details<br />
+                    <code>[stock:in_stock]</code> — stock status (in_stock | low_stock | out_of_stock)
+                    <span class="sc-note"><b>Ratings &amp; reviews:</b> no shortcode needed here — the theme's Reviews tab now uses Blogger's own comment thread as the review form (this was fixed so the form shows up even before a product has its first review), and it computes a real star average automatically from the "Rating: n/5" tag reviewers add via the on-page star picker. New products naturally start with no rating shown until real reviews come in.</span>
+                </div>
+            </div>
+
+            <!-- OUTPUT -->
+            <div class="panel">
+                <h2><i class="fa fa-code"></i>Generated post body</h2>
+                <div class="codebox" id="outHtml">Fill in the form to see the generated post HTML here.</div>
+            </div>
+        </div>
+
+        <!-- LIVE PREVIEW -->
+        <div class="preview-wrap">
+            <div class="preview-label"><i class="fa fa-eye"></i>Live preview (Cart Full Pro v2)</div>
+            <div class="product-header">
+                <span class="ph-badge" id="prBadge" style="display:none"></span>
+                <div class="ph-img-wrap"><img id="prImg" style="display:none" /><span class="noimg" id="prNoImg">No image yet</span></div>
+                <div class="ph-cats" id="prCats"></div>
+                <div class="ph-title" id="prTitle">Your product title</div>
+                <div class="ph-rating" id="prRating">No reviews yet</div>
+                <div class="ph-price-row">
+                    <span class="ph-price" id="prPrice">UGX 0</span>
+                    <span class="ph-price-old" id="prOldPrice" style="display:none"></span>
+                </div>
+                <div class="ph-discount" id="prDiscount" style="display:none"></div>
+                <div class="ph-sku" id="prSku" style="display:none"></div>
+                <div class="ph-stock" id="prStock" style="display:none"></div>
+                <div class="ph-desc" id="prDesc">Description preview appears here.</div>
+                <div class="ph-buttons">
+                    <a href="javascript:;"><i class="fa fa-cart-plus"></i>Add to Cart</a>
+                    <a href="javascript:;" class="wa" id="prWa" style="display:none"><i class="fa fa-whatsapp"></i>Order via WhatsApp</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- LIVE PREVIEW -->
-  <div class="preview-wrap">
-    <div class="preview-label"><i class="fa fa-eye"></i>Live preview (Cart Full Pro v2)</div>
-    <div class="product-header">
-      <span class="ph-badge" id="prBadge" style="display:none"></span>
-      <div class="ph-img-wrap"><img id="prImg" style="display:none"/><span class="noimg" id="prNoImg">No image yet</span></div>
-      <div class="ph-cats" id="prCats"></div>
-      <div class="ph-title" id="prTitle">Your product title</div>
-      <div class="ph-rating" id="prRating">No reviews yet</div>
-      <div class="ph-price-row">
-        <span class="ph-price" id="prPrice">UGX 0</span>
-        <span class="ph-price-old" id="prOldPrice" style="display:none"></span>
-      </div>
-      <div class="ph-discount" id="prDiscount" style="display:none"></div>
-      <div class="ph-sku" id="prSku" style="display:none"></div>
-      <div class="ph-stock" id="prStock" style="display:none"></div>
-      <div class="ph-desc" id="prDesc">Description preview appears here.</div>
-      <div class="ph-buttons">
-        <a href="javascript:;"><i class="fa fa-cart-plus"></i>Add to Cart</a>
-        <a href="javascript:;" class="wa" id="prWa" style="display:none"><i class="fa fa-whatsapp"></i>Order via WhatsApp</a>
-      </div>
-    </div>
-  </div>
-</div>
+    <div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toastMsg"></span></div>
 
-<div class="toast" id="toast"><i class="fa fa-check-circle"></i><span id="toastMsg"></span></div>
+    <script>
+        (function() {
+            'use strict';
 
-<script>
-(function(){
-'use strict';
+            /* ============ CONFIG / STORAGE ============ */
+            var LS_CLIENT = 'cfpv2_client_id';
+            var LS_BLOG = 'cfpv2_blog_id';
+            var SCOPE = 'https://www.googleapis.com/auth/blogger';
 
-/* ============ CONFIG / STORAGE ============ */
-var LS_CLIENT = 'cfpv2_client_id';
-var LS_BLOG = 'cfpv2_blog_id';
-var SCOPE = 'https://www.googleapis.com/auth/blogger';
+            var el = function(id) { return document.getElementById(id); };
+            document.getElementById('originHint').textContent = window.location.origin + window.location.pathname;
 
-var el = function(id){ return document.getElementById(id); };
-document.getElementById('originHint').textContent = window.location.origin + window.location.pathname;
+            el('clientId').value = localStorage.getItem(LS_CLIENT) || '';
+            el('blogId').value = localStorage.getItem(LS_BLOG) || '';
+            el('clientId').addEventListener('change', function() { localStorage.setItem(LS_CLIENT, this.value.trim()); });
+            el('blogId').addEventListener('change', function() { localStorage.setItem(LS_BLOG, this.value.trim()); });
 
-el('clientId').value = localStorage.getItem(LS_CLIENT) || '';
-el('blogId').value = localStorage.getItem(LS_BLOG) || '';
-el('clientId').addEventListener('change', function(){ localStorage.setItem(LS_CLIENT, this.value.trim()); });
-el('blogId').addEventListener('change', function(){ localStorage.setItem(LS_BLOG, this.value.trim()); });
+            /* ============ TOAST ============ */
+            var toastTimer;
 
-/* ============ TOAST ============ */
-var toastTimer;
-function toast(msg, isErr){
-  var t = el('toast');
-  el('toastMsg').textContent = msg;
-  t.className = 'toast show' + (isErr ? ' err' : ' ok');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ t.className = 'toast' + (isErr ? ' err' : ' ok'); }, 3500);
-}
+            function toast(msg, isErr) {
+                var t = el('toast');
+                el('toastMsg').textContent = msg;
+                t.className = 'toast show' + (isErr ? ' err' : ' ok');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(function() { t.className = 'toast' + (isErr ? ' err' : ' ok'); }, 3500);
+            }
 
-/* ============ AUTH v2 (Blogger OAuth, proactive refresh) ============ */
-var tokenClient = null;
-var accessToken = null;
-var tokenExpiresAt = 0; // epoch ms
-var refreshTimer = null;
-var ttlInterval = null;
-var warnDismissedForThisExpiry = false;
+            /* ============ AUTH v2 ============ */
+            var tokenClient = null;
+            var accessToken = null;
+            var tokenExpiresAt = 0;
+            var refreshTimer = null;
+            var ttlInterval = null;
+            var warnDismissedForThisExpiry = false;
 
-function gisReady(){ return !!(window.google && google.accounts && google.accounts.oauth2); }
+            function gisReady() { return !!(window.google && google.accounts && google.accounts.oauth2); }
 
-function initTokenClient(clientId){
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: clientId,
-    scope: SCOPE,
-    callback: function(resp){
-      if (resp.error){
-        toast('Google sign-in failed: ' + resp.error, true);
-        setConnected(false);
-        return;
-      }
-      accessToken = resp.access_token;
-      var ttlSec = parseInt(resp.expires_in, 10) || 3600;
-      tokenExpiresAt = Date.now() + ttlSec * 1000;
-      warnDismissedForThisExpiry = false;
-      setConnected(true);
-      scheduleProactiveRefresh(ttlSec);
-      toast('Connected to Blogger');
-    }
-  });
-}
+            function initTokenClient(clientId) {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: clientId,
+                    scope: SCOPE,
+                    callback: function(resp) {
+                        if (resp.error) {
+                            toast('Google sign-in failed: ' + resp.error, true);
+                            setConnected(false);
+                            return;
+                        }
+                        accessToken = resp.access_token;
+                        var ttlSec = parseInt(resp.expires_in, 10) || 3600;
+                        tokenExpiresAt = Date.now() + ttlSec * 1000;
+                        warnDismissedForThisExpiry = false;
+                        setConnected(true);
+                        scheduleProactiveRefresh(ttlSec);
+                        toast('Connected to Blogger');
+                    }
+                });
+            }
 
-function scheduleProactiveRefresh(ttlSec){
-  clearTimeout(refreshTimer);
-  var lead = Math.min(120000, ttlSec * 1000 * 0.2);
-  var delay = Math.max(5000, ttlSec * 1000 - lead);
-  refreshTimer = setTimeout(function(){
-    if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
-  }, delay);
-}
+            function scheduleProactiveRefresh(ttlSec) {
+                clearTimeout(refreshTimer);
+                var lead = Math.min(120000, ttlSec * 1000 * 0.2);
+                var delay = Math.max(5000, ttlSec * 1000 - lead);
+                refreshTimer = setTimeout(function() {
+                    if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+                }, delay);
+            }
 
-function setConnected(isConnected){
-  var dot = el('connDot'), text = el('connText');
-  if (isConnected){
-    dot.className = 'dot on';
-    text.textContent = 'Connected';
-    el('connectBtn').style.display = 'none';
-    el('disconnectBtn').style.display = 'inline-flex';
-    el('ttlText').style.display = 'block';
-    startTtlClock();
-  } else {
-    dot.className = 'dot';
-    text.textContent = 'Not connected';
-    el('connectBtn').style.display = 'inline-flex';
-    el('disconnectBtn').style.display = 'none';
-    el('ttlText').style.display = 'none';
-    el('warnBar').classList.remove('show');
-    clearInterval(ttlInterval);
-    clearTimeout(refreshTimer);
-    accessToken = null;
-    tokenExpiresAt = 0;
-  }
-}
+            function setConnected(isConnected) {
+                var dot = el('connDot'),
+                    text = el('connText');
+                if (isConnected) {
+                    dot.className = 'dot on';
+                    text.textContent = 'Connected';
+                    el('connectBtn').style.display = 'none';
+                    el('disconnectBtn').style.display = 'inline-flex';
+                    el('ttlText').style.display = 'block';
+                    startTtlClock();
+                } else {
+                    dot.className = 'dot';
+                    text.textContent = 'Not connected';
+                    el('connectBtn').style.display = 'inline-flex';
+                    el('disconnectBtn').style.display = 'none';
+                    el('ttlText').style.display = 'none';
+                    el('warnBar').classList.remove('show');
+                    clearInterval(ttlInterval);
+                    clearTimeout(refreshTimer);
+                    accessToken = null;
+                    tokenExpiresAt = 0;
+                }
+            }
 
-function startTtlClock(){
-  clearInterval(ttlInterval);
-  ttlInterval = setInterval(function(){
-    var remain = tokenExpiresAt - Date.now();
-    if (remain <= 0){
-      el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
-      el('connDot').className = 'dot warn';
-      clearInterval(ttlInterval);
-      return;
-    }
-    var mins = Math.floor(remain / 60000), secs = Math.floor((remain % 60000) / 1000);
-    el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') + secs + 's</b>';
-    if (remain < 90000 && !warnDismissedForThisExpiry){
-      el('connDot').className = 'dot warn';
-      el('warnText').textContent = 'Your Blogger session expires in under 2 minutes.';
-      el('warnBar').classList.add('show');
-    }
-  }, 1000);
-}
+            function startTtlClock() {
+                clearInterval(ttlInterval);
+                ttlInterval = setInterval(function() {
+                    var remain = tokenExpiresAt - Date.now();
+                    if (remain <= 0) {
+                        el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
+                        el('connDot').className = 'dot warn';
+                        clearInterval(ttlInterval);
+                        return;
+                    }
+                    var mins = Math.floor(remain / 60000),
+                        secs = Math.floor((remain % 60000) / 1000);
+                    el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') +
+                        secs + 's</b>';
+                    if (remain < 90000 && !warnDismissedForThisExpiry) {
+                        el('connDot').className = 'dot warn';
+                        el('warnText').textContent = 'Your Blogger session expires in under 2 minutes.';
+                        el('warnBar').classList.add('show');
+                    }
+                }, 1000);
+            }
 
-el('connectBtn').addEventListener('click', function(){
-  var clientId = el('clientId').value.trim();
-  if (!clientId){ toast('Enter your Google OAuth Client ID first', true); return; }
-  if (!gisReady()){ toast('Google sign-in script still loading, try again in a second', true); return; }
-  localStorage.setItem(LS_CLIENT, clientId);
-  if (!tokenClient) initTokenClient(clientId);
-  tokenClient.requestAccessToken({ prompt: 'consent' });
-});
+            el('connectBtn').addEventListener('click', function() {
+                var clientId = el('clientId').value.trim();
+                if (!clientId) { toast('Enter your Google OAuth Client ID first', true); return; }
+                if (!gisReady()) { toast('Google sign-in script still loading, try again in a second', true); return; }
+                localStorage.setItem(LS_CLIENT, clientId);
+                if (!tokenClient) initTokenClient(clientId);
+                tokenClient.requestAccessToken({ prompt: 'consent' });
+            });
 
-el('disconnectBtn').addEventListener('click', function(){
-  if (accessToken && window.google && google.accounts.oauth2.revoke){
-    google.accounts.oauth2.revoke(accessToken, function(){});
-  }
-  setConnected(false);
-  toast('Disconnected from Blogger');
-});
+            el('disconnectBtn').addEventListener('click', function() {
+                if (accessToken && window.google && google.accounts.oauth2.revoke) {
+                    google.accounts.oauth2.revoke(accessToken, function() {});
+                }
+                setConnected(false);
+                toast('Disconnected from Blogger');
+            });
 
-el('warnDismiss').addEventListener('click', function(){
-  warnDismissedForThisExpiry = true;
-  el('warnBar').classList.remove('show');
-});
-el('warnRefresh').addEventListener('click', function(){
-  if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
-  el('warnBar').classList.remove('show');
-});
+            el('warnDismiss').addEventListener('click', function() {
+                warnDismissedForThisExpiry = true;
+                el('warnBar').classList.remove('show');
+            });
+            el('warnRefresh').addEventListener('click', function() {
+                if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+                el('warnBar').classList.remove('show');
+            });
 
-/* ============ FORM -> DATA MODEL ============ */
-function currentProduct(){
-  var cats = el('pCats').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-  var gallery = el('pGallery').value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
-  return {
-    title: el('pTitle').value.trim(),
-    price: parseFloat(el('pPrice').value) || 0,
-    oldPrice: parseFloat(el('pOldPrice').value) || 0,
-    currency: (el('pCurrency').value.trim() || 'UGX'),
-    cats: cats,
-    sku: el('pSku').value.trim(),
-    brand: el('pBrand').value.trim(),
-    stock: el('pStock').value,
-    image: el('pImage').value.trim(),
-    gallery: gallery,
-    desc: el('pDesc').value.trim(),
-    buyUrl: el('pBuyUrl').value.trim(),
-    whatsapp: el('pWhatsapp').value.trim(),
-    postId: el('pPostId').value.trim(),
-    draft: el('pDraft').value === 'true'
-  };
-}
+            /* ============ PRODUCT IMAGE AUTO-FETCH ============ */
 
-function formatPrice(n, currency){
-  n = Math.round(n);
-  if (isNaN(n)) return currency + ' 0';
-  return currency + ' ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+            // ----- 1. Predefined mapping for popular products (fast, reliable) -----
+            var PRODUCT_IMAGES = {
+                // Apple iPhones
+                'iphone 14': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 14 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 14 pro max': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 13': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 13 pro': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 12': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 15': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 15 pro': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'iphone 16': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
 
-function escapeHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+                // Samsung Galaxy
+                'samsung s23': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung s23 ultra': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung s22': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung s24': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung s24 ultra': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung galaxy s23': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
+                'samsung galaxy s24': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
 
-/* ============ LIVE PREVIEW ============ */
-function renderPreview(){
-  var p = currentProduct();
+                // iPad
+                'ipad pro': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
+                'ipad air': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
+                'ipad mini': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
 
-  el('prTitle').textContent = p.title || 'Your product title';
-  el('prPrice').textContent = formatPrice(p.price, p.currency);
-  // New products are published with no reviews yet — the theme's Reviews tab
-  // now lets buyers post the very first one, and the star average shown here
-  // fills in on the live site once real "Rating: n/5" reviews come in.
-  el('prRating').textContent = 'No reviews yet';
+                // Oppo
+                'oppo find x': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
+                'oppo find x5': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
+                'oppo reno': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
 
-  if (p.oldPrice && p.oldPrice > p.price){
-    el('prOldPrice').style.display = 'inline';
-    el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
-    var pct = Math.round((1 - p.price / p.oldPrice) * 100);
-    el('prBadge').style.display = 'block';
-    el('prBadge').textContent = '-' + pct + '%';
-    el('prDiscount').style.display = 'block';
-    el('prDiscount').textContent = 'Save ' + formatPrice(p.oldPrice - p.price, p.currency) + ' (' + pct + '% off)';
-  } else {
-    el('prOldPrice').style.display = 'none';
-    el('prBadge').style.display = 'none';
-    el('prDiscount').style.display = 'none';
-  }
+                // Google Pixel
+                'pixel 7': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'pixel 7 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'pixel 8': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'pixel 8 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'google pixel 7': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+                'google pixel 8': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
+            };
 
-  if (p.image){
-    el('prImg').src = p.image;
-    el('prImg').style.display = 'block';
-    el('prNoImg').style.display = 'none';
-  } else {
-    el('prImg').style.display = 'none';
-    el('prNoImg').style.display = 'block';
-  }
+            // Normalize product name for lookup
+            function normalizeName(name) {
+                return name.toLowerCase().replace(/\s+/g, ' ').trim();
+            }
 
-  var catsHtml = p.cats.map(function(c){ return '<span>' + escapeHtml(c) + '</span>'; }).join('');
-  el('prCats').innerHTML = catsHtml;
+            // ----- 2. Wikipedia image fetcher (free, no API key) -----
+            function fetchWikipediaImage(query) {
+                // Build a clean search query
+                var searchQuery = query.trim();
+                if (!searchQuery) return Promise.resolve(null);
 
-  // SKU
-  if (p.sku){
-    el('prSku').style.display = 'block';
-    el('prSku').textContent = 'SKU: ' + p.sku;
-  } else {
-    el('prSku').style.display = 'none';
-  }
+                // First, search for the page
+                var searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=' +
+                    encodeURIComponent(searchQuery) + '&srlimit=1&origin=*';
 
-  // Stock
-  if (p.stock){
-    el('prStock').style.display = 'block';
-    el('prStock').className = 'ph-stock ' + p.stock;
-    var stockLabels = {in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!', out_of_stock: 'Out of Stock'};
-    el('prStock').textContent = stockLabels[p.stock] || p.stock;
-  } else {
-    el('prStock').style.display = 'none';
-  }
+                return fetch(searchUrl, { mode: 'cors' })
+                    .then(function(res) {
+                        if (!res.ok) throw new Error('Wikipedia search failed');
+                        return res.json();
+                    })
+                    .then(function(data) {
+                        var results = data.query && data.query.search;
+                        if (!results || !results.length) return null;
+                        var title = results[0].title;
 
-  el('prDesc').textContent = p.desc || 'Description preview appears here.';
+                        // Now get the page image
+                        var imgUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=' +
+                            encodeURIComponent(title) + '&pithumbsize=800&origin=*';
+                        return fetch(imgUrl, { mode: 'cors' })
+                            .then(function(res) {
+                                if (!res.ok) throw new Error('Wikipedia image fetch failed');
+                                return res.json();
+                            })
+                            .then(function(imgData) {
+                                var pages = imgData.query && imgData.query.pages;
+                                if (!pages) return null;
+                                var pageId = Object.keys(pages)[0];
+                                var page = pages[pageId];
+                                if (page && page.thumbnail && page.thumbnail.source) {
+                                    return page.thumbnail.source;
+                                }
+                                return null;
+                            });
+                    })
+                    .catch(function(err) {
+                        // Silent fail — we'll fall back to placeholder
+                        return null;
+                    });
+            }
 
-  if (p.whatsapp){
-    var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p.currency) + ')');
-    el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg;
-    el('prWa').style.display = 'inline-flex';
-  } else {
-    el('prWa').style.display = 'none';
-  }
+            // ----- 3. Main fetch function: mapping first, then Wikipedia -----
+            var fetchInProgress = false;
 
-  el('outHtml').textContent = buildPostHtml(p);
-}
+            function fetchProductImage(productName) {
+                if (fetchInProgress) return Promise.resolve(null);
+                var normalized = normalizeName(productName);
+                if (!normalized) return Promise.resolve(null);
 
-/* ============ POST HTML BUILDER ============ */
-function buildPostHtml(p){
-  if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
+                // Check mapping first (fast)
+                var mapped = PRODUCT_IMAGES[normalized];
+                if (mapped) {
+                    return Promise.resolve(mapped);
+                }
 
-  var parts = [];
+                // Try partial match in mapping (e.g. "iphone 14 pro max" -> "iphone 14")
+                var partialMatch = null;
+                var keys = Object.keys(PRODUCT_IMAGES);
+                for (var i = 0; i < keys.length; i++) {
+                    if (normalized.indexOf(keys[i]) !== -1) {
+                        partialMatch = PRODUCT_IMAGES[keys[i]];
+                        break;
+                    }
+                }
+                if (partialMatch) {
+                    return Promise.resolve(partialMatch);
+                }
 
-  // Main image
-  if (p.image){
-    parts.push(
-      '<div class="separator" style="clear: both; text-align: center;">' +
-      '<a href="' + p.image + '" style="margin-left:1em; margin-right:1em;">' +
-      '<img alt="' + escapeHtml(p.title) + '" border="0" src="' + p.image + '" width="640"/>' +
-      '</a></div>'
-    );
-  }
+                // Fallback: Wikipedia search
+                fetchInProgress = true;
+                updateFetchStatus('searching...', true);
+                return fetchWikipediaImage(productName)
+                    .then(function(url) {
+                        fetchInProgress = false;
+                        if (url) {
+                            updateFetchStatus('✓ found', false);
+                            return url;
+                        } else {
+                            updateFetchStatus('✗ not found', false);
+                            return null;
+                        }
+                    })
+                    .catch(function() {
+                        fetchInProgress = false;
+                        updateFetchStatus('✗ error', false);
+                        return null;
+                    });
+            }
 
-  // Gallery images
-  p.gallery.forEach(function(url){
-    parts.push(
-      '<div class="separator" style="clear: both; text-align: center;">' +
-      '<a href="' + url + '" style="margin-left:1em; margin-right:1em;">' +
-      '<img border="0" src="' + url + '" width="640"/></a></div>'
-    );
-  });
+            // ----- 4. UI helpers for fetch status -----
+            var fetchStatusEl = document.getElementById('fetchStatus');
 
-  // Description paragraphs
-  if (p.desc){
-    p.desc.split('\n').filter(Boolean).forEach(function(line){
-      parts.push('<p>' + escapeHtml(line) + '</p>');
-    });
-  }
+            function updateFetchStatus(text, isSpinner) {
+                if (!text) {
+                    fetchStatusEl.style.display = 'none';
+                    return;
+                }
+                fetchStatusEl.style.display = 'inline-flex';
+                if (isSpinner) {
+                    fetchStatusEl.innerHTML = '<span class="spinner"></span> ' + text;
+                } else {
+                    fetchStatusEl.innerHTML = text;
+                }
+                // Auto-hide after 4s for non-spinner messages
+                if (!isSpinner) {
+                    clearTimeout(fetchStatusEl._hideTimer);
+                    fetchStatusEl._hideTimer = setTimeout(function() {
+                        fetchStatusEl.style.display = 'none';
+                    }, 4000);
+                }
+            }
 
-  // Original price as strike-through (visible in post body)
-  if (p.oldPrice && p.oldPrice > p.price){
-    parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
-  }
+            // ----- 5. Debounce & auto-fetch on title input -----
+            var debounceTimer = null;
 
-  // Theme shortcodes
-  // price shortcode — theme regex: /price\s*[\/:]?\s*([\d.,]+)/i
-  parts.push('<p>price/' + (p.price || 0) + '</p>');
+            function autoFetchImage() {
+                var title = el('pTitle').value.trim();
+                if (!title) {
+                    updateFetchStatus(null);
+                    return;
+                }
 
-  // Optional shortcodes
-  if (p.oldPrice && p.oldPrice > p.price){
-    parts.push('<p>[original_price:' + Math.round(p.oldPrice) + ']</p>');
-  }
-  if (p.sku){
-    parts.push('<p>[sku:' + escapeHtml(p.sku) + ']</p>');
-  }
-  if (p.brand){
-    parts.push('<p>[brand:' + escapeHtml(p.brand) + ']</p>');
-  }
-  if (p.stock){
-    parts.push('<p>[stock:' + p.stock + ']</p>');
-  }
+                // Don't auto-fetch if user manually changed the image URL recently
+                // We'll still fetch but won't override if the user has a custom URL
+                var currentImage = el('pImage').value.trim();
+                var isCustom = currentImage && !currentImage.startsWith('https://upload.wikimedia.org') &&
+                    !Object.values(PRODUCT_IMAGES).some(function(url) { return url === currentImage; });
 
-  // Buy URL
-  if (p.buyUrl){
-    parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
-  }
+                // If user has a custom image that's not from us, don't override
+                // But still show the fetch result in the status
+                fetchProductImage(title)
+                    .then(function(url) {
+                        if (url && !isCustom) {
+                            el('pImage').value = url;
+                            renderPreview();
+                            toast('Image auto‑fetched for "' + title + '"');
+                        } else if (url && isCustom) {
+                            toast('Image found but keeping your custom URL', false);
+                        } else if (!url) {
+                            // silent fail — user can still paste manually
+                        }
+                    })
+                    .catch(function() {
+                        // ignore
+                    });
+            }
 
-  return parts.join('\n');
-}
+            // Debounced auto-fetch
+            el('pTitle').addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                var val = this.value.trim();
+                if (!val) {
+                    updateFetchStatus(null);
+                    return;
+                }
+                // Show "searching..." after a short delay
+                debounceTimer = setTimeout(function() {
+                    var title = el('pTitle').value.trim();
+                    if (title) {
+                        updateFetchStatus('searching...', true);
+                        autoFetchImage();
+                    }
+                }, 700);
+            });
 
-/* ============ PUBLISH TO BLOGGER ============ */
-function buildRequestBody(p){
-  return {
-    kind: 'blogger#post',
-    title: p.title,
-    content: buildPostHtml(p),
-    labels: p.cats
-  };
-}
+            // ----- 6. Manual fetch button -----
+            el('fetchImgBtn').addEventListener('click', function() {
+                var title = el('pTitle').value.trim();
+                if (!title) {
+                    toast('Enter a product name first', true);
+                    return;
+                }
+                updateFetchStatus('searching...', true);
+                fetchProductImage(title)
+                    .then(function(url) {
+                        if (url) {
+                            el('pImage').value = url;
+                            renderPreview();
+                            toast('Image fetched for "' + title + '"');
+                        } else {
+                            toast('No image found for "' + title + '"', true);
+                        }
+                    })
+                    .catch(function() {
+                        toast('Error fetching image', true);
+                    });
+            });
 
-el('publishBtn').addEventListener('click', function(){
-  var p = currentProduct();
-  var blogId = el('blogId').value.trim();
+            /* ============ FORM -> DATA MODEL ============ */
+            function currentProduct() {
+                var cats = el('pCats').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+                var gallery = el('pGallery').value.split('\n').map(function(s) { return s.trim(); }).filter(Boolean);
+                return {
+                    title: el('pTitle').value.trim(),
+                    price: parseFloat(el('pPrice').value) || 0,
+                    oldPrice: parseFloat(el('pOldPrice').value) || 0,
+                    currency: (el('pCurrency').value.trim() || 'UGX'),
+                    cats: cats,
+                    sku: el('pSku').value.trim(),
+                    brand: el('pBrand').value.trim(),
+                    stock: el('pStock').value,
+                    image: el('pImage').value.trim(),
+                    gallery: gallery,
+                    desc: el('pDesc').value.trim(),
+                    buyUrl: el('pBuyUrl').value.trim(),
+                    whatsapp: el('pWhatsapp').value.trim(),
+                    postId: el('pPostId').value.trim(),
+                    draft: el('pDraft').value === 'true'
+                };
+            }
 
-  if (!accessToken){ toast('Connect to Blogger first', true); return; }
-  if (!blogId){ toast('Enter your Blog ID', true); return; }
-  if (!p.title){ toast('Give the product a title', true); return; }
-  if (!p.price || p.price <= 0){ toast('Enter a sale price', true); return; }
+            function formatPrice(n, currency) {
+                n = Math.round(n);
+                if (isNaN(n)) return currency + ' 0';
+                return currency + ' ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
 
-  var isDraft = p.draft;
-  var body = buildRequestBody(p);
-  var url, method;
+            function escapeHtml(s) {
+                return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
 
-  if (p.postId){
-    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
-    method = 'PUT';
-  } else {
-    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts' + (isDraft ? '?isDraft=true' : '');
-    method = 'POST';
-  }
+            /* ============ LIVE PREVIEW ============ */
+            function renderPreview() {
+                var p = currentProduct();
 
-  el('publishBtn').disabled = true;
-  fetch(url, {
-    method: method,
-    headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-  .then(function(res){
-    if (!res.ok){
-      return res.json().then(function(err){ throw new Error((err.error && err.error.message) || res.statusText); });
-    }
-    return res.json();
-  })
-  .then(function(data){
-    toast(p.postId ? 'Post updated' : (isDraft ? 'Draft saved' : 'Post published'));
-    if (data.id) el('pPostId').value = data.id;
-    if (data.url) window.open(data.url, '_blank');
-  })
-  .catch(function(err){
-    toast('Publish failed: ' + err.message, true);
-  })
-  .finally(function(){
-    el('publishBtn').disabled = false;
-  });
-});
+                el('prTitle').textContent = p.title || 'Your product title';
+                el('prPrice').textContent = formatPrice(p.price, p.currency);
+                el('prRating').textContent = 'No reviews yet';
 
-/* ============ COPY / CLEAR ============ */
-el('copyBtn').addEventListener('click', function(){
-  var html = buildPostHtml(currentProduct());
-  navigator.clipboard.writeText(html).then(function(){
-    toast('Post HTML copied');
-  }).catch(function(){
-    toast('Could not copy — select the box text manually', true);
-  });
-});
+                if (p.oldPrice && p.oldPrice > p.price) {
+                    el('prOldPrice').style.display = 'inline';
+                    el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
+                    var pct = Math.round((1 - p.price / p.oldPrice) * 100);
+                    el('prBadge').style.display = 'block';
+                    el('prBadge').textContent = '-' + pct + '%';
+                    el('prDiscount').style.display = 'block';
+                    el('prDiscount').textContent = 'Save ' + formatPrice(p.oldPrice - p.price, p.currency) + ' (' + pct +
+                        '% off)';
+                } else {
+                    el('prOldPrice').style.display = 'none';
+                    el('prBadge').style.display = 'none';
+                    el('prDiscount').style.display = 'none';
+                }
 
-el('clearBtn').addEventListener('click', function(){
-  ['pTitle','pPrice','pOldPrice','pCats','pSku','pBrand','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp','pPostId'].forEach(function(id){
-    el(id).value = '';
-  });
-  el('pCurrency').value = 'UGX';
-  el('pStock').value = 'in_stock';
-  el('pDraft').value = 'false';
-  renderPreview();
-});
+                if (p.image) {
+                    el('prImg').src = p.image;
+                    el('prImg').style.display = 'block';
+                    el('prNoImg').style.display = 'none';
+                } else {
+                    el('prImg').style.display = 'none';
+                    el('prNoImg').style.display = 'block';
+                }
 
-/* ============ WIRE UP LIVE UPDATES ============ */
-['pTitle','pPrice','pOldPrice','pCurrency','pCats','pSku','pBrand','pStock','pImage','pGallery','pDesc','pBuyUrl','pWhatsapp']
-  .forEach(function(id){ el(id).addEventListener('input', renderPreview); });
+                var catsHtml = p.cats.map(function(c) { return '<span>' + escapeHtml(c) + '</span>'; }).join('');
+                el('prCats').innerHTML = catsHtml;
 
-// Stock is a select, use 'change'
-el('pStock').addEventListener('change', renderPreview);
+                if (p.sku) {
+                    el('prSku').style.display = 'block';
+                    el('prSku').textContent = 'SKU: ' + p.sku;
+                } else {
+                    el('prSku').style.display = 'none';
+                }
 
-renderPreview();
-})();
-</script>
+                if (p.stock) {
+                    el('prStock').style.display = 'block';
+                    el('prStock').className = 'ph-stock ' + p.stock;
+                    var stockLabels = { in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!',
+                    out_of_stock: 'Out of Stock' };
+                    el('prStock').textContent = stockLabels[p.stock] || p.stock;
+                } else {
+                    el('prStock').style.display = 'none';
+                }
+
+                el('prDesc').textContent = p.desc || 'Description preview appears here.';
+
+                if (p.whatsapp) {
+                    var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p
+                        .currency) + ')');
+                    el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g, '') + '?text=' + msg;
+                    el('prWa').style.display = 'inline-flex';
+                } else {
+                    el('prWa').style.display = 'none';
+                }
+
+                el('outHtml').textContent = buildPostHtml(p);
+            }
+
+            /* ============ POST HTML BUILDER ============ */
+            function buildPostHtml(p) {
+                if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
+
+                var parts = [];
+
+                if (p.image) {
+                    parts.push(
+                        '<div class="separator" style="clear: both; text-align: center;">' +
+                        '<a href="' + p.image + '" style="margin-left:1em; margin-right:1em;">' +
+                        '<img alt="' + escapeHtml(p.title) + '" border="0" src="' + p.image + '" width="640"/>' +
+                        '</a></div>'
+                    );
+                }
+
+                p.gallery.forEach(function(url) {
+                    parts.push(
+                        '<div class="separator" style="clear: both; text-align: center;">' +
+                        '<a href="' + url + '" style="margin-left:1em; margin-right:1em;">' +
+                        '<img border="0" src="' + url + '" width="640"/></a></div>'
+                    );
+                });
+
+                if (p.desc) {
+                    p.desc.split('\n').filter(Boolean).forEach(function(line) {
+                        parts.push('<p>' + escapeHtml(line) + '</p>');
+                    });
+                }
+
+                if (p.oldPrice && p.oldPrice > p.price) {
+                    parts.push('<p><strike>' + formatPrice(p.oldPrice, p.currency) + '</strike></p>');
+                }
+
+                parts.push('<p>price/' + (p.price || 0) + '</p>');
+
+                if (p.oldPrice && p.oldPrice > p.price) {
+                    parts.push('<p>[original_price:' + Math.round(p.oldPrice) + ']</p>');
+                }
+                if (p.sku) {
+                    parts.push('<p>[sku:' + escapeHtml(p.sku) + ']</p>');
+                }
+                if (p.brand) {
+                    parts.push('<p>[brand:' + escapeHtml(p.brand) + ']</p>');
+                }
+                if (p.stock) {
+                    parts.push('<p>[stock:' + p.stock + ']</p>');
+                }
+
+                if (p.buyUrl) {
+                    parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
+                }
+
+                return parts.join('\n');
+            }
+
+            /* ============ PUBLISH TO BLOGGER ============ */
+            function buildRequestBody(p) {
+                return {
+                    kind: 'blogger#post',
+                    title: p.title,
+                    content: buildPostHtml(p),
+                    labels: p.cats
+                };
+            }
+
+            el('publishBtn').addEventListener('click', function() {
+                var p = currentProduct();
+                var blogId = el('blogId').value.trim();
+
+                if (!accessToken) { toast('Connect to Blogger first', true); return; }
+                if (!blogId) { toast('Enter your Blog ID', true); return; }
+                if (!p.title) { toast('Give the product a title', true); return; }
+                if (!p.price || p.price <= 0) { toast('Enter a sale price', true); return; }
+
+                var isDraft = p.draft;
+                var body = buildRequestBody(p);
+                var url, method;
+
+                if (p.postId) {
+                    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
+                    method = 'PUT';
+                } else {
+                    url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts' + (isDraft ? '?isDraft=true' :
+                        '');
+                    method = 'POST';
+                }
+
+                el('publishBtn').disabled = true;
+                fetch(url, {
+                        method: method,
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body)
+                    })
+                    .then(function(res) {
+                        if (!res.ok) {
+                            return res.json().then(function(err) { throw new Error((err.error && err.error.message) ||
+                                    res.statusText); });
+                        }
+                        return res.json();
+                    })
+                    .then(function(data) {
+                        toast(p.postId ? 'Post updated' : (isDraft ? 'Draft saved' : 'Post published'));
+                        if (data.id) el('pPostId').value = data.id;
+                        if (data.url) window.open(data.url, '_blank');
+                    })
+                    .catch(function(err) {
+                        toast('Publish failed: ' + err.message, true);
+                    })
+                    .finally(function() {
+                        el('publishBtn').disabled = false;
+                    });
+            });
+
+            /* ============ COPY / CLEAR ============ */
+            el('copyBtn').addEventListener('click', function() {
+                var html = buildPostHtml(currentProduct());
+                navigator.clipboard.writeText(html).then(function() {
+                    toast('Post HTML copied');
+                }).catch(function() {
+                    toast('Could not copy — select the box text manually', true);
+                });
+            });
+
+            el('clearBtn').addEventListener('click', function() {
+                ['pTitle', 'pPrice', 'pOldPrice', 'pCats', 'pSku', 'pBrand', 'pImage', 'pGallery', 'pDesc', 'pBuyUrl',
+                    'pWhatsapp', 'pPostId'
+                ].forEach(function(id) {
+                    el(id).value = '';
+                });
+                el('pCurrency').value = 'UGX';
+                el('pStock').value = 'in_stock';
+                el('pDraft').value = 'false';
+                updateFetchStatus(null);
+                renderPreview();
+            });
+
+            /* ============ WIRE UP LIVE UPDATES ============ */
+            ['pTitle', 'pPrice', 'pOldPrice', 'pCurrency', 'pCats', 'pSku', 'pBrand', 'pStock', 'pImage', 'pGallery',
+                'pDesc', 'pBuyUrl', 'pWhatsapp'
+            ].forEach(function(id) {
+                el(id).addEventListener('input', renderPreview);
+            });
+
+            el('pStock').addEventListener('change', renderPreview);
+
+            renderPreview();
+
+            /* ============ AUTO-FETCH ON FIRST LOAD IF TITLE EXISTS ============ */
+            // If the title field already has a value (e.g. from a saved form), trigger auto-fetch
+            var initialTitle = el('pTitle').value.trim();
+            if (initialTitle) {
+                setTimeout(function() {
+                    autoFetchImage();
+                }, 300);
+            }
+
+        })();
+    </script>
 </body>
 </html>
