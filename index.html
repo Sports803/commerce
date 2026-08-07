@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Product Post Generator · Cart Full Pro v2</title>
+    <title>Product Post Generator · Cart Full Pro v2 · Smart AutoFill</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer>
+    </script>
     <style>
         :root {
             --main: #2563EB;
@@ -22,19 +23,20 @@
             --err: #DC2626;
         }
         * {
-            box-sizing: border-box
+            box-sizing: border-box;
         }
         body {
             margin: 0;
             background: var(--bg);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
             color: var(--text);
-            font-size: 14px
+            font-size: 14px;
         }
         a {
-            color: var(--main)
+            color: var(--main);
         }
 
+        /* ---- Top bar ---- */
         .topbar {
             background: var(--dark);
             color: #fff;
@@ -43,16 +45,16 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 10px
+            gap: 10px;
         }
         .topbar h1 {
             font-size: 16px;
             font-weight: 800;
             margin: 0;
-            letter-spacing: .2px
+            letter-spacing: .2px;
         }
         .topbar h1 span {
-            color: var(--main)
+            color: var(--main);
         }
         .conn-pill {
             display: flex;
@@ -62,21 +64,22 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600
+            font-weight: 600;
         }
         .dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #64748B
+            background: #64748B;
         }
         .dot.on {
-            background: var(--ok)
+            background: var(--ok);
         }
         .dot.warn {
-            background: var(--warn)
+            background: var(--warn);
         }
 
+        /* ---- Warning bar ---- */
         .warnbar {
             display: none;
             background: #FEF3C7;
@@ -86,10 +89,10 @@
             font-weight: 600;
             align-items: center;
             justify-content: center;
-            gap: 12px
+            gap: 12px;
         }
         .warnbar.show {
-            display: flex
+            display: flex;
         }
         .warnbar button {
             background: var(--dark);
@@ -99,26 +102,27 @@
             padding: 5px 12px;
             font-size: 12px;
             font-weight: 700;
-            cursor: pointer
+            cursor: pointer;
         }
         .warnbar .dismiss {
             background: transparent;
             color: #92400E;
             text-decoration: underline;
-            padding: 0
+            padding: 0;
         }
 
+        /* ---- Layout ---- */
         .wrap {
             max-width: 1180px;
             margin: 0 auto;
             padding: 24px 20px 80px;
             display: grid;
             grid-template-columns: 1fr 380px;
-            gap: 22px
+            gap: 22px;
         }
         @media(max-width:920px) {
             .wrap {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
         }
 
@@ -127,7 +131,7 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px
+            margin-bottom: 20px;
         }
         .panel h2 {
             font-size: 13px;
@@ -135,28 +139,29 @@
             letter-spacing: .6px;
             color: #64748B;
             margin: 0 0 16px;
-            font-weight: 700
+            font-weight: 700;
         }
         .panel h2 i {
             color: var(--main);
-            margin-right: 6px
+            margin-right: 6px;
         }
 
         .field {
-            margin-bottom: 14px
+            margin-bottom: 14px;
+            position: relative;
         }
         .field label {
             display: block;
             font-size: 12.5px;
             font-weight: 700;
             color: var(--title);
-            margin-bottom: 5px
+            margin-bottom: 5px;
         }
         .field .hint {
             font-weight: 400;
             color: #94A3B8;
             font-size: 11.5px;
-            margin-left: 6px
+            margin-left: 6px;
         }
         .field input[type=text],
         .field input[type=number],
@@ -171,36 +176,117 @@
             font-family: inherit;
             color: var(--title);
             background: #fff;
-            transition: border .15s, box-shadow .15s
+            transition: border .2s, box-shadow .2s;
         }
         .field input:focus,
         .field textarea:focus,
         .field select:focus {
             outline: none;
             border-color: var(--main);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, .12)
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
         }
         .field textarea {
             resize: vertical;
-            min-height: 70px
+            min-height: 70px;
         }
         .row2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px
+            gap: 12px;
         }
         .row3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px
+            gap: 12px;
         }
         @media(max-width:520px) {
             .row2,
             .row3 {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
         }
 
+        /* ---- AutoComplete dropdown ---- */
+        .autocomplete-wrap {
+            position: relative;
+        }
+        .autocomplete-wrap input {
+            width: 100%;
+        }
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 7px 7px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .10);
+            max-height: 260px;
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+            margin-top: -1px;
+        }
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+        .autocomplete-dropdown .ac-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background .1s;
+        }
+        .autocomplete-dropdown .ac-item:hover {
+            background: #f1f5f9;
+        }
+        .autocomplete-dropdown .ac-item:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-dropdown .ac-item img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: #f1f5f9;
+        }
+        .autocomplete-dropdown .ac-item .ac-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .autocomplete-dropdown .ac-item .ac-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--title);
+        }
+        .autocomplete-dropdown .ac-item .ac-brand {
+            font-size: 11px;
+            color: #94A3B8;
+        }
+        .autocomplete-dropdown .ac-item .ac-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--main);
+            white-space: nowrap;
+        }
+        .autocomplete-dropdown .ac-empty {
+            padding: 16px;
+            text-align: center;
+            color: #94A3B8;
+            font-size: 13px;
+        }
+        .ac-highlight {
+            background: #DBEAFE;
+            border-radius: 2px;
+            padding: 0 2px;
+        }
+
+        /* ---- Buttons ---- */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -211,44 +297,39 @@
             font-size: 13.5px;
             font-weight: 700;
             cursor: pointer;
-            transition: background .15s
+            transition: background .15s;
         }
         .btn-primary {
             background: var(--main);
-            color: #fff
+            color: #fff;
         }
         .btn-primary:hover {
-            background: #1D4ED8
+            background: #1D4ED8;
         }
         .btn-dark {
             background: var(--dark);
-            color: #fff
+            color: #fff;
         }
         .btn-dark:hover {
-            background: var(--menu)
+            background: var(--menu);
         }
         .btn-ghost {
             background: #fff;
             color: var(--title);
-            border: 1px solid var(--border)
+            border: 1px solid var(--border);
         }
         .btn-ghost:hover {
-            background: #F1F5F9
-        }
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 12px;
-            height: 32px
+            background: #F1F5F9;
         }
         .btn[disabled] {
             opacity: .5;
-            cursor: not-allowed
+            cursor: not-allowed;
         }
         .btnrow {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 6px
+            margin-top: 6px;
         }
 
         .toast {
@@ -268,41 +349,43 @@
             z-index: 999;
             display: flex;
             align-items: center;
-            gap: 8px
+            gap: 8px;
         }
         .toast.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0)
+            transform: translateX(-50%) translateY(0);
         }
         .toast.err {
-            background: var(--err)
+            background: var(--err);
         }
         .toast.ok i {
-            color: var(--ok)
+            color: var(--ok);
         }
 
+        /* ---- Auth ---- */
         .auth-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px
+            gap: 12px;
         }
         @media(max-width:600px) {
             .auth-grid {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
         }
         .ttl {
             font-size: 12px;
             color: #64748B;
-            margin-top: 10px
+            margin-top: 10px;
         }
         .ttl b {
-            color: var(--title)
+            color: var(--title);
         }
 
+        /* ---- Live Preview ---- */
         .preview-wrap {
             position: sticky;
-            top: 20px
+            top: 20px;
         }
         .preview-label {
             font-size: 12px;
@@ -313,17 +396,17 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 6px
+            gap: 6px;
         }
         .preview-label i {
-            color: var(--main)
+            color: var(--main);
         }
         .product-header {
             position: relative;
             background-color: #fbfbfb;
             border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 15px
+            padding: 15px;
         }
         .ph-badge {
             position: absolute;
@@ -338,7 +421,7 @@
             text-align: center;
             line-height: 26px;
             padding: 0 10px;
-            z-index: 2
+            z-index: 2;
         }
         .ph-img-wrap {
             position: relative;
@@ -348,23 +431,22 @@
             height: 220px;
             display: flex;
             align-items: center;
-            justify-content: center
+            justify-content: center;
         }
         .ph-img-wrap img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background: #f8fafc
+            object-fit: cover;
         }
         .ph-img-wrap .noimg {
             color: #94A3B8;
-            font-size: 13px
+            font-size: 13px;
         }
         .ph-cats {
             margin: 12px 0 4px;
             display: flex;
             gap: 6px;
-            flex-wrap: wrap
+            flex-wrap: wrap;
         }
         .ph-cats span {
             background: var(--main);
@@ -373,14 +455,14 @@
             font-weight: 700;
             text-transform: uppercase;
             padding: 3px 9px;
-            border-radius: 4px
+            border-radius: 4px;
         }
         .ph-title {
             font-size: 18px;
             font-weight: 800;
             color: var(--title);
             margin: 8px 0 6px;
-            line-height: 1.3
+            line-height: 1.3;
         }
         .ph-rating {
             display: flex;
@@ -388,60 +470,63 @@
             gap: 6px;
             margin-bottom: 8px;
             font-size: 12px;
-            color: #94A3B8
+            color: #94A3B8;
         }
         .ph-price-row {
             display: flex;
             align-items: baseline;
             gap: 10px;
-            margin-bottom: 8px
+            margin-bottom: 8px;
         }
         .ph-price {
             font-size: 20px;
             font-weight: 800;
-            color: var(--main)
+            color: var(--main);
         }
         .ph-price-old {
             font-size: 14px;
             color: #94A3B8;
-            text-decoration: line-through
+            text-decoration: line-through;
         }
         .ph-discount {
             font-size: 13px;
             font-weight: 700;
             color: var(--err);
-            margin-bottom: 12px
+            margin-bottom: 12px;
         }
         .ph-desc {
             font-size: 13px;
             line-height: 1.6;
             color: var(--text);
             margin-bottom: 14px;
-            white-space: pre-wrap
+            white-space: pre-wrap;
+            max-height: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .ph-stock {
             font-size: 12px;
             font-weight: 600;
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
         .ph-stock.in-stock {
-            color: var(--ok)
+            color: var(--ok);
         }
         .ph-stock.low-stock {
-            color: var(--warn)
+            color: var(--warn);
         }
         .ph-stock.out-of-stock {
-            color: var(--err)
+            color: var(--err);
         }
         .ph-sku {
             font-size: 11px;
             color: #94A3B8;
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
         .ph-buttons {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap
+            flex-wrap: wrap;
         }
         .ph-buttons a,
         .ph-buttons button {
@@ -458,19 +543,20 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px
+            gap: 5px;
         }
         .ph-buttons a:hover,
         .ph-buttons button:hover {
-            background-color: var(--main)
+            background-color: var(--main);
         }
         .ph-buttons a.wa {
-            background-color: #25D366
+            background-color: #25D366;
         }
         .ph-buttons a.wa:hover {
-            background-color: #1DA851
+            background-color: #1DA851;
         }
 
+        /* ---- Output HTML box ---- */
         .codebox {
             background: var(--dark);
             color: #CBD5E1;
@@ -481,7 +567,7 @@
             max-height: 320px;
             overflow: auto;
             white-space: pre-wrap;
-            word-break: break-word
+            word-break: break-word;
         }
 
         .setup-note {
@@ -491,12 +577,12 @@
             border-radius: 7px;
             padding: 10px 12px;
             margin-top: 4px;
-            line-height: 1.6
+            line-height: 1.6;
         }
         .setup-note code {
             background: #E2E8F0;
             padding: 1px 5px;
-            border-radius: 4px
+            border-radius: 4px;
         }
 
         .sc-ref {
@@ -506,70 +592,55 @@
             border-radius: 7px;
             padding: 10px 12px;
             margin-top: 8px;
-            line-height: 1.7
+            line-height: 1.7;
         }
         .sc-ref code {
             background: #E2E8F0;
             padding: 1px 5px;
             border-radius: 4px;
-            font-size: 11px
+            font-size: 11px;
         }
         .sc-ref b {
-            color: var(--title)
+            color: var(--title);
         }
         .sc-ref .sc-note {
             display: block;
             margin-top: 8px;
             padding-top: 8px;
             border-top: 1px dashed #CBD5E1;
-            color: #64748B
+            color: #64748B;
         }
 
-        /* auto-fetch badge */
-        .fetch-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--main);
-            background: #EFF6FF;
-            border-radius: 12px;
-            padding: 2px 10px;
-            margin-left: 6px;
-        }
-        .fetch-badge .spinner {
+        /* ---- Smart fill indicator ---- */
+        .smart-badge {
             display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid var(--border);
-            border-top-color: var(--main);
-            border-radius: 50%;
-            animation: spin .7s linear infinite;
+            background: #DBEAFE;
+            color: #1D4ED8;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            letter-spacing: .3px;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .field .ac-loader {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8;
+            font-size: 14px;
+            display: none;
         }
-
-        .img-fetch-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .img-fetch-row input[type=url] {
-            flex: 1;
-        }
-        .img-fetch-row .btn {
-            flex-shrink: 0;
+        .field .ac-loader.show {
+            display: block;
         }
     </style>
 </head>
 <body>
 
     <div class="topbar">
-        <h1>Product Post <span>Generator</span> <span style="font-size:11px;font-weight:500;color:#94A3B8;margin-left:8px">Cart Full Pro v2</span></h1>
+        <h1>Product Post <span>Generator</span> <span style="font-size:11px;font-weight:500;color:#94A3B8;margin-left:8px">Cart Full Pro v2 · AutoFill</span></h1>
         <div class="conn-pill" id="connPill"><span class="dot" id="connDot"></span><span id="connText">Not connected</span></div>
     </div>
 
@@ -607,12 +678,15 @@
 
             <!-- PRODUCT FORM -->
             <div class="panel">
-                <h2><i class="fa fa-cube"></i>Product details</h2>
+                <h2><i class="fa fa-cube"></i>Product details <span class="smart-badge">🔍 AutoFill</span></h2>
 
                 <div class="field">
-                    <label>Title <span class="hint">auto-fetches image from Wikipedia when you pause typing</span></label>
-                    <input type="text" id="pTitle" placeholder="e.g. iPhone 14 Pro Max 256GB" />
-                    <span id="fetchStatus" class="fetch-badge" style="display:none"></span>
+                    <label>Title <span class="hint">start typing to search products — e.g. iPhone 14, Samsung S24, iPad</span></label>
+                    <div class="autocomplete-wrap">
+                        <input type="text" id="pTitle" placeholder="Start typing a product name…" autocomplete="off" />
+                        <span class="ac-loader" id="acLoader"><i class="fa fa-spinner fa-spin"></i></span>
+                        <div class="autocomplete-dropdown" id="acDropdown"></div>
+                    </div>
                 </div>
 
                 <div class="row3">
@@ -657,11 +731,8 @@
                 </div>
 
                 <div class="field">
-                    <label>Main image URL <span class="hint">auto‑fetched from Wikipedia; you can also paste a URL</span></label>
-                    <div class="img-fetch-row">
-                        <input type="url" id="pImage" placeholder="https://..." />
-                        <button class="btn btn-ghost btn-sm" id="fetchImgBtn"><i class="fa fa-search"></i> Fetch</button>
-                    </div>
+                    <label>Main image URL</label>
+                    <input type="url" id="pImage" placeholder="https://..." />
                 </div>
                 <div class="field">
                     <label>Additional images <span class="hint">one URL per line, optional</span></label>
@@ -669,7 +740,7 @@
                 </div>
 
                 <div class="field">
-                    <label>Description</label>
+                    <label>Description <span class="hint">full specs — auto-filled from product database</span></label>
                     <textarea id="pDesc" style="min-height:110px" placeholder="Short product description shown in the post body."></textarea>
                 </div>
 
@@ -754,12 +825,392 @@
         (function() {
             'use strict';
 
-            /* ============ CONFIG / STORAGE ============ */
-            var LS_CLIENT = 'cfpv2_client_id';
-            var LS_BLOG = 'cfpv2_blog_id';
-            var SCOPE = 'https://www.googleapis.com/auth/blogger';
+            /* ============================================================
+               PRODUCT DATABASE — includes images, specs, prices
+               ============================================================ */
+            const PRODUCTS = [{
+                id: 'iphone-16-pro',
+                name: 'Apple iPhone 16 Pro',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop',
+                gallery: [
+                    'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&h=800&fit=crop',
+                    'https://images.unsplash.com/photo-1510557880104-60a2f185bf02?w=800&h=800&fit=crop'
+                ],
+                price: 1250000,
+                oldPrice: 1450000,
+                currency: 'UGX',
+                sku: 'APL-IP16PRO-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 16 Pro (UK Used) – Technical Specifications
 
-            var el = function(id) { return document.getElementById(id); };
+                • Condition: Direct UK Used (100% Fully Functional & Tested)
+                • Display: 6.3-inch Super Retina XDR OLED with Dynamic Island, Always-On & ProMotion 120Hz (2622 x 1206, 460 ppi, Latest-Gen Ceramic Shield, up to 2,000 nits peak brightness)
+                • Processor: Apple A18 Pro Chip (3nm) with 6-Core CPU, 6-Core GPU & 16-Core Neural Engine
+                • RAM: 8 GB
+                • Storage Options: 128GB / 256GB / 512GB / 1TB
+                • Rear Cameras: Pro Triple System (48 MP Fusion f/1.78 with 2nd-Gen Sensor-Shift OIS + 48 MP Ultra-Wide f/2.2 with Macro + 12 MP Periscope Telephoto f/2.8 with 5x Optical Zoom) + LiDAR Scanner & 4K Dolby Vision Video Recording (up to 120 fps)
+                • Front Camera: 12 MP TrueDepth Camera with Autofocus (f/1.9) & 4K Dolby Vision HDR
+                • Controls: Action Button (Customizable) + Dedicated Camera Control Button
+                • Biometrics: Face ID
+                • Battery: ~3,582 mAh (Supports Fast Charging up to 50% in 30 mins, MagSafe 25W wireless, Qi2 wireless & reverse wired charging)
+                • Charging Port: USB-C (USB 3 - up to 10Gbps transfer speeds)
+                • SIM Support: Single Nano-SIM + eSIM / Dual eSIM variants (Factory Unlocked to all networks)
+                • Build: Ceramic Shield front, Textured Matte Glass back, Grade 5 Titanium Frame (IP68 Dust & Water Resistant)
+                • Network & Connectivity: 5G, 4G LTE, Wi-Fi 7, Bluetooth 5.3, 2nd-Gen Ultra Wideband (UWB), Thread, NFC, Crash Detection, Emergency SOS & Messages via satellite
+
+                Note: All units are direct original UK imports, thoroughly inspected for screen responsiveness, Dynamic Island performance, ProMotion refresh rate, Camera Control sensor accuracy, 5x Telephoto optical zoom clarity, LiDAR accuracy, Action button integrity, USB-C port functionality, speaker output, MagSafe compatibility, and reliable battery health.`
+            }, {
+                id: 'iphone-16-pro-max',
+                name: 'Apple iPhone 16 Pro Max',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=400&h=400&fit=crop',
+                gallery: [
+                    'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=800&h=800&fit=crop'
+                ],
+                price: 1450000,
+                oldPrice: 1650000,
+                currency: 'UGX',
+                sku: 'APL-IP16PM-512',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 16 Pro Max – The ultimate pro smartphone with a massive 6.9-inch Super Retina XDR display, A18 Pro chip, and a pro camera system with 5x optical zoom. All-day battery life with fast charging and USB-C connectivity. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'iphone-16',
+                name: 'Apple iPhone 16',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 950000,
+                oldPrice: 1100000,
+                currency: 'UGX',
+                sku: 'APL-IP16-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple'],
+                description: `Apple iPhone 16 – A18 chip, 6.1-inch Super Retina XDR display, dual-camera system with 48MP main sensor, USB-C port, and all-day battery life. Available in 128GB and 256GB storage options.`
+            }, {
+                id: 'iphone-15-pro-max',
+                name: 'Apple iPhone 15 Pro Max',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1510557880104-60a2f185bf02?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1200000,
+                oldPrice: 1350000,
+                currency: 'UGX',
+                sku: 'APL-IP15PM-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 15 Pro Max – 6.7-inch Super Retina XDR with ProMotion, A17 Pro chip, titanium frame, USB-C port, and a pro camera system with 5x optical zoom. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'iphone-15-pro',
+                name: 'Apple iPhone 15 Pro',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1050000,
+                oldPrice: 1200000,
+                currency: 'UGX',
+                sku: 'APL-IP15PRO-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 15 Pro – 6.1-inch Super Retina XDR with ProMotion, A17 Pro chip, titanium frame, USB-C port, and a pro camera system. Available in 128GB, 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'iphone-15',
+                name: 'Apple iPhone 15',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 850000,
+                oldPrice: 980000,
+                currency: 'UGX',
+                sku: 'APL-IP15-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple'],
+                description: `Apple iPhone 15 – 6.1-inch Super Retina XDR display, A16 Bionic chip, dual-camera system with 48MP main sensor, USB-C port, and all-day battery life. Available in 128GB and 256GB storage options.`
+            }, {
+                id: 'iphone-14-pro-max',
+                name: 'Apple iPhone 14 Pro Max',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1510557880104-60a2f185bf02?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 950000,
+                oldPrice: 1100000,
+                currency: 'UGX',
+                sku: 'APL-IP14PM-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 14 Pro Max – 6.7-inch Super Retina XDR with ProMotion, A16 Bionic chip, pro camera system with 48MP main sensor, Dynamic Island, and all-day battery life. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'iphone-14-pro',
+                name: 'Apple iPhone 14 Pro',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 850000,
+                oldPrice: 980000,
+                currency: 'UGX',
+                sku: 'APL-IP14PRO-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple', 'Flagship'],
+                description: `Apple iPhone 14 Pro – 6.1-inch Super Retina XDR with ProMotion, A16 Bionic chip, pro camera system with 48MP main sensor, Dynamic Island, and all-day battery life. Available in 128GB, 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'iphone-14',
+                name: 'Apple iPhone 14',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 700000,
+                oldPrice: 820000,
+                currency: 'UGX',
+                sku: 'APL-IP14-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Apple'],
+                description: `Apple iPhone 14 – 6.1-inch Super Retina XDR display, A15 Bionic chip, dual-camera system, and all-day battery life. Available in 128GB, 256GB, and 512GB storage options.`
+            }, {
+                id: 'samsung-galaxy-s24-ultra',
+                name: 'Samsung Galaxy S24 Ultra',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e3d2a8a2?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1100000,
+                oldPrice: 1250000,
+                currency: 'UGX',
+                sku: 'SMS-S24U-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung', 'Flagship'],
+                description: `Samsung Galaxy S24 Ultra – 6.8-inch Dynamic AMOLED 2X with 120Hz, Snapdragon 8 Gen 3, 200MP quad-camera system, S Pen, and 5000mAh battery. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'samsung-galaxy-s24-plus',
+                name: 'Samsung Galaxy S24+',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e3d2a8a2?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 850000,
+                oldPrice: 980000,
+                currency: 'UGX',
+                sku: 'SMS-S24P-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung'],
+                description: `Samsung Galaxy S24+ – 6.7-inch Dynamic AMOLED 2X with 120Hz, Snapdragon 8 Gen 3, 50MP triple-camera system, and 4900mAh battery. Available in 256GB and 512GB storage variants.`
+            }, {
+                id: 'samsung-galaxy-s24',
+                name: 'Samsung Galaxy S24',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1612448884024-3b9a5b7e92ea?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 750000,
+                oldPrice: 850000,
+                currency: 'UGX',
+                sku: 'SMS-S24-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung'],
+                description: `Samsung Galaxy S24 – 6.2-inch Dynamic AMOLED 2X with 120Hz, Snapdragon 8 Gen 3, 50MP triple-camera system, and 4000mAh battery. Available in 128GB and 256GB storage variants.`
+            }, {
+                id: 'samsung-galaxy-s23-ultra',
+                name: 'Samsung Galaxy S23 Ultra',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e3d2a8a2?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 900000,
+                oldPrice: 1050000,
+                currency: 'UGX',
+                sku: 'SMS-S23U-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung', 'Flagship'],
+                description: `Samsung Galaxy S23 Ultra – 6.8-inch Dynamic AMOLED 2X with 120Hz, Snapdragon 8 Gen 2, 200MP quad-camera system, S Pen, and 5000mAh battery. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'samsung-galaxy-s23',
+                name: 'Samsung Galaxy S23',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1612448884024-3b9a5b7e92ea?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 650000,
+                oldPrice: 750000,
+                currency: 'UGX',
+                sku: 'SMS-S23-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung'],
+                description: `Samsung Galaxy S23 – 6.1-inch Dynamic AMOLED 2X with 120Hz, Snapdragon 8 Gen 2, 50MP triple-camera system, and 3900mAh battery. Available in 128GB and 256GB storage variants.`
+            }, {
+                id: 'samsung-galaxy-z-fold6',
+                name: 'Samsung Galaxy Z Fold6',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e3d2a8a2?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1350000,
+                oldPrice: 1550000,
+                currency: 'UGX',
+                sku: 'SMS-ZF6-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung', 'Foldable'],
+                description: `Samsung Galaxy Z Fold6 – 7.6-inch foldable Dynamic AMOLED 2X, Snapdragon 8 Gen 3, triple-camera system, and 4400mAh battery. Available in 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'samsung-galaxy-z-flip6',
+                name: 'Samsung Galaxy Z Flip6',
+                brand: 'Samsung',
+                image: 'https://images.unsplash.com/photo-1612448884024-3b9a5b7e92ea?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 950000,
+                oldPrice: 1100000,
+                currency: 'UGX',
+                sku: 'SMS-ZF6-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Samsung', 'Foldable'],
+                description: `Samsung Galaxy Z Flip6 – 6.7-inch foldable Dynamic AMOLED 2X, Snapdragon 8 Gen 3, dual-camera system, and 4000mAh battery. Available in 256GB and 512GB storage variants.`
+            }, {
+                id: 'ipad-pro-13-m4',
+                name: 'iPad Pro 13" (M4)',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1200000,
+                oldPrice: 1350000,
+                currency: 'UGX',
+                sku: 'APL-IPADP13-256',
+                stock: 'in_stock',
+                categories: ['Tablets', 'Apple', 'Pro'],
+                description: `iPad Pro 13" with M4 chip – Ultra Retina XDR display, 12MP rear camera, 12MP front camera, USB-C, and all-day battery life. Available in 256GB, 512GB, 1TB, and 2TB storage variants.`
+            }, {
+                id: 'ipad-pro-11-m4',
+                name: 'iPad Pro 11" (M4)',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 950000,
+                oldPrice: 1080000,
+                currency: 'UGX',
+                sku: 'APL-IPADP11-256',
+                stock: 'in_stock',
+                categories: ['Tablets', 'Apple', 'Pro'],
+                description: `iPad Pro 11" with M4 chip – Ultra Retina XDR display, 12MP rear camera, 12MP front camera, USB-C, and all-day battery life. Available in 256GB, 512GB, 1TB, and 2TB storage variants.`
+            }, {
+                id: 'ipad-air-m2',
+                name: 'iPad Air (M2)',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 650000,
+                oldPrice: 750000,
+                currency: 'UGX',
+                sku: 'APL-IPAIR-64',
+                stock: 'in_stock',
+                categories: ['Tablets', 'Apple'],
+                description: `iPad Air with M2 chip – 10.9-inch Liquid Retina display, 12MP rear camera, 12MP front camera, USB-C, and all-day battery life. Available in 64GB, 256GB, and 512GB storage variants.`
+            }, {
+                id: 'ipad-mini',
+                name: 'iPad Mini',
+                brand: 'Apple',
+                image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 500000,
+                oldPrice: 580000,
+                currency: 'UGX',
+                sku: 'APL-IPMINI-64',
+                stock: 'in_stock',
+                categories: ['Tablets', 'Apple'],
+                description: `iPad Mini – 8.3-inch Liquid Retina display, A15 Bionic chip, 12MP rear camera, 12MP front camera, USB-C, and all-day battery life. Available in 64GB and 256GB storage variants.`
+            }, {
+                id: 'google-pixel-9-pro',
+                name: 'Google Pixel 9 Pro',
+                brand: 'Google',
+                image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1050000,
+                oldPrice: 1200000,
+                currency: 'UGX',
+                sku: 'GGL-P9P-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Google', 'Flagship'],
+                description: `Google Pixel 9 Pro – 6.7-inch OLED with 120Hz, Google Tensor G4, 50MP triple-camera system, and 5050mAh battery. Available in 128GB, 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'google-pixel-9',
+                name: 'Google Pixel 9',
+                brand: 'Google',
+                image: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 800000,
+                oldPrice: 920000,
+                currency: 'UGX',
+                sku: 'GGL-P9-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Google'],
+                description: `Google Pixel 9 – 6.3-inch OLED with 120Hz, Google Tensor G4, 50MP dual-camera system, and 4700mAh battery. Available in 128GB and 256GB storage variants.`
+            }, {
+                id: 'google-pixel-8-pro',
+                name: 'Google Pixel 8 Pro',
+                brand: 'Google',
+                image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 900000,
+                oldPrice: 1050000,
+                currency: 'UGX',
+                sku: 'GGL-P8P-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Google', 'Flagship'],
+                description: `Google Pixel 8 Pro – 6.7-inch OLED with 120Hz, Google Tensor G3, 50MP triple-camera system, and 5050mAh battery. Available in 128GB, 256GB, 512GB, and 1TB storage variants.`
+            }, {
+                id: 'google-pixel-8',
+                name: 'Google Pixel 8',
+                brand: 'Google',
+                image: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 700000,
+                oldPrice: 820000,
+                currency: 'UGX',
+                sku: 'GGL-P8-128',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Google'],
+                description: `Google Pixel 8 – 6.2-inch OLED with 120Hz, Google Tensor G3, 50MP dual-camera system, and 4575mAh battery. Available in 128GB and 256GB storage variants.`
+            }, {
+                id: 'oppo-find-x8-pro',
+                name: 'Oppo Find X8 Pro',
+                brand: 'Oppo',
+                image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 1000000,
+                oldPrice: 1150000,
+                currency: 'UGX',
+                sku: 'OPP-FX8P-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Oppo', 'Flagship'],
+                description: `Oppo Find X8 Pro – 6.8-inch AMOLED with 120Hz, MediaTek Dimensity 9400, 50MP quad-camera system, and 5910mAh battery with 100W fast charging. Available in 256GB and 512GB storage variants.`
+            }, {
+                id: 'oppo-find-x8',
+                name: 'Oppo Find X8',
+                brand: 'Oppo',
+                image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 800000,
+                oldPrice: 920000,
+                currency: 'UGX',
+                sku: 'OPP-FX8-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Oppo'],
+                description: `Oppo Find X8 – 6.6-inch AMOLED with 120Hz, MediaTek Dimensity 9400, 50MP triple-camera system, and 5630mAh battery with 80W fast charging. Available in 256GB and 512GB storage variants.`
+            }, {
+                id: 'oppo-find-x7-ultra',
+                name: 'Oppo Find X7 Ultra',
+                brand: 'Oppo',
+                image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop',
+                gallery: [],
+                price: 950000,
+                oldPrice: 1100000,
+                currency: 'UGX',
+                sku: 'OPP-FX7U-256',
+                stock: 'in_stock',
+                categories: ['Smartphones', 'Oppo', 'Flagship'],
+                description: `Oppo Find X7 Ultra – 6.82-inch AMOLED with 120Hz, Snapdragon 8 Gen 3, 50MP quad-camera system, and 5000mAh battery with 100W fast charging. Available in 256GB and 512GB storage variants.`
+            }];
+
+            /* ============================================================
+               CONFIG / STORAGE
+               ============================================================ */
+            const LS_CLIENT = 'cfpv2_client_id';
+            const LS_BLOG = 'cfpv2_blog_id';
+            const SCOPE = 'https://www.googleapis.com/auth/blogger';
+
+            const el = function(id) { return document.getElementById(id); };
             document.getElementById('originHint').textContent = window.location.origin + window.location.pathname;
 
             el('clientId').value = localStorage.getItem(LS_CLIENT) || '';
@@ -767,24 +1218,28 @@
             el('clientId').addEventListener('change', function() { localStorage.setItem(LS_CLIENT, this.value.trim()); });
             el('blogId').addEventListener('change', function() { localStorage.setItem(LS_BLOG, this.value.trim()); });
 
-            /* ============ TOAST ============ */
-            var toastTimer;
+            /* ============================================================
+               TOAST
+               ============================================================ */
+            let toastTimer;
 
             function toast(msg, isErr) {
-                var t = el('toast');
+                const t = el('toast');
                 el('toastMsg').textContent = msg;
                 t.className = 'toast show' + (isErr ? ' err' : ' ok');
                 clearTimeout(toastTimer);
                 toastTimer = setTimeout(function() { t.className = 'toast' + (isErr ? ' err' : ' ok'); }, 3500);
             }
 
-            /* ============ AUTH v2 ============ */
-            var tokenClient = null;
-            var accessToken = null;
-            var tokenExpiresAt = 0;
-            var refreshTimer = null;
-            var ttlInterval = null;
-            var warnDismissedForThisExpiry = false;
+            /* ============================================================
+               AUTH (Blogger OAuth)
+               ============================================================ */
+            let tokenClient = null;
+            let accessToken = null;
+            let tokenExpiresAt = 0;
+            let refreshTimer = null;
+            let ttlInterval = null;
+            let warnDismissedForThisExpiry = false;
 
             function gisReady() { return !!(window.google && google.accounts && google.accounts.oauth2); }
 
@@ -799,7 +1254,7 @@
                             return;
                         }
                         accessToken = resp.access_token;
-                        var ttlSec = parseInt(resp.expires_in, 10) || 3600;
+                        const ttlSec = parseInt(resp.expires_in, 10) || 3600;
                         tokenExpiresAt = Date.now() + ttlSec * 1000;
                         warnDismissedForThisExpiry = false;
                         setConnected(true);
@@ -811,15 +1266,15 @@
 
             function scheduleProactiveRefresh(ttlSec) {
                 clearTimeout(refreshTimer);
-                var lead = Math.min(120000, ttlSec * 1000 * 0.2);
-                var delay = Math.max(5000, ttlSec * 1000 - lead);
+                const lead = Math.min(120000, ttlSec * 1000 * 0.2);
+                const delay = Math.max(5000, ttlSec * 1000 - lead);
                 refreshTimer = setTimeout(function() {
                     if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
                 }, delay);
             }
 
             function setConnected(isConnected) {
-                var dot = el('connDot'),
+                const dot = el('connDot'),
                     text = el('connText');
                 if (isConnected) {
                     dot.className = 'dot on';
@@ -845,14 +1300,14 @@
             function startTtlClock() {
                 clearInterval(ttlInterval);
                 ttlInterval = setInterval(function() {
-                    var remain = tokenExpiresAt - Date.now();
+                    const remain = tokenExpiresAt - Date.now();
                     if (remain <= 0) {
                         el('ttlText').innerHTML = '<b style="color:#DC2626">Session expired</b> — reconnect to keep publishing.';
                         el('connDot').className = 'dot warn';
                         clearInterval(ttlInterval);
                         return;
                     }
-                    var mins = Math.floor(remain / 60000),
+                    const mins = Math.floor(remain / 60000),
                         secs = Math.floor((remain % 60000) / 1000);
                     el('ttlText').innerHTML = 'Session active — expires in <b>' + mins + 'm ' + (secs < 10 ? '0' : '') +
                         secs + 's</b>';
@@ -865,7 +1320,7 @@
             }
 
             el('connectBtn').addEventListener('click', function() {
-                var clientId = el('clientId').value.trim();
+                const clientId = el('clientId').value.trim();
                 if (!clientId) { toast('Enter your Google OAuth Client ID first', true); return; }
                 if (!gisReady()) { toast('Google sign-in script still loading, try again in a second', true); return; }
                 localStorage.setItem(LS_CLIENT, clientId);
@@ -890,250 +1345,158 @@
                 el('warnBar').classList.remove('show');
             });
 
-            /* ============ PRODUCT IMAGE AUTO-FETCH ============ */
+            /* ============================================================
+               PRODUCT AUTOCOMPLETE
+               ============================================================ */
+            const pTitle = el('pTitle');
+            const acDropdown = el('acDropdown');
+            const acLoader = el('acLoader');
 
-            // ----- 1. Predefined mapping for popular products (fast, reliable) -----
-            var PRODUCT_IMAGES = {
-                // Apple iPhones
-                'iphone 14': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 14 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 14 pro max': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 13': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 13 pro': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 12': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 15': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 15 pro': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'iphone 16': 'https://cdn.vox-cdn.com/thumbor/S0yKXo_XF6wQYX-RB9L7HOS6QmU=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-
-                // Samsung Galaxy
-                'samsung s23': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung s23 ultra': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung s22': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung s24': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung s24 ultra': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung galaxy s23': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-                'samsung galaxy s24': 'https://cdn.vox-cdn.com/thumbor/3tC8_yfRf7nJt6Qx9X7X5fN8ZqA=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/72016543/gs23_ultra_hero.0.jpg',
-
-                // iPad
-                'ipad pro': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-                'ipad air': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-                'ipad mini': 'https://cdn.vox-cdn.com/thumbor/2C8j7dL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-
-                // Oppo
-                'oppo find x': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-                'oppo find x5': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-                'oppo reno': 'https://cdn.vox-cdn.com/thumbor/4j9qL6Z9aQx5fW8r6pJ3tN4qM=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71833519/ipad_pro_12_9_2022_hero.0.jpg',
-
-                // Google Pixel
-                'pixel 7': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'pixel 7 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'pixel 8': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'pixel 8 pro': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'google pixel 7': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-                'google pixel 8': 'https://cdn.vox-cdn.com/thumbor/5Nc0gQz6l0R1FpNVhGk1T9N4jRk=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/71289714/iphone_14_lineup_hero__20220918.0.jpg',
-            };
-
-            // Normalize product name for lookup
-            function normalizeName(name) {
-                return name.toLowerCase().replace(/\s+/g, ' ').trim();
+            // Normalize search string
+            function normalize(str) {
+                return str.toLowerCase().replace(/\s+/g, ' ').trim();
             }
 
-            // ----- 2. Wikipedia image fetcher (free, no API key) -----
-            function fetchWikipediaImage(query) {
-                // Build a clean search query
-                var searchQuery = query.trim();
-                if (!searchQuery) return Promise.resolve(null);
-
-                // First, search for the page
-                var searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=' +
-                    encodeURIComponent(searchQuery) + '&srlimit=1&origin=*';
-
-                return fetch(searchUrl, { mode: 'cors' })
-                    .then(function(res) {
-                        if (!res.ok) throw new Error('Wikipedia search failed');
-                        return res.json();
-                    })
-                    .then(function(data) {
-                        var results = data.query && data.query.search;
-                        if (!results || !results.length) return null;
-                        var title = results[0].title;
-
-                        // Now get the page image
-                        var imgUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=' +
-                            encodeURIComponent(title) + '&pithumbsize=800&origin=*';
-                        return fetch(imgUrl, { mode: 'cors' })
-                            .then(function(res) {
-                                if (!res.ok) throw new Error('Wikipedia image fetch failed');
-                                return res.json();
-                            })
-                            .then(function(imgData) {
-                                var pages = imgData.query && imgData.query.pages;
-                                if (!pages) return null;
-                                var pageId = Object.keys(pages)[0];
-                                var page = pages[pageId];
-                                if (page && page.thumbnail && page.thumbnail.source) {
-                                    return page.thumbnail.source;
-                                }
-                                return null;
-                            });
-                    })
-                    .catch(function(err) {
-                        // Silent fail — we'll fall back to placeholder
-                        return null;
-                    });
-            }
-
-            // ----- 3. Main fetch function: mapping first, then Wikipedia -----
-            var fetchInProgress = false;
-
-            function fetchProductImage(productName) {
-                if (fetchInProgress) return Promise.resolve(null);
-                var normalized = normalizeName(productName);
-                if (!normalized) return Promise.resolve(null);
-
-                // Check mapping first (fast)
-                var mapped = PRODUCT_IMAGES[normalized];
-                if (mapped) {
-                    return Promise.resolve(mapped);
-                }
-
-                // Try partial match in mapping (e.g. "iphone 14 pro max" -> "iphone 14")
-                var partialMatch = null;
-                var keys = Object.keys(PRODUCT_IMAGES);
-                for (var i = 0; i < keys.length; i++) {
-                    if (normalized.indexOf(keys[i]) !== -1) {
-                        partialMatch = PRODUCT_IMAGES[keys[i]];
-                        break;
+            // Search products
+            function searchProducts(query) {
+                const q = normalize(query);
+                if (!q) return [];
+                const results = [];
+                for (const p of PRODUCTS) {
+                    const name = normalize(p.name);
+                    const brand = normalize(p.brand);
+                    // match: name starts with query, or contains query, or brand+name contains query
+                    if (name.startsWith(q) || name.includes(q) || (brand + ' ' + name).includes(q)) {
+                        results.push(p);
                     }
                 }
-                if (partialMatch) {
-                    return Promise.resolve(partialMatch);
-                }
+                // sort: exact starts first, then by length
+                results.sort((a, b) => {
+                    const aName = normalize(a.name);
+                    const bName = normalize(b.name);
+                    if (aName.startsWith(q) && !bName.startsWith(q)) return -1;
+                    if (!aName.startsWith(q) && bName.startsWith(q)) return 1;
+                    return aName.length - bName.length;
+                });
+                return results.slice(0, 10);
+            }
 
-                // Fallback: Wikipedia search
-                fetchInProgress = true;
-                updateFetchStatus('searching...', true);
-                return fetchWikipediaImage(productName)
-                    .then(function(url) {
-                        fetchInProgress = false;
-                        if (url) {
-                            updateFetchStatus('✓ found', false);
-                            return url;
-                        } else {
-                            updateFetchStatus('✗ not found', false);
-                            return null;
-                        }
-                    })
-                    .catch(function() {
-                        fetchInProgress = false;
-                        updateFetchStatus('✗ error', false);
-                        return null;
+            // Highlight match in text
+            function highlightMatch(text, query) {
+                const q = normalize(query);
+                if (!q) return text;
+                const idx = normalize(text).indexOf(q);
+                if (idx === -1) return text;
+                const before = text.substring(0, idx);
+                const match = text.substring(idx, idx + q.length);
+                const after = text.substring(idx + q.length);
+                return before + '<span class="ac-highlight">' + match + '</span>' + after;
+            }
+
+            // Render dropdown
+            function renderDropdown(results, query) {
+                if (!results.length || !query.trim()) {
+                    acDropdown.classList.remove('show');
+                    return;
+                }
+                let html = '';
+                for (const p of results) {
+                    const highlighted = highlightMatch(p.name, query);
+                    const priceStr = p.currency + ' ' + Math.round(p.price).toLocaleString();
+                    html += `
+                        <div class="ac-item" data-id="${p.id}">
+                            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2242%22 height=%2242%22 viewBox=%220 0 42 42%22%3E%3Crect fill=%22%23f1f5f9%22 width=%2242%22 height=%2242%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2394a3b8%22 font-size=%2210%22 font-family=%22sans-serif%22%3E📱%3C/text%3E%3C/svg%3E'" />
+                            <div class="ac-info">
+                                <div class="ac-name">${highlighted}</div>
+                                <div class="ac-brand">${p.brand}</div>
+                            </div>
+                            <div class="ac-price">${priceStr}</div>
+                        </div>
+                    `;
+                }
+                acDropdown.innerHTML = html;
+                acDropdown.classList.add('show');
+
+                // Click handler
+                acDropdown.querySelectorAll('.ac-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const product = PRODUCTS.find(p => p.id === id);
+                        if (product) fillForm(product);
+                        acDropdown.classList.remove('show');
                     });
+                });
             }
 
-            // ----- 4. UI helpers for fetch status -----
-            var fetchStatusEl = document.getElementById('fetchStatus');
-
-            function updateFetchStatus(text, isSpinner) {
-                if (!text) {
-                    fetchStatusEl.style.display = 'none';
-                    return;
-                }
-                fetchStatusEl.style.display = 'inline-flex';
-                if (isSpinner) {
-                    fetchStatusEl.innerHTML = '<span class="spinner"></span> ' + text;
-                } else {
-                    fetchStatusEl.innerHTML = text;
-                }
-                // Auto-hide after 4s for non-spinner messages
-                if (!isSpinner) {
-                    clearTimeout(fetchStatusEl._hideTimer);
-                    fetchStatusEl._hideTimer = setTimeout(function() {
-                        fetchStatusEl.style.display = 'none';
-                    }, 4000);
-                }
+            // Fill all form fields from product data
+            function fillForm(product) {
+                el('pTitle').value = product.name;
+                el('pPrice').value = product.price;
+                el('pOldPrice').value = product.oldPrice || '';
+                el('pCurrency').value = product.currency || 'UGX';
+                el('pCats').value = product.categories.join(', ');
+                el('pSku').value = product.sku || '';
+                el('pBrand').value = product.brand || '';
+                el('pStock').value = product.stock || 'in_stock';
+                el('pImage').value = product.image || '';
+                el('pGallery').value = (product.gallery || []).join('\n');
+                el('pDesc').value = product.description || '';
+                // Trigger live preview
+                renderPreview();
+                toast('✅ Auto-filled: ' + product.name);
             }
 
-            // ----- 5. Debounce & auto-fetch on title input -----
-            var debounceTimer = null;
+            // Input handler for autocomplete
+            let acTimeout = null;
+            pTitle.addEventListener('input', function() {
+                const val = this.value.trim();
+                acLoader.classList.add('show');
+                clearTimeout(acTimeout);
+                acTimeout = setTimeout(function() {
+                    const results = searchProducts(val);
+                    renderDropdown(results, val);
+                    acLoader.classList.remove('show');
+                    // Also update preview if not a product match (so user sees their own text)
+                    renderPreview();
+                }, 150);
+            });
 
-            function autoFetchImage() {
-                var title = el('pTitle').value.trim();
-                if (!title) {
-                    updateFetchStatus(null);
-                    return;
-                }
+            // Close dropdown on blur (with delay so click can register)
+            pTitle.addEventListener('blur', function() {
+                setTimeout(function() {
+                    acDropdown.classList.remove('show');
+                }, 200);
+            });
 
-                // Don't auto-fetch if user manually changed the image URL recently
-                // We'll still fetch but won't override if the user has a custom URL
-                var currentImage = el('pImage').value.trim();
-                var isCustom = currentImage && !currentImage.startsWith('https://upload.wikimedia.org') &&
-                    !Object.values(PRODUCT_IMAGES).some(function(url) { return url === currentImage; });
-
-                // If user has a custom image that's not from us, don't override
-                // But still show the fetch result in the status
-                fetchProductImage(title)
-                    .then(function(url) {
-                        if (url && !isCustom) {
-                            el('pImage').value = url;
-                            renderPreview();
-                            toast('Image auto‑fetched for "' + title + '"');
-                        } else if (url && isCustom) {
-                            toast('Image found but keeping your custom URL', false);
-                        } else if (!url) {
-                            // silent fail — user can still paste manually
-                        }
-                    })
-                    .catch(function() {
-                        // ignore
-                    });
-            }
-
-            // Debounced auto-fetch
-            el('pTitle').addEventListener('input', function() {
-                clearTimeout(debounceTimer);
-                var val = this.value.trim();
-                if (!val) {
-                    updateFetchStatus(null);
-                    return;
-                }
-                // Show "searching..." after a short delay
-                debounceTimer = setTimeout(function() {
-                    var title = el('pTitle').value.trim();
-                    if (title) {
-                        updateFetchStatus('searching...', true);
-                        autoFetchImage();
+            // Keyboard: escape closes dropdown
+            pTitle.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') acDropdown.classList.remove('show');
+                // Enter: if dropdown is open, select first item
+                if (e.key === 'Enter' && acDropdown.classList.contains('show')) {
+                    const first = acDropdown.querySelector('.ac-item');
+                    if (first) {
+                        const id = first.dataset.id;
+                        const product = PRODUCTS.find(p => p.id === id);
+                        if (product) fillForm(product);
+                        acDropdown.classList.remove('show');
+                        e.preventDefault();
                     }
-                }, 700);
-            });
-
-            // ----- 6. Manual fetch button -----
-            el('fetchImgBtn').addEventListener('click', function() {
-                var title = el('pTitle').value.trim();
-                if (!title) {
-                    toast('Enter a product name first', true);
-                    return;
                 }
-                updateFetchStatus('searching...', true);
-                fetchProductImage(title)
-                    .then(function(url) {
-                        if (url) {
-                            el('pImage').value = url;
-                            renderPreview();
-                            toast('Image fetched for "' + title + '"');
-                        } else {
-                            toast('No image found for "' + title + '"', true);
-                        }
-                    })
-                    .catch(function() {
-                        toast('Error fetching image', true);
-                    });
             });
 
-            /* ============ FORM -> DATA MODEL ============ */
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.autocomplete-wrap')) {
+                    acDropdown.classList.remove('show');
+                }
+            });
+
+            /* ============================================================
+               FORM -> DATA MODEL
+               ============================================================ */
             function currentProduct() {
-                var cats = el('pCats').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-                var gallery = el('pGallery').value.split('\n').map(function(s) { return s.trim(); }).filter(Boolean);
+                const cats = el('pCats').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+                const gallery = el('pGallery').value.split('\n').map(function(s) { return s.trim(); }).filter(Boolean);
                 return {
                     title: el('pTitle').value.trim(),
                     price: parseFloat(el('pPrice').value) || 0,
@@ -1160,12 +1523,15 @@
             }
 
             function escapeHtml(s) {
+                if (!s) return '';
                 return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
             }
 
-            /* ============ LIVE PREVIEW ============ */
+            /* ============================================================
+               LIVE PREVIEW
+               ============================================================ */
             function renderPreview() {
-                var p = currentProduct();
+                const p = currentProduct();
 
                 el('prTitle').textContent = p.title || 'Your product title';
                 el('prPrice').textContent = formatPrice(p.price, p.currency);
@@ -1174,7 +1540,7 @@
                 if (p.oldPrice && p.oldPrice > p.price) {
                     el('prOldPrice').style.display = 'inline';
                     el('prOldPrice').textContent = formatPrice(p.oldPrice, p.currency);
-                    var pct = Math.round((1 - p.price / p.oldPrice) * 100);
+                    const pct = Math.round((1 - p.price / p.oldPrice) * 100);
                     el('prBadge').style.display = 'block';
                     el('prBadge').textContent = '-' + pct + '%';
                     el('prDiscount').style.display = 'block';
@@ -1195,7 +1561,7 @@
                     el('prNoImg').style.display = 'block';
                 }
 
-                var catsHtml = p.cats.map(function(c) { return '<span>' + escapeHtml(c) + '</span>'; }).join('');
+                const catsHtml = p.cats.map(function(c) { return '<span>' + escapeHtml(c) + '</span>'; }).join('');
                 el('prCats').innerHTML = catsHtml;
 
                 if (p.sku) {
@@ -1208,17 +1574,19 @@
                 if (p.stock) {
                     el('prStock').style.display = 'block';
                     el('prStock').className = 'ph-stock ' + p.stock;
-                    var stockLabels = { in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!',
+                    const stockLabels = { in_stock: 'In Stock', low_stock: 'Low Stock — Almost Gone!',
                     out_of_stock: 'Out of Stock' };
                     el('prStock').textContent = stockLabels[p.stock] || p.stock;
                 } else {
                     el('prStock').style.display = 'none';
                 }
 
-                el('prDesc').textContent = p.desc || 'Description preview appears here.';
+                // Trim description for preview
+                const descPreview = p.desc ? p.desc.substring(0, 300) + (p.desc.length > 300 ? '…' : '') : 'Description preview appears here.';
+                el('prDesc').textContent = descPreview;
 
                 if (p.whatsapp) {
-                    var msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p
+                    const msg = encodeURIComponent('Hi, I\'m interested in "' + p.title + '" (' + formatPrice(p.price, p
                         .currency) + ')');
                     el('prWa').href = 'https://wa.me/' + p.whatsapp.replace(/[^0-9]/g, '') + '?text=' + msg;
                     el('prWa').style.display = 'inline-flex';
@@ -1229,11 +1597,13 @@
                 el('outHtml').textContent = buildPostHtml(p);
             }
 
-            /* ============ POST HTML BUILDER ============ */
+            /* ============================================================
+               POST HTML BUILDER
+               ============================================================ */
             function buildPostHtml(p) {
                 if (!p.title && !p.image && !p.desc) return 'Fill in the form to see the generated post HTML here.';
 
-                var parts = [];
+                const parts = [];
 
                 if (p.image) {
                     parts.push(
@@ -1252,10 +1622,17 @@
                     );
                 });
 
+                // Description: split into paragraphs
                 if (p.desc) {
-                    p.desc.split('\n').filter(Boolean).forEach(function(line) {
-                        parts.push('<p>' + escapeHtml(line) + '</p>');
-                    });
+                    const lines = p.desc.split('\n').filter(Boolean);
+                    for (const line of lines) {
+                        // If line starts with • or -, treat as list item
+                        if (/^[•\-]\s/.test(line.trim())) {
+                            parts.push('<p>' + escapeHtml(line) + '</p>');
+                        } else {
+                            parts.push('<p>' + escapeHtml(line) + '</p>');
+                        }
+                    }
                 }
 
                 if (p.oldPrice && p.oldPrice > p.price) {
@@ -1276,7 +1653,6 @@
                 if (p.stock) {
                     parts.push('<p>[stock:' + p.stock + ']</p>');
                 }
-
                 if (p.buyUrl) {
                     parts.push('<p><a href="' + p.buyUrl + '" rel="nofollow">Buy now</a></p>');
                 }
@@ -1284,7 +1660,9 @@
                 return parts.join('\n');
             }
 
-            /* ============ PUBLISH TO BLOGGER ============ */
+            /* ============================================================
+               PUBLISH TO BLOGGER
+               ============================================================ */
             function buildRequestBody(p) {
                 return {
                     kind: 'blogger#post',
@@ -1295,17 +1673,17 @@
             }
 
             el('publishBtn').addEventListener('click', function() {
-                var p = currentProduct();
-                var blogId = el('blogId').value.trim();
+                const p = currentProduct();
+                const blogId = el('blogId').value.trim();
 
                 if (!accessToken) { toast('Connect to Blogger first', true); return; }
                 if (!blogId) { toast('Enter your Blog ID', true); return; }
                 if (!p.title) { toast('Give the product a title', true); return; }
                 if (!p.price || p.price <= 0) { toast('Enter a sale price', true); return; }
 
-                var isDraft = p.draft;
-                var body = buildRequestBody(p);
-                var url, method;
+                const isDraft = p.draft;
+                const body = buildRequestBody(p);
+                let url, method;
 
                 if (p.postId) {
                     url = 'https://www.googleapis.com/blogger/v3/blogs/' + blogId + '/posts/' + p.postId;
@@ -1318,13 +1696,13 @@
 
                 el('publishBtn').disabled = true;
                 fetch(url, {
-                        method: method,
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(body)
-                    })
+                    method: method,
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                })
                     .then(function(res) {
                         if (!res.ok) {
                             return res.json().then(function(err) { throw new Error((err.error && err.error.message) ||
@@ -1345,9 +1723,11 @@
                     });
             });
 
-            /* ============ COPY / CLEAR ============ */
+            /* ============================================================
+               COPY / CLEAR
+               ============================================================ */
             el('copyBtn').addEventListener('click', function() {
-                var html = buildPostHtml(currentProduct());
+                const html = buildPostHtml(currentProduct());
                 navigator.clipboard.writeText(html).then(function() {
                     toast('Post HTML copied');
                 }).catch(function() {
@@ -1364,29 +1744,23 @@
                 el('pCurrency').value = 'UGX';
                 el('pStock').value = 'in_stock';
                 el('pDraft').value = 'false';
-                updateFetchStatus(null);
+                acDropdown.classList.remove('show');
                 renderPreview();
+                toast('Form cleared');
             });
 
-            /* ============ WIRE UP LIVE UPDATES ============ */
+            /* ============================================================
+               WIRE UP LIVE UPDATES
+               ============================================================ */
             ['pTitle', 'pPrice', 'pOldPrice', 'pCurrency', 'pCats', 'pSku', 'pBrand', 'pStock', 'pImage', 'pGallery',
                 'pDesc', 'pBuyUrl', 'pWhatsapp'
-            ].forEach(function(id) {
-                el(id).addEventListener('input', renderPreview);
-            });
+            ]
+            .forEach(function(id) { el(id).addEventListener('input', renderPreview); });
 
             el('pStock').addEventListener('change', renderPreview);
 
+            // Initial render
             renderPreview();
-
-            /* ============ AUTO-FETCH ON FIRST LOAD IF TITLE EXISTS ============ */
-            // If the title field already has a value (e.g. from a saved form), trigger auto-fetch
-            var initialTitle = el('pTitle').value.trim();
-            if (initialTitle) {
-                setTimeout(function() {
-                    autoFetchImage();
-                }, 300);
-            }
 
         })();
     </script>
